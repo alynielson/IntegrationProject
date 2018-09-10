@@ -7,16 +7,12 @@ using System.Threading.Tasks;
 
 namespace IntegrationProject.Models
 {
-    public class Bar
+    public class Admin
     {
         [Key]
         public int Id { get; set; }
-        public string YelpId { get; set; }
-        [ForeignKey("Admin")]
-        public int AdminId { get; set; }
-        public Admin Admin { get; set; }
-        [ForeignKey("Answer")]
-        public int AnswerId { get; set; }
-        public Answer Answer { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }
