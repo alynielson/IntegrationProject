@@ -12,7 +12,7 @@ namespace IntegrationProject.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        [ForeignKey("AnswerId")]
+        [ForeignKey("Answer")]
         public int AnswerId { get; set; }
         public Answer Answer { get; set; }
         [ForeignKey("ApplicationUser")]
