@@ -59,7 +59,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,AnswerId,ApplicationUserId")] Member member)
+        public async Task<IActionResult> Create([Bind("Answer")] Member member)
         {
             if (ModelState.IsValid)
             {

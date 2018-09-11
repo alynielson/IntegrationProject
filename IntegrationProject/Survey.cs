@@ -8,15 +8,15 @@ namespace IntegrationProject
 {
     public static class Survey
     {
-        public static Dictionary<string, bool> PEOPLE { get; } = new Dictionary<string, bool>()
+        public static Dictionary<string, double> PEOPLE { get; } = new Dictionary<string, double>()
         {
-            {"Yes", true },
-            {"No", false }
+            {"Yes", 1},
+            {"No", 0 }
         };
-        public static Dictionary<string, bool> SITDOWN { get; } = new Dictionary<string, bool>()
+        public static Dictionary<string, double> SITDOWN { get; } = new Dictionary<string, double>()
         {
-            {"Yes", true },
-            {"No", false }
+            {"Yes", 1 },
+            {"No", 0 }
         };
         public static Dictionary<string, double> PRICE { get; } = new Dictionary<string, double>()
         {
@@ -83,11 +83,11 @@ namespace IntegrationProject
             {"Prices", 2 },
             {"Activities", 3 },
             {"Drink Options", 4 },
-             {"Food Options", 5 },
+            {"Food Options", 5 },
             {"Sitdown Areas", 6 },
             {"Time of Day", 7 },
             {"Music", 8 },
-             {"Dresscode", 9 },
+            {"Dresscode", 9 },
             {"Age Groups", 10 }
         };
     }
