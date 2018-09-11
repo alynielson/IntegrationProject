@@ -21,7 +21,7 @@ namespace IntegrationProject
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            //var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            
             string[] roleNames = { "Admin", "Member" };
             IdentityResult roleResult;
 
@@ -85,7 +85,7 @@ namespace IntegrationProject
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //CreateRoles(serviceProvider).Wait();
+            CreateRoles(serviceProvider).Wait();
         }
     }
 }

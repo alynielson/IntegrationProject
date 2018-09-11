@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IntegrationProject.Data;
 using IntegrationProject.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace IntegrationProject.Controllers
 {
     public class MemberController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public MemberController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public MemberController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Member
@@ -59,10 +61,13 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Answer")] Member member)
+        public async Task<IActionResult> Create([Bind("Answer", "ApplicationUserId")] Member member)
         {
             if (ModelState.IsValid)
             {
+                var user = (await _userManager.GetUserAsync(HttpContext.User));
+                member.ApplicationUserId = user?.Id;
+                member.Name = user?.Email;
                 _context.Add(member);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
