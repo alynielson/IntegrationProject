@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using IntegrationProject.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace IntegrationProject.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Member> Members { get; set; }
         public DbSet<Bar> Bars { get; set; }

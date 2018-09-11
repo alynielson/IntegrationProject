@@ -17,9 +17,12 @@ namespace IntegrationProject.Areas.Identity
         {
             builder.ConfigureServices((context, services) => { 
 
-                services.AddDefaultIdentity<IdentityUser>()
+                services.AddIdentity<IdentityUser,IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
-            });
+                
+                });
+
+            
         }
     }
 }
