@@ -13,10 +13,11 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public double Score { get; set; }
         [ForeignKey("Bar")]
-        public int BarId { get; set; }
+        
+        public int? BarId { get; set; }
         public Bar Bar { get; set; }
         [ForeignKey("Member")]
-        public int MemberId { get; set; }
+        public int? MemberId { get; set; }
         public Member Member { get; set; }
         
     }

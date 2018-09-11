@@ -1,6 +1,8 @@
-﻿namespace IntegrationProject.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace IntegrationProject.Models
 {
-    public class ApplicationUser
+    public class ApplicationUser : IdentityUser
     {
     }
 }
