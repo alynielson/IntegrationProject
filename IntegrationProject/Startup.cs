@@ -18,6 +18,7 @@ namespace IntegrationProject
 {
     public class Startup
     {
+
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -34,6 +35,7 @@ namespace IntegrationProject
                 }
             }
         }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -54,7 +56,7 @@ namespace IntegrationProject
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-           
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
