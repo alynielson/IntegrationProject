@@ -52,7 +52,7 @@ namespace IntegrationProject.Controllers
             
             ViewData["Sitdown"] = new List<SelectListItem>()
             {
-                new SelectListItem{ Value= "true", Text = "Yes" },
+                new SelectListItem{ Value = "true", Text = "Yes" },
                 new SelectListItem{ Value = "false", Text = "No" }
             };
             ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id");
