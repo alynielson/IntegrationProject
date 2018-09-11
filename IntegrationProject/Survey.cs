@@ -18,77 +18,77 @@ namespace IntegrationProject
             {"Yes", true },
             {"No", false }
         };
-        public static List<SelectListItem> PRICE { get; } = new List<SelectListItem>()
+        public static Dictionary<string, double> PRICE { get; } = new Dictionary<string, double>()
         {
-            new SelectListItem{Value="1", Text="Very Cheap" },
-            new SelectListItem{Value = "2", Text="Cheap"},
-            new SelectListItem{Value = "3", Text="Moderate"},
-            new SelectListItem{Value = "4", Text="Expensive"}
+            {"Very Cheap", 1 },
+            {"Cheap", 2 },
+            {"Moderate", 3 },
+            {"Expensive", 4 }
         };
-        public static List<SelectListItem> ACTIVITIES { get; } = new List<SelectListItem>()
+        public static Dictionary<string, double> ACTIVITIES { get; } = new Dictionary<string, double>()
         {
-            new SelectListItem{Value="0", Text="Sports" },
-            new SelectListItem{Value = "1", Text="Dancing"},
-            new SelectListItem{Value = "2", Text="Bar Games"},
-            new SelectListItem{Value = "3", Text="Themed Bars"},
-            new SelectListItem{Value = "4", Text="Patio"},
-             new SelectListItem{Value = "5", Text="Lounge"}
+            {"Sports", 1 },
+            {"Dancing", 2 },
+            {"Bar Games", 3 },
+            {"Themed Bars", 4 },
+            {"Patio", 5 },
+            {"Lounge", 6 }
         };
-        public static List<SelectListItem> DRINKS { get; } = new List<SelectListItem>()
+        public static Dictionary<string, double> DRINKS { get; } = new Dictionary<string, double>()
         {
-            new SelectListItem{Value="0", Text="Cocktails" },
-            new SelectListItem{Value = "1", Text="Craft Beers"},
-            new SelectListItem{Value = "2", Text="Wine"},
-            new SelectListItem{Value = "3", Text="Anything to get Drunk"},
-            new SelectListItem{Value = "4", Text="Anything Cheap"}
+            {"Cocktails", 1 },
+            {"Craft Beers", 2 },
+            {"Wine", 3 },
+            {"Anything to get Drunk", 4 },
+            {"Anything Cheap", 5 }
         };
-        public static List<SelectListItem> FOODS { get; } = new List<SelectListItem>()
+        public static Dictionary<string, double> FOODS { get; } = new Dictionary<string, double>()
         {
-            new SelectListItem{Value="0", Text="Full Meals" },
-            new SelectListItem{Value = "1", Text="Appetizers"}
+            {"Full Meals", 1 },
+            {"Appetizers", 2 }
         };
-        public static List<SelectListItem> TIMEOFDAY { get; } = new List<SelectListItem>()
+        public static Dictionary<string, double> TIMEOFDAY { get; } = new Dictionary<string, double>()
         {
-            new SelectListItem{Value="0", Text="Day" },
-            new SelectListItem{Value = "1", Text="Night"},
-            new SelectListItem{Value = "2", Text="Both"}
+            {"Day", 1 },
+            {"Night", 2 },
+            {"Both", 3 }
         };
-        public static List<SelectListItem> MUSIC { get; } = new List<SelectListItem>()
+        public static Dictionary<string, double> MUSIC { get; } = new Dictionary<string, double>()
         {
-            new SelectListItem{Value="0", Text="Country" },
-            new SelectListItem{Value = "1", Text="Rock"},
-            new SelectListItem{Value = "2", Text="Hip-Hop"},
-            new SelectListItem{Value = "3", Text="Jukebox"},
-            new SelectListItem{Value = "4", Text="Top 20"},
-            new SelectListItem{Value = "5", Text="Intellectual"}
+            {"Country", 1 },
+            {"Rock", 2 },
+            {"Hip-Hop", 3 },
+            {"Jukebox", 1 },
+            {"Top 20", 2 },
+            {"Intellectual", 3 }
         };
-        public static List<SelectListItem> DRESSCODE { get; } = new List<SelectListItem>()
+        public static Dictionary<string, double> DRESSCODE { get; } = new Dictionary<string, double>()
         {
-            new SelectListItem{Value="0", Text="No Dress Code" },
-            new SelectListItem{Value = "1", Text="Casual"},
-            new SelectListItem{Value = "2", Text="Moderate"},
-            new SelectListItem{Value = "3", Text="Semi-Formal"},
-            new SelectListItem{Value = "4", Text="Formal"}
+            {"No Dress Code", 1 },
+            {"Casual", 2 },
+            {"Moderate", 3 },
+            {"Semi-Formal", 4 },
+            {"Formal", 5 }
         };
-        public static List<SelectListItem> AGE { get; } = new List<SelectListItem>()
+        public static Dictionary<string, double> AGE { get; } = new Dictionary<string, double>()
         {
-            new SelectListItem{Value="0", Text="21-25" },
-            new SelectListItem{Value = "1", Text="26-30"},
-            new SelectListItem{Value = "2", Text="31-35"},
-            new SelectListItem{Value = "2", Text="35+"},
+            {"21-25", 1 },
+            {"26-30", 2 },
+            {"31-34", 3 },
+            {"35+", 4 }
         };
-        public static List<SelectListItem> MASTER { get; } = new List<SelectListItem>()
+        public static Dictionary<string, int> MASTER { get; } = new Dictionary<string, int>()
         {
-            new SelectListItem{Value="0", Text="Crowdedness" },
-            new SelectListItem{Value = "1", Text="Prices"},
-            new SelectListItem{Value = "2", Text="Activities"},
-            new SelectListItem{Value = "3", Text="Drink Options"},
-            new SelectListItem{Value = "4", Text="Food Options"},
-            new SelectListItem{Value = "5", Text="Sitdown Areas"},
-            new SelectListItem{Value = "6", Text="Time of Day"},
-            new SelectListItem{Value = "7", Text="Music"},
-            new SelectListItem{Value = "8", Text="DressCode"},
-            new SelectListItem{Value = "9", Text="Age Groups"}
+            {"Crowdedness", 1 },
+            {"Prices", 2 },
+            {"Activities", 3 },
+            {"Drink Options", 4 },
+             {"Food Options", 5 },
+            {"Sitdown Areas", 6 },
+            {"Time of Day", 7 },
+            {"Music", 8 },
+             {"Dresscode", 9 },
+            {"Age Groups", 10 }
         };
     }
 }
