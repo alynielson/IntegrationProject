@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+
 using IntegrationProject.Models;
 using IntegrationProject.Data;
 
@@ -19,11 +20,13 @@ namespace IntegrationProject.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -78,8 +81,9 @@ namespace IntegrationProject.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    string userEmail = Input.Email;
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return await RedirectToCorrectAction(userEmail);
                 }
                
                 else
@@ -93,7 +97,31 @@ namespace IntegrationProject.Areas.Identity.Pages.Account
             return Page();
         }
 
-        
-
+        private async Task<IActionResult> RedirectToCorrectAction(string userEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            if (user != null)
+            {
+                if (await _userManager.IsInRoleAsync(user, "Member"))
+                {
+                    return RedirectToAction("Index", "Member");
+                }
+                else if (await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Register", "Account");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
+        }
+            
     }
+
+    
 }

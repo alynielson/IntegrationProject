@@ -75,7 +75,7 @@ namespace IntegrationProject.Areas.Identity.Pages.Account
                     var roleresult = _userManager.AddToRolesAsync(user, rolesToAdd);
                     _logger.LogInformation("User added to Member role.");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    return await RedirectToCorrectAction(user);
                 }
                 foreach (var error in result.Errors)
                 {
@@ -85,6 +85,29 @@ namespace IntegrationProject.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private async Task<IActionResult> RedirectToCorrectAction(IdentityUser user)
+        {
+            if (user != null)
+            {
+                if (await _userManager.IsInRoleAsync(user, "Member"))
+                {
+                    return RedirectToAction("Index", "Member");
+                }
+                else if (await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Register", "Account");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
     }
 }
