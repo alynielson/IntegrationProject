@@ -11,7 +11,7 @@ namespace IntegrationProject
 {
     public static class JsonParser
     {
-        public static List<string> ParseYelpSearch()
+        public static SearchResult ParseYelpSearch()
         {
             string url = $"https://api.yelp.com/v3/businesses/search?term=bars&latitude=43.031605&longitude=-87.909850&radius=400";
             WebResponse response = null;
@@ -28,7 +28,7 @@ namespace IntegrationProject
                     StreamReader streamReader = new StreamReader(stream);
                     responseString = streamReader.ReadToEnd();
                     SearchResult searchResults = JsonConvert.DeserializeObject<SearchResult>(responseString);
-                    return searchResults.businesses.Select(b => b.name).ToList();
+                    return searchResults;
                 }
                 else
                 {

@@ -92,3 +92,25 @@
         </ul>
     </div>
 </div>
+<div>
+    @foreach (var business in ViewBag.Businesses)
+    {
+        
+        <p>
+        @business.name
+        </p>
+        <p>
+        @business.image_url
+        </p>
+        @business.rating
+        <p>
+        @business.display_phone
+        </p>
+        <p>
+        @business.location.address1
+        </p>
+        <p>
+        @business.location.city, @business.location.state, @business.location.zip_code
+        </p>
+    }
+</div>
