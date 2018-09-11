@@ -49,7 +49,7 @@ namespace IntegrationProject.Controllers
         // GET: Member/Create
         public IActionResult Create()
         {
-            ViewData["AnswerId"] = new SelectList(_context.Answers, "Id", "Id");
+            
             ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id");
             return View();
         }
