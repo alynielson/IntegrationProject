@@ -19,7 +19,10 @@ namespace IntegrationProject.Areas.Identity
 
                 services.AddDefaultIdentity<IdentityUser>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
-            });
+                
+                });
+
+            
         }
     }
 }

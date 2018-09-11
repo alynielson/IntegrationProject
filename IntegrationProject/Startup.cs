@@ -18,26 +18,32 @@ namespace IntegrationProject
 {
     public class Startup
     {
+        
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            string[] roleNames = { "Admin", "Member" };
-            IdentityResult roleResult;
+            
+                RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                
+                string[] roleNames = { "Admin", "Member" };
+                IdentityResult roleResult;
 
-            foreach (var roleName in roleNames)
-            {
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
+                foreach (var roleName in roleNames)
                 {
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    var roleExist = await roleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                    }
                 }
-            }
+            
+            
+            
         }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
      
@@ -59,9 +65,17 @@ namespace IntegrationProject
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDefaultIdentity<IdentityUser>()
-                //.AddEntityFrameworkStores<ApplicationDbContext>();
+            //.AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+              .AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddDefaultTokenProviders();
+
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,7 +91,7 @@ namespace IntegrationProject
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -90,6 +104,12 @@ namespace IntegrationProject
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            
+            CreateRoles(app.ApplicationServices).Wait();
+           
+
+            
         }
     }
 }

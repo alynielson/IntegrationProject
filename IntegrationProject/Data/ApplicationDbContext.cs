@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IntegrationProject.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Member> Members { get; set; }
         public DbSet<Bar> Bars { get; set; }

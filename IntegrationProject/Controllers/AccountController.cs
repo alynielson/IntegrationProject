@@ -143,12 +143,12 @@ namespace IntegrationProject.Controllers
         {
             if (await _userManager.IsInRoleAsync(user, "Member"))
             {
-                var member = db.Members.Single(c => c.ApplicationUserId == user.Id);
+                var member = db.Members.FirstOrDefault(c => c.ApplicationUserId == user.Id);
                 return RedirectToAction("Index", "Customer", new { id = member.Id });
             }
             else if (await _userManager.IsInRoleAsync(user, "Admin"))
             {
-                var admin = db.Admins.Single(a => a.ApplicationUserId == user.Id);
+                var admin = db.Admins.FirstOrDefault(a => a.ApplicationUserId == user.Id);
                 return RedirectToAction("Index", "Admin", new { id = admin.Id });
             }
             else
