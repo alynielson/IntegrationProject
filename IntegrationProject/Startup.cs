@@ -18,9 +18,6 @@ namespace IntegrationProject
 {
     public class Startup
     {
-<<<<<<< HEAD
-=======
-
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -37,8 +34,6 @@ namespace IntegrationProject
                 }
             }
         }
-
->>>>>>> 2321f2d728a62e6b464de853d9a66b2a56ac9be1
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -90,7 +85,7 @@ namespace IntegrationProject
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            CreateRoles(serviceProvider).Wait();
+            //CreateRoles(serviceProvider).Wait();
         }
     }
 }
