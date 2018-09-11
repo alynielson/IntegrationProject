@@ -12,6 +12,9 @@ namespace IntegrationProject.Controllers
     {
         public IActionResult Index()
         {
+            var yelpData = JsonParser.ParseYelpSearch();
+            var businesses = yelpData.businesses.ToList();
+            ViewData["Businesses"] = businesses;
             return View();
         }
 
