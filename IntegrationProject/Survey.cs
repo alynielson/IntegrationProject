@@ -8,15 +8,15 @@ namespace IntegrationProject
 {
     public static class Survey
     {
-        public static List<SelectListItem> PEOPLE { get; } = new List<SelectListItem>()
+        public static Dictionary<string, bool> PEOPLE { get; } = new Dictionary<string, bool>()
         {
-            new SelectListItem{Value="true", Text="Yes" },
-            new SelectListItem{Value = "false", Text="No"}
+            {"Yes", true },
+            {"No", false }
         };
-        public static List<SelectListItem> SITDOWN { get; } = new List<SelectListItem>()
+        public static Dictionary<string, bool> SITDOWN { get; } = new Dictionary<string, bool>()
         {
-            new SelectListItem{Value="true", Text="Yes" },
-            new SelectListItem{Value = "false", Text="No"}
+            {"Yes", true },
+            {"No", false }
         };
         public static List<SelectListItem> PRICE { get; } = new List<SelectListItem>()
         {

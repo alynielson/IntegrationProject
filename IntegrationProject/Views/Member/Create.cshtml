@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Answer.People" class="control-label"></label>
-                <select asp-for="Answer.People" asp-items="Survey.PEOPLE" class="form-control"></select>
+                <select asp-for="Answer.People" asp-items="new SelectList(Survey.PEOPLE)" class="form-control"></select> 
                 <span asp-validation-for="Answer.People" class="text-danger"></span>
             </div>
 
