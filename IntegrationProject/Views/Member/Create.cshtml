@@ -14,67 +14,67 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Answer.People" class="control-label"></label>
-                <select asp-for="Answer.People" asp-items="Survey.PEOPLE" class="form-control"></select>
+                <select asp-for="Answer.People" asp-items="new SelectList(Survey.PEOPLE)" class="form-control"></select> 
                 <span asp-validation-for="Answer.People" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.Price" class="control-label"></label>
-                <select asp-for="Answer.Price" asp-items="Survey.PRICE" class="form-control"></select>
+                <select asp-for="Answer.Price" asp-items="new SelectList(Survey.PRICE)" class="form-control"></select>
                 <span asp-validation-for="Answer.Price" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.Activities" class="control-label"></label>
-                <select asp-for="Answer.Activities" asp-items="Survey.ACTIVITIES"class="form-control"></select>
+                <select asp-for="Answer.Activities" asp-items="new SelectList(Survey.ACTIVITIES)"class="form-control"></select>
                 <span asp-validation-for="Answer.Activities" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.Drinks" class="control-label"></label>
-                <select asp-for="Answer.Drinks" asp-items="Survey.DRINKS" class="form-control"></select>
+                <select asp-for="Answer.Drinks" asp-items="new SelectList(Survey.DRINKS)" class="form-control"></select>
                 <span asp-validation-for="Answer.Drinks" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.Foods" class="control-label"></label>
-                <select asp-for="Answer.Foods" asp-items="Survey.FOODS" class="form-control"></select>
+                <select asp-for="Answer.Foods" asp-items="new SelectList(Survey.FOODS)" class="form-control"></select>
                 <span asp-validation-for="Answer.Foods" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.SitDown" class="control-label"></label>
-                <select asp-for="Answer.SitDown" class="form-control" asp-items="Survey.SITDOWN"></select>
+                <select asp-for="Answer.SitDown" class="form-control" asp-items="new SelectList(Survey.SITDOWN)"></select>
                 <span asp-validation-for="Answer.SitDown" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.TimeOfDay" class="control-label"></label>
-                <select asp-for="Answer.TimeOfDay" asp-items="Survey.TIMEOFDAY" class="form-control"></select>
+                <select asp-for="Answer.TimeOfDay" asp-items="new SelectList(Survey.TIMEOFDAY)" class="form-control"></select>
                 <span asp-validation-for="Answer.TimeOfDay" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.Music" class="control-label"></label>
-                <select asp-for="Answer.Music" asp-items="Survey.MUSIC" class="form-control"></select>
+                <select asp-for="Answer.Music" asp-items="new SelectList(Survey.MUSIC)" class="form-control"></select>
                 <span asp-validation-for="Answer.Music" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.DressCode" class="control-label"></label>
-                <select asp-for="Answer.DressCode" asp-items="Survey.DRESSCODE" class="form-control"></select>
+                <select asp-for="Answer.DressCode" asp-items="new SelectList(Survey.DRESSCODE)" class="form-control"></select>
                 <span asp-validation-for="Answer.DressCode" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.Age" class="control-label"></label>
-                <select asp-for="Answer.Age" asp-items="Survey.AGE" class="form-control"></select>
+                <select asp-for="Answer.Age" asp-items="new SelectList(Survey.AGE)" class="form-control"></select>
                 <span asp-validation-for="Answer.Age" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.Master" class="control-label"></label>
-                <select asp-for="Answer.Master" asp-items="Survey.MASTER" class="form-control"></select>
+                <select asp-for="Answer.Master" asp-items="new SelectList(Survey.MASTER)" class="form-control"></select>
                 <span asp-validation-for="Answer.Master" class="text-danger"></span>
             </div>
 
