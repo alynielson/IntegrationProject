@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IntegrationProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180911012551_Initial")]
-    partial class Initial
+    [Migration("20180911162303_ModelTables")]
+    partial class ModelTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -256,11 +256,9 @@ namespace IntegrationProject.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -291,11 +289,9 @@ namespace IntegrationProject.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
