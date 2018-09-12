@@ -49,6 +49,7 @@ namespace IntegrationProject.Controllers
             Bar bar = new Bar()
             {
                 YelpId= data.id,
+                
  
             };
             return bar;
