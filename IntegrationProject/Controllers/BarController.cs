@@ -36,7 +36,8 @@ namespace IntegrationProject.Controllers
         {
             var yelpData = JsonParser.ParseYelpSearchBar(id);
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-            if (bar  == null)
+
+            if (bar == null)
             {
                 Bar newBar = CreateBar(yelpData);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
@@ -63,6 +64,8 @@ namespace IntegrationProject.Controllers
                 State = data.location.state,
                 Zipcode = data.location.zip_code
             };
+            _context.Bars.Add(bar);
+            _context.SaveChanges();
             return bar;
         }
          

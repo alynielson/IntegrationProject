@@ -4,14 +4,16 @@ using IntegrationProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IntegrationProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180912184412_changes")]
+    partial class changes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,7 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AnswerId");
+                    b.Property<int?>("AnswerId");
 
                     b.Property<bool>("Checked");
 
@@ -174,7 +176,7 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AnswerId");
+                    b.Property<int?>("AnswerId");
 
                     b.Property<bool>("Checked");
 
@@ -193,7 +195,7 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AnswerId");
+                    b.Property<int?>("AnswerId");
 
                     b.Property<bool>("Checked");
 
@@ -254,7 +256,7 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AnswerId");
+                    b.Property<int?>("AnswerId");
 
                     b.Property<bool>("Checked");
 
@@ -379,10 +381,9 @@ namespace IntegrationProject.Migrations
 
             modelBuilder.Entity("IntegrationProject.Models.ActivityItem", b =>
                 {
-                    b.HasOne("IntegrationProject.Models.Answer", "Answer")
+                    b.HasOne("IntegrationProject.Models.Answer")
                         .WithMany("Activities")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AnswerId");
                 });
 
             modelBuilder.Entity("IntegrationProject.Models.Admin", b =>
@@ -405,18 +406,16 @@ namespace IntegrationProject.Migrations
 
             modelBuilder.Entity("IntegrationProject.Models.Drink", b =>
                 {
-                    b.HasOne("IntegrationProject.Models.Answer", "Answer")
+                    b.HasOne("IntegrationProject.Models.Answer")
                         .WithMany("Drinks")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AnswerId");
                 });
 
             modelBuilder.Entity("IntegrationProject.Models.Food", b =>
                 {
-                    b.HasOne("IntegrationProject.Models.Answer", "Answer")
+                    b.HasOne("IntegrationProject.Models.Answer")
                         .WithMany("Foods")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AnswerId");
                 });
 
             modelBuilder.Entity("IntegrationProject.Models.Match", b =>
@@ -444,10 +443,9 @@ namespace IntegrationProject.Migrations
 
             modelBuilder.Entity("IntegrationProject.Models.Music", b =>
                 {
-                    b.HasOne("IntegrationProject.Models.Answer", "Answer")
+                    b.HasOne("IntegrationProject.Models.Answer")
                         .WithMany("Musics")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AnswerId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
