@@ -40,11 +40,7 @@
                 @for (var i = 0; i < Survey.DRINKS.Count; i++)
                 {
                     <div class="checkbox">
-<<<<<<< HEAD
-                        <label><input asp-for="Answer.Drinks" type="checkbox"  value="@item.Type"/> @item.Type</label>
-=======
                         <label><input asp-for="Answer.Drinks[i].Checked" type="checkbox" /> @Survey.DRINKS[i].Type</label>
->>>>>>> d332ea2c7e1288159398270e81b6281aecd043c3
                     </div>
 
                 }
