@@ -37,11 +37,11 @@ namespace IntegrationProject
         };
         public static List<Drink> DRINKS { get; } = new List<Drink>()
         {
-            new Drink(){Id = 1, Type = "Cocktails" },
-            new Drink(){Id = 2, Type = "Craft Beers" },
-            new Drink(){Id = 3, Type = "Wine" },
-            new Drink(){Id = 4, Type = "Anything to get Drunk" },
-            new Drink(){Id = 5, Type = "Anything Cheap" }
+            new Drink(){Type = "Cocktails" },
+            new Drink(){Type = "Craft Beers" },
+            new Drink(){Type = "Wine" },
+            new Drink(){Type = "Anything to get Drunk" },
+            new Drink(){Type = "Anything Cheap" }
         };
         public static Dictionary<string, double> FOODS { get; } = new Dictionary<string, double>()
         {

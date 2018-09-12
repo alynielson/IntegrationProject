@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+<<<<<<< HEAD
+=======
+using System.ComponentModel.DataAnnotations.Schema;
+>>>>>>> d332ea2c7e1288159398270e81b6281aecd043c3
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,5 +36,6 @@ namespace IntegrationProject.Models
         [Key]
         public int Id { get; set; }
         public string Type { get; set; }
+        public bool Checked { get; set; }
     }
 }

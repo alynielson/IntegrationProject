@@ -29,18 +29,24 @@
                 @foreach (var item in Survey.ACTIVITIES)
                 {
                     <div class="checkbox">
-                        <label><input asp-for="Answer.Activities" type="checkbox"  value="@item.Value" /> @item.Key</label>
+                        <label><input asp-for="Answer.Activities" type="checkbox" value="@item.Value" /> @item.Key</label>
                     </div>
                 }
             </div>
 
             <div class="form-group">
                 <label asp-for="Answer.Drinks" class="control-label">Please select your favorite drinks at a bar (Check all that apply).</label>
-                @foreach (var item in Survey.DRINKS)
+               
+                @for (var i = 0; i < Survey.DRINKS.Count; i++)
                 {
                     <div class="checkbox">
+<<<<<<< HEAD
                         <label><input asp-for="Answer.Drinks" type="checkbox"  value="@item.Type"/> @item.Type</label>
+=======
+                        <label><input asp-for="Answer.Drinks[i].Checked" type="checkbox" /> @Survey.DRINKS[i].Type</label>
+>>>>>>> d332ea2c7e1288159398270e81b6281aecd043c3
                     </div>
+
                 }
             </div>
 
