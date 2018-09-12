@@ -10,23 +10,92 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" asp-controller="Member" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Answer.People" class="control-label"></label>
+                <select asp-for="Answer.People" asp-items="Survey.PEOPLE.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.People" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="AnswerId" class="control-label"></label>
-                <select asp-for="AnswerId" class="form-control" asp-items="ViewBag.AnswerId"></select>
-                <span asp-validation-for="AnswerId" class="text-danger"></span>
+                <label asp-for="Answer.Price" class="control-label"></label>
+                <select asp-for="Answer.Price" asp-items="Survey.PRICE.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.Price" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="ApplicationUserId" class="control-label"></label>
-                <select asp-for="ApplicationUserId" class="form-control" asp-items="ViewBag.ApplicationUserId"></select>
-                <span asp-validation-for="ApplicationUserId" class="text-danger"></span>
+                <label asp-for="Answer.Activities" class="control-label"></label>
+                @for (var i = 0; i < Survey.ACTIVITIES.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label class="control-label"><input asp-for="Answer.Activities[i].Checked" type="checkbox" /> @Survey.ACTIVITIES[i].Type</label>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Drinks" class="control-label"></label>
+
+                @for (var i = 0; i < Survey.DRINKS.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label class="control-label"><input asp-for="Answer.Drinks[i].Checked" type="checkbox" /> @Survey.DRINKS[i].Type</label>
+                    </div>
+
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Foods" class="control-label"></label>
+                @for (var i = 0; i < Survey.FOODS.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label class="control-label"><input asp-for="Answer.Foods[i].Checked" type="checkbox" /> @Survey.FOODS[i].Type</label>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.SitDown" class="control-label"></label>
+                <select asp-for="Answer.SitDown" class="form-control" asp-items="Survey.SITDOWN.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })"></select>
+                <span asp-validation-for="Answer.SitDown" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.TimeOfDay" class="control-label"></label>
+                <select asp-for="Answer.TimeOfDay" asp-items="Survey.TIMEOFDAY.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.TimeOfDay" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Musics" class="control-label"></label>
+                @for (var i = 0; i < Survey.MUSICS.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label><input asp-for="Answer.Musics[i].Checked" class="music" type="checkbox" /> @Survey.MUSICS[i].Type</label>
+                    </div>
+
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.DressCode" class="control-label"></label>
+                <select asp-for="Answer.DressCode" asp-items="Survey.DRESSCODE.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.DressCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Age" class="control-label"></label>
+                <select asp-for="Answer.Age" asp-items="Survey.AGE.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.Age" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Master" class="control-label"></label>
+                <select asp-for="Answer.Master" asp-items="Survey.MASTER.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.Master" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
