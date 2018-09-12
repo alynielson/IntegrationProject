@@ -27,10 +27,11 @@ namespace IntegrationProject.Controllers
         }
         public IActionResult Details(int barId)
         {
-            return View();
+            var bar = _context.Bars.Find(barId);
+            return View(bar);
         }
         // GET: Bars/Details/5
-        public void SetBar(string id)
+        public IActionResult SetBar(string id)
         {
             var yelpData = JsonParser.ParseYelpSearchBar(id);
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
@@ -39,15 +40,15 @@ namespace IntegrationProject.Controllers
             {
                 Bar newBar = CreateBar(yelpData);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-                Details(barDetails.Id);
+                return Details(barDetails.Id);
             }
             else if (bar.YelpId != null && bar.YelpId == id)
             {
-                Details(bar.Id);
+                return Details(bar.Id);
             }
             else
             {
-                NotFound();
+                return NotFound();
             }
         }
 
