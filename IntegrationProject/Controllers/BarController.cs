@@ -31,13 +31,27 @@ namespace IntegrationProject.Controllers
         {
             var yelpData = JsonParser.ParseYelpSearchBar(id);
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-            if (bar == null)
+            if (bar.YelpId == null)
             {
-                return NotFound();
+                Bar newBar = CreateBar(yelpData);
+                return View(newBar);
+            }
+            else if (bar != null)
+            {
+                return View(bar);
             }
 
-
             return View(bar);
+        }
+
+        public Bar CreateBar(Business data)
+        {
+            Bar bar = new Bar()
+            {
+                YelpId= data.id,
+ 
+            };
+            return bar;
         }
          
         // GET: Bars/Create
