@@ -17,17 +17,84 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Answer)
+            @Html.DisplayNameFor(model => model.Answer.People)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Answer.Id)
+            @Survey.PEOPLE.SingleOrDefault(person => person.Value == Model.Answer.People).Key
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ApplicationUser)
+            @Html.DisplayNameFor(model => model.Answer.Price)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ApplicationUser.Id)
+            @Survey.PRICE.SingleOrDefault(price => price.Value == Model.Answer.Price).Key
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.Activities)
+        </dt>
+        <dd>
+            @foreach (var item in Model.Answer.Activities)
+            {
+                @Html.Display(item.Type)
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.Drinks)
+        </dt>
+        <dd>
+            @foreach (var item in Model.Answer.Drinks)
+            {
+                @Html.Display(item.Type)
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.Foods)
+        </dt>
+        <dd>
+            @foreach (var item in Model.Answer.Foods)
+            {
+                @Html.Display(item.Type)
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.SitDown)
+        </dt>
+        <dd>
+            @Survey.SITDOWN.SingleOrDefault(sitdown => sitdown.Value == Model.Answer.SitDown).Key
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.TimeOfDay)
+        </dt>
+        <dd>
+            @Survey.TIMEOFDAY.SingleOrDefault(time => time.Value == Model.Answer.TimeOfDay).Key
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.Musics)
+        </dt>
+        <dd>
+            @foreach (var item in Model.Answer.Musics)
+            {
+                @Html.Display(item.Type)
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.DressCode)
+        </dt>
+        <dd>
+            @Survey.DRESSCODE.SingleOrDefault(dresscode => dresscode.Value == Model.Answer.DressCode).Key
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.Age)
+        </dt>
+        <dd>
+            @Survey.AGE.SingleOrDefault(age => age.Value == Model.Answer.Age).Key
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.Master)
+        </dt>
+        <dd>
+            @Survey.MASTER.SingleOrDefault(master => master.Value == Model.Answer.Master).Key
+        </dd>
+
     </dl>
 </div>
 <div>
