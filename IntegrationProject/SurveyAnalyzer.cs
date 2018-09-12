@@ -19,6 +19,7 @@ namespace IntegrationProject
             List<double> barDoubleAnswers = GetAnswersForDoubleQuestions(barAnswers);
             List<double> memberDoubleAnswers = GetAnswersForDoubleQuestions(memberAnswers);
             List<int> maxPerDoubleQuestion = GetNumberOfAnswersPerQuestion();
+            List<double> pointsForDoubleQuestions = GetPointsForDoubleQuestions(pointsPerQuestion, barDoubleAnswers, memberDoubleAnswers, maxPerDoubleQuestion);
         }
 
        private static double GetPointsPerQuestion()
@@ -54,6 +55,17 @@ namespace IntegrationProject
             };
             return doubleAnswers;
 
+        }
+
+        private static List<double> GetPointsForDoubleQuestions(double pointsPerQuestion, List<double> barAnswers, List<double> memberAnswers, List<int> maxValuesPerQuestion)
+        {
+            List<double> doubleMatches = new List<double> { };
+            for (int i = 0; i < memberAnswers.Count; i++)
+            {
+                double pointsEarned = GetMatchValueForDoubleQuestion(pointsPerQuestion, barAnswers[i], memberAnswers[i], maxValuesPerQuestion[i]);
+                doubleMatches.Add(pointsEarned);
+            }
+            return doubleMatches;
         }
         
 
