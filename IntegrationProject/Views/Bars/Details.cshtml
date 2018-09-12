@@ -1,0 +1,36 @@
+﻿@model IntegrationProject.Models.Bar
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Bar</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.YelpId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.YelpId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Admin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Admin.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Answer.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

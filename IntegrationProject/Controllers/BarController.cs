@@ -2,92 +2,166 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using IntegrationProject.Data;
+using IntegrationProject.Models;
 
 namespace IntegrationProject.Controllers
 {
     public class BarController : Controller
     {
-        // GET: Bar
-        public ActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public BarController(ApplicationDbContext context)
         {
+            _context = context;
+        }
+
+        // GET: Bars
+        public async Task<IActionResult> Index()
+        {
+            var applicationDbContext = _context.Bars.Include(b => b.Admin).Include(b => b.Answer);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        // GET: Bars/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            var yelpData = JsonParser.ParseYelpSearch();
+            var business = yelpData.businesses.ToList();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var bar = await _context.Bars
+                
+                .FirstOrDefaultAsync(m => m.YelpId == id);
+            if (bar == null)
+            {
+                return NotFound();
+            }
+
+            return View(bar);
+        }
+
+        // GET: Bars/Create
+        public IActionResult Create()
+        {
+            ViewData["AdminId"] = new SelectList(_context.Admins, "Id", "Id");
+            ViewData["AnswerId"] = new SelectList(_context.Answers, "Id", "Id");
             return View();
         }
 
-        // GET: Bar/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Bar/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Bar/Create
+        // POST: Bars/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("Id,YelpId,AdminId,AnswerId")] Bar bar)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                _context.Add(bar);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["AdminId"] = new SelectList(_context.Admins, "Id", "Id", bar.AdminId);
+            ViewData["AnswerId"] = new SelectList(_context.Answers, "Id", "Id", bar.AnswerId);
+            return View(bar);
         }
 
-        // GET: Bar/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Bars/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var bar = await _context.Bars.FindAsync(id);
+            if (bar == null)
+            {
+                return NotFound();
+            }
+            ViewData["AdminId"] = new SelectList(_context.Admins, "Id", "Id", bar.AdminId);
+            ViewData["AnswerId"] = new SelectList(_context.Answers, "Id", "Id", bar.AnswerId);
+            return View(bar);
         }
 
-        // POST: Bar/Edit/5
+        // POST: Bars/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,YelpId,AdminId,AnswerId")] Bar bar)
         {
-            try
+            if (id != bar.Id)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(bar);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BarExists(bar.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["AdminId"] = new SelectList(_context.Admins, "Id", "Id", bar.AdminId);
+            ViewData["AnswerId"] = new SelectList(_context.Answers, "Id", "Id", bar.AnswerId);
+            return View(bar);
         }
 
-        // GET: Bar/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Bars/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var bar = await _context.Bars
+                .Include(b => b.Admin)
+                .Include(b => b.Answer)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (bar == null)
+            {
+                return NotFound();
+            }
+
+            return View(bar);
         }
 
-        // POST: Bar/Delete/5
-        [HttpPost]
+        // POST: Bars/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var bar = await _context.Bars.FindAsync(id);
+            _context.Bars.Remove(bar);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+        private bool BarExists(int id)
+        {
+            return _context.Bars.Any(e => e.Id == id);
         }
     }
 }
