@@ -57,8 +57,16 @@ namespace IntegrationProject
         }
         
 
-        private static double GetMatchValueForDoubleQuestion(double pointsPerQuestion, double barAnswer, double memberAnswer)
+        private static double GetMatchValueForDoubleQuestion(double pointsPerQuestion, double barAnswer, double memberAnswer, int max)
         {
+            if (barAnswer == memberAnswer)
+            {
+                return pointsPerQuestion;
+            }
+            else
+            {
+                
+            }
             return 2;
         }
         
