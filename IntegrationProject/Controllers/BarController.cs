@@ -39,7 +39,7 @@ namespace IntegrationProject.Controllers
 
             return View(bar);
         }
-
+         
         // GET: Bars/Create
         public IActionResult Create()
         {
