@@ -72,6 +72,37 @@ namespace IntegrationProject
                 throw new Exception("Request url not valid");
             }
         }
+
+        public static YelpReviews ParseYelpReviews(string id)
+        {
+            string url = $"https://api.yelp.com/v3/businesses/{id}/reviews";
+            WebResponse response = null;
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Headers["Authorization"] = Credentials.yelpApiKey;
+                request.Method = "GET";
+                response = request.GetResponse();
+                if (response != null)
+                {
+                    string responseString = null;
+                    Stream stream = response.GetResponseStream();
+                    StreamReader streamReader = new StreamReader(stream);
+                    responseString = streamReader.ReadToEnd();
+                    YelpReviews yelpReviews = JsonConvert.DeserializeObject<YelpReviews>(responseString);
+                    return yelpReviews;
+                }
+                else
+                {
+                    throw new Exception("Unable to get response");
+                }
+
+            }
+            catch
+            {
+                throw new Exception("Request url not valid");
+            }
+        }
     }
 }
 
