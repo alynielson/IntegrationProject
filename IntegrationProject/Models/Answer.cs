@@ -11,7 +11,9 @@ namespace IntegrationProject.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "Crowdednesss")]
         public double People { get; set; }
+        [Display(Name = "Priciness")]
         public double Price { get; set; }
         [Display(Name = "Activity Preferences")]
         public List<ActivityItem> Activities { get; set; }
@@ -19,6 +21,7 @@ namespace IntegrationProject.Models
         public List<Drink> Drinks { get; set; }
         [Display(Name = "Food Preferences")]
         public List<Food> Foods { get; set; }
+        [Display(Name = "Sitdown Space")]
         public double SitDown { get; set; }
         [Display(Name="Time of Day")]
         public double TimeOfDay { get; set; }

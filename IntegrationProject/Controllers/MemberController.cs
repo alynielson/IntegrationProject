@@ -147,7 +147,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,AnswerId,ApplicationUserId")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("Answer")] Member member)
         {
             if (id != member.Id)
             {
