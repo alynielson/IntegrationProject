@@ -11,15 +11,18 @@ namespace IntegrationProject
     {
         public static void CreateBars(ApplicationDbContext context)
         {
+           
             SearchResult allBars = JsonParser.ParseYelpSearch();
             for (int i = 0; i < allBars.businesses.Length; i++)
             {
                 Bar bar = new Bar();
                 bar.YelpId = allBars.businesses[i].id;
                 bar.Name = allBars.businesses[i].name;
-                context.Add(bar);
-                context.SaveChangesAsync();
+                context.Bars.Add(bar);
+               
             }
+            context.SaveChanges();
+          
         }
     }
 }

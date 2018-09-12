@@ -108,7 +108,7 @@ namespace IntegrationProject.Areas.Identity.Pages.Account
                 }
                 else if (await _userManager.IsInRoleAsync(user, "Admin"))
                 {
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Index", "Admins");
                 }
                 else
                 {
