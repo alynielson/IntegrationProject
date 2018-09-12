@@ -36,7 +36,7 @@ namespace IntegrationProject.Controllers
                 Bar newBar = CreateBar(yelpData);
                 return View(newBar);
             }
-            else if (bar != null)
+            else if (bar.YelpId != null && bar.YelpId == id)
             {
                 return View(bar);
             }
@@ -49,8 +49,13 @@ namespace IntegrationProject.Controllers
             Bar bar = new Bar()
             {
                 YelpId= data.id,
-                
- 
+                Name = data.name,
+                Image_Url = data.image_url,
+                Phone = data.phone,
+                Address = data.location.address1,
+                City = data.location.city,
+                State = data.location.state,
+                Zipcode = data.location.zip_code
             };
             return bar;
         }
