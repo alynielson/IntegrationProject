@@ -66,16 +66,27 @@ namespace IntegrationProject.Controllers
             if (ModelState.IsValid)
             {
                 var user = (await _userManager.GetUserAsync(HttpContext.User));
+                member.Answer.Drinks = GetDrinks(member.Answer.Drinks);
+                member.Answer.Drinks = member.Answer.Drinks.Where(drink => drink.Checked == true).ToList();
                 member.ApplicationUserId = user?.Id;
                 member.Name = user?.Email;
                 _context.Add(member);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnswerId"] = new SelectList(_context.Answers, "Id", "Id", member.AnswerId);
-            ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", member.ApplicationUserId);
+
             return View(member);
         }
+
+        private List<Drink> GetDrinks (List<Drink> memberDrinks)
+        {
+            for(int i = 0; i < Survey.DRINKS.Count; i++)
+            {
+                memberDrinks[i].Type = Survey.DRINKS[i].Type;
+            }
+            return memberDrinks;
+
+        } 
 
         // GET: Member/Edit/5
         public async Task<IActionResult> Edit(int? id)

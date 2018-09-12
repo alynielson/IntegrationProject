@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using IntegrationProject.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,13 +35,13 @@ namespace IntegrationProject
             {"Patio", 5 },
             {"Lounge", 6 }
         };
-        public static Dictionary<string, double> DRINKS { get; } = new Dictionary<string, double>()
+        public static List<Drink> DRINKS { get; } = new List<Drink>()
         {
-            {"Cocktails", 1 },
-            {"Craft Beers", 2 },
-            {"Wine", 3 },
-            {"Anything to get Drunk", 4 },
-            {"Anything Cheap", 5 }
+            new Drink(){Type = "Cocktails" },
+            new Drink(){Type = "Craft Beers" },
+            new Drink(){Type = "Wine" },
+            new Drink(){Type = "Anything to get Drunk" },
+            new Drink(){Type = "Anything Cheap" }
         };
         public static Dictionary<string, double> FOODS { get; } = new Dictionary<string, double>()
         {
