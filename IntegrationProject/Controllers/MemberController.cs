@@ -39,10 +39,10 @@ namespace IntegrationProject.Controllers
                 .Include(m => m.Answer)
                 .Include(m => m.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            member.Answer.Activities = _context.Answers.Single(answer => answer.Id == member.AnswerId).Activities;
-            member.Answer.Drinks = _context.Answers.Single(answer => answer.Id == member.AnswerId).Drinks;
-            member.Answer.Foods = _context.Answers.Single(answer => answer.Id == member.AnswerId).Foods;
-            member.Answer.Musics = _context.Answers.Single(answer => answer.Id == member.AnswerId).Musics;
+            member.Answer.Activities = _context.Answers.SingleOrDefault(answer => answer.Id == member.AnswerId).Activities.Where(activity => activity.AnswerId == member.AnswerId).ToList();
+            member.Answer.Drinks = _context.Answers.SingleOrDefault(answer => answer.Id == member.AnswerId).Drinks.Where(drink => drink.AnswerId == member.AnswerId).ToList();
+            member.Answer.Foods = _context.Answers.SingleOrDefault(answer => answer.Id == member.AnswerId).Foods.Where(food => food.AnswerId == member.AnswerId).ToList();
+            member.Answer.Musics = _context.Answers.Single(answer => answer.Id == member.AnswerId).Musics.Where(music => music.AnswerId == member.AnswerId).ToList();
             if (member == null)
             {
                 return NotFound();
