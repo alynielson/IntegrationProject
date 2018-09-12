@@ -31,6 +31,9 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public string Type { get; set; }
         public bool Checked { get; set; }
+        [ForeignKey("Answer")]
+        public int AnswerId { get; set; }
+        public Answer Answer { get; set; }
     }
     public class Food
     {
@@ -38,6 +41,9 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public string Type { get; set; }
         public bool Checked { get; set; }
+        [ForeignKey("Answer")]
+        public int AnswerId { get; set; }
+        public Answer Answer { get; set; }
     }
 
     public class ActivityItem
@@ -46,6 +52,9 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public string Type { get; set; }
         public bool Checked { get; set; }
+        [ForeignKey("Answer")]
+        public int AnswerId { get; set; }
+        public Answer Answer { get; set; }
     }
     public class Music
     {
@@ -53,5 +62,8 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public string Type { get; set; }
         public bool Checked { get; set; }
+        [ForeignKey("Answer")]
+        public int AnswerId { get; set; }
+        public Answer Answer { get; set; }
     }
 }
