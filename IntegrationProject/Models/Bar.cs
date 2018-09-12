@@ -35,5 +35,8 @@ namespace IntegrationProject.Models
         [Key]
         public int Id { get; set; }
         public string userComment { get; set; }
+        [ForeignKey("Bar")]
+        public int BarId { get; set; }
+        public Bar bar { get; set; }
     }
 }
