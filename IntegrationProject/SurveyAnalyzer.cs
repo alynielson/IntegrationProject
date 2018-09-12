@@ -16,6 +16,8 @@ namespace IntegrationProject
             int barAnswersId = GetBarAnswersId(bar);
             Answer barAnswers = GetAnswersFromDb(context, barAnswersId);
             double pointsPerQuestion = GetPointsPerQuestion();
+            List<double> barDoubleAnswers = GetAnswersForDoubleQuestions(barAnswers);
+            List<double> memberDoubleAnswers = GetAnswersForDoubleQuestions(memberAnswers);
 
         }
 
@@ -26,6 +28,33 @@ namespace IntegrationProject
             return Convert.ToDouble(totalPoints / numberOfQuestions);
         }
 
+       private static List<int> GetNumberOfAnswersPerQuestion()
+        {
+            int peopleMax = Survey.PEOPLE.Count;
+            int priceMax = Survey.PRICE.Count;
+            int sitDownMax = Survey.SITDOWN.Count;
+            int timeOfDayMax = Survey.TIMEOFDAY.Count;
+            int dressCode = Survey.DRESSCODE.Count;
+            int age = Survey.AGE.Count;
+            List<int> maxPerQuestion = new List<int> { peopleMax, priceMax, sitDownMax, timeOfDayMax, dressCode, age};
+            return maxPerQuestion;
+            
+        }
+
+        private static List<double> GetAnswersForDoubleQuestions(Answer answers)
+        {
+            List<double> doubleAnswers = new List<double>
+            {
+                answers.People,
+                answers.Price,
+                answers.SitDown,
+                answers.TimeOfDay,
+                answers.DressCode,
+                answers.Age
+            };
+            return doubleAnswers;
+
+        }
         
 
         private static double GetMatchValueForDoubleQuestion(double pointsPerQuestion, double barAnswer, double memberAnswer)
