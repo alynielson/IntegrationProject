@@ -21,12 +21,19 @@ namespace IntegrationProject.Models
         public string City { get; set; }
         public string State { get; set; }
         public string Zipcode { get; set; }
-
+        public List<Comment> Comments { get; set; }
         [ForeignKey("Admin")]
         public int? AdminId { get; set; }
         public Admin Admin { get; set; }
         [ForeignKey("Answer")]
         public int? AnswerId { get; set; }
         public Answer Answer { get; set; }
+    }
+
+    public class Comment
+    {
+        [Key]
+        public int Id { get; set; }
+        public string userComment { get; set; }
     }
 }
