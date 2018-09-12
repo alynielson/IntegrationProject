@@ -28,11 +28,12 @@ namespace IntegrationProject.Controllers
         [HttpPost]
         public IActionResult Details(int barId)
         {
-            return View();
+            var bar = _context.Bars.Find(barId);
+            return View(bar);
         }
         // GET: Bars/Details/5
         [HttpGet]
-        public IActionResult Details(string id)
+        public void Details(string id)
         {
             var yelpData = JsonParser.ParseYelpSearchBar(id);
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
@@ -41,14 +42,17 @@ namespace IntegrationProject.Controllers
             {
                 Bar newBar = CreateBar(yelpData);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-                return View(barDetails.Id);
+
+                Details(barDetails.Id);
             }
             else if (bar.YelpId != null && bar.YelpId == id)
             {
-                return View(bar.Id);
+                Details(bar.Id);
             }
-
-            return NotFound();
+            else
+            {
+                NotFound();
+            }
         }
 
         public Bar CreateBar(Business data)
