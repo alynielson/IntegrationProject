@@ -40,11 +40,11 @@ namespace IntegrationProject.Controllers
             {
                 Bar newBar = CreateBar(yelpData);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-                return Details(barDetails.Id);
+                return RedirectToAction("Details", "Bar", new { barId = barDetails.Id }, null);
             }
             else if (bar.YelpId != null && bar.YelpId == id)
             {
-                return Details(bar.Id);
+                return RedirectToAction("Details", "Bar", new { barId = bar.Id }, null);
             }
             else
             {
