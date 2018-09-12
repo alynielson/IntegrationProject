@@ -41,11 +41,11 @@ namespace IntegrationProject.Controllers
             {
                 Bar newBar = CreateBar(yelpData);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-                return View(new { barId = barDetails.Id });
+                return View(barDetails.Id);
             }
             else if (bar.YelpId != null && bar.YelpId == id)
             {
-                return View(new { barId = bar.Id });
+                return View(bar.Id);
             }
 
             return NotFound();

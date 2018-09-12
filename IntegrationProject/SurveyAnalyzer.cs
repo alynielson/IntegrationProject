@@ -15,11 +15,18 @@ namespace IntegrationProject
             Answer memberAnswers = GetAnswersFromDb(context, memberAnswersId);
             int barAnswersId = GetBarAnswersId(bar);
             Answer barAnswers = GetAnswersFromDb(context, barAnswersId);
-            int pointsPerQuestion = 10;
+            double pointsPerQuestion = GetPointsPerQuestion();
 
         }
 
-       
+       private static double GetPointsPerQuestion()
+        {
+            int numberOfQuestions = 10;
+            int totalPoints = 100;
+            return totalPoints / numberOfQuestions;
+        }
+
+        
         
         private static int GetBarAnswersId(Bar bar)
         {
