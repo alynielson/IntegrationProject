@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,6 +8,7 @@ namespace IntegrationProject.Models
 {
     public class Answer
     {
+        [Key]
         public int Id { get; set; }
         
         public double People { get; set; }
@@ -14,7 +16,7 @@ namespace IntegrationProject.Models
         public double Price { get; set; }
 
         public string Activities { get; set; }
-        public string Drinks { get; set; }
+        public List<Drink> Drinks { get; set; }
         public string Foods { get; set; }
         public double SitDown { get; set; }
         public double TimeOfDay { get; set; }
@@ -23,5 +25,12 @@ namespace IntegrationProject.Models
         public double Age { get; set; }
         public int Master { get; set; }
 
+    }
+
+    public class Drink
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Type { get; set; }
     }
 }
