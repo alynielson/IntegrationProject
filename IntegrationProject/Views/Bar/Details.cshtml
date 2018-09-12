@@ -35,6 +35,10 @@
             @Html.DisplayFor(model => Convert.ToInt32(model.Phone))
         </dd>
     </dl>
+    @foreach(var Item in Model.Comments)
+    {
+        @Html.DisplayFor(Model => Item)
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
