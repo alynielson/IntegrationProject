@@ -4,18 +4,12 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-
+<h2>@(Model.Name)</h2> 
+<img class="dl-horizontal" src=@(Model.Image_Url)/>
 <div>
     <h4>Bar</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.YelpRating)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.YelpRating)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Admin)
         </dt>
