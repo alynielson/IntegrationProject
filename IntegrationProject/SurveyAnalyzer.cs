@@ -8,21 +8,19 @@ using System.Threading.Tasks;
 namespace IntegrationProject
 {
     public static class SurveyAnalyzer
-    {
-        public static void GetSurveyResultsBar(ApplicationDbContext context, Bar bar)
+    {   //need to seed database with bar answers
+        public static void GetMatchResults(Bar bar, Member member, ApplicationDbContext context)
         {
-            int barAnswers = GetBarAnswersId(bar);
-            Answer answer = GetAnswersFromDb(context, barAnswers);
+            int memberAnswersId = GetMemberAnswersId(member);
+            Answer memberAnswers = GetAnswersFromDb(context, memberAnswersId);
+            int barAnswersId = GetBarAnswersId(bar);
+            Answer barAnswers = GetAnswersFromDb(context, barAnswersId);
+            int pointsPerQuestion = 10;
 
         }
 
-        public static void GetSurveyResultsMember(ApplicationDbContext context, Member member)
-        {
-            int memberAnswers = GetMemberAnswersId(member);
-            Answer answer = GetAnswersFromDb(context, memberAnswers);
-            int heaviestWeightQuestion = GetHeaviestWeightedQuestion(answer);
-            AssignQuestionWeights(heaviestWeightQuestion);
-        }
+
+        
         private static int GetBarAnswersId(Bar bar)
         {
             int barAnswers = bar.AnswerId;
@@ -46,10 +44,7 @@ namespace IntegrationProject
             return heaviestWeightQuestion;
         }
 
-        private static void AssignQuestionWeights(int heaviestWeightQuestion)
-        {
-
-        }
+       
 
        
     }
