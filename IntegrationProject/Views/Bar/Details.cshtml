@@ -34,11 +34,19 @@
         <dd>
             @Html.DisplayFor(model => model.Phone)
         </dd>
+        <dt>
+            Comments
+        </dt>
+        <dd>
+            
+            @foreach (var Item in Model.Comments)
+            {
+                <div>
+                @Item.userComment</div>
+            }
+        </dd>
     </dl>
-    @foreach(var Item in Model.Comments)
-    {
-        @Html.DisplayFor(Model => Item)
-    }
+   
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

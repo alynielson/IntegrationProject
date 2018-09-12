@@ -28,6 +28,7 @@ namespace IntegrationProject.Controllers
         public IActionResult Details(int barId)
         {
             var bar = _context.Bars.Find(barId);
+            bar.Comments = _context.Comments.Where(c => c.BarId == barId).ToList();
             return View(bar);
         }
         // GET: Bars/Details/5
