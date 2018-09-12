@@ -35,8 +35,7 @@ namespace IntegrationProject.Controllers
         {
             var yelpData = JsonParser.ParseYelpSearchBar(id);
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-
-            if (bar == null)
+                if (bar == null)
             {
                 Bar newBar = CreateBar(yelpData);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
@@ -50,6 +49,7 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
+
         }
 
         public Bar CreateBar(Business data)
@@ -59,6 +59,7 @@ namespace IntegrationProject.Controllers
                 YelpId= data.id,
                 Name = data.name,
                 Image_Url = data.image_url,
+                YelpRating = data.rating,
                 Phone = data.phone,
                 Address = data.location.address1,
                 City = data.location.city,
