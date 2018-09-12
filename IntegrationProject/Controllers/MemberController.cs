@@ -153,9 +153,9 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
+                member.Answer = GetCheckLists(member.Answer);
                 try
                 {
                     _context.Update(member);
