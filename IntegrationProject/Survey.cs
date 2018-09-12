@@ -26,14 +26,13 @@ namespace IntegrationProject
             {"Moderate", 3 },
             {"Expensive", 4 }
         };
-        public static Dictionary<string, double> ACTIVITIES { get; } = new Dictionary<string, double>()
+        public static List<Activity> ACTIVITIES { get; } = new List<Activity>()
         {
-            {"Sports", 1 },
-            {"Dancing", 2 },
-            {"Bar Games", 3 },
-            {"Themed Bars", 4 },
-            {"Patio", 5 },
-            {"Lounge", 6 }
+            new Activity(){Type = "Sports"},
+            new Activity(){Type = "Dancing"},
+            new Activity(){Type = "Themed Bars"},
+            new Activity(){Type = "Patio"},
+            new Activity(){Type = "Lounge"}
         };
         public static List<Drink> DRINKS { get; } = new List<Drink>()
         {
@@ -43,10 +42,11 @@ namespace IntegrationProject
             new Drink(){Type = "Anything to get Drunk" },
             new Drink(){Type = "Anything Cheap" }
         };
-        public static Dictionary<string, double> FOODS { get; } = new Dictionary<string, double>()
+        public static List<Food> FOODS { get; } = new List<Food>()
         {
-            {"Full Meals", 1 },
-            {"Appetizers", 2 }
+            new Food(){Type = "Full Meals"},
+            new Food(){Type = "Appetizers"},
+            new Food(){Type = "Brunch"},
         };
         public static Dictionary<string, double> TIMEOFDAY { get; } = new Dictionary<string, double>()
         {
@@ -54,14 +54,14 @@ namespace IntegrationProject
             {"Night", 2 },
             {"Both", 3 }
         };
-        public static Dictionary<string, double> MUSIC { get; } = new Dictionary<string, double>()
+        public static List<Music> MUSICS { get; } = new List<Music>()
         {
-            {"Country", 1 },
-            {"Rock", 2 },
-            {"Hip-Hop", 3 },
-            {"Jukebox", 1 },
-            {"Top 20", 2 },
-            {"Intellectual", 3 }
+            new Music(){Type= "Country"},
+            new Music(){Type= "Rock"},
+            new Music(){Type= "Hip-Hop"},
+            new Music(){Type= "Jukebox"},
+            new Music(){Type= "Top 20"},
+            new Music(){Type= "Intellectual"}
         };
         public static Dictionary<string, double> DRESSCODE { get; } = new Dictionary<string, double>()
         {

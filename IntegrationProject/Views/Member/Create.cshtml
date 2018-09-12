@@ -26,10 +26,10 @@
 
             <div class="form-group">
                 <label asp-for="Answer.Activities" class="control-label">Please select your favorite activities for a bar (Check all that apply).</label>
-                @foreach (var item in Survey.ACTIVITIES)
+                @for (var i = 0; i < Survey.ACTIVITIES.Count; i++)
                 {
                     <div class="checkbox">
-                        <label><input asp-for="Answer.Activities" type="checkbox" value="@item.Value" /> @item.Key</label>
+                        <label class="control-label"><input asp-for="Answer.Activities[i].Checked" type="checkbox" /> @Survey.ACTIVITIES[i].Type</label>
                     </div>
                 }
             </div>
@@ -40,7 +40,7 @@
                 @for (var i = 0; i < Survey.DRINKS.Count; i++)
                 {
                     <div class="checkbox">
-                        <label><input asp-for="Answer.Drinks[i].Checked" type="checkbox" /> @Survey.DRINKS[i].Type</label>
+                        <label class="control-label"><input asp-for="Answer.Drinks[i].Checked" type="checkbox" /> @Survey.DRINKS[i].Type</label>
                     </div>
 
                 }
@@ -48,10 +48,10 @@
 
             <div class="form-group">
                 <label asp-for="Answer.Foods" class="control-label">Please select your favorite food options for a bar (Check all that apply).</label>
-                @foreach (var item in Survey.FOODS)
+                @for (var i =0; i < Survey.FOODS.Count; i++)
                 {
                     <div class="checkbox">
-                        <label><input asp-for="Answer.Foods" type="checkbox"  value="@item.Value" /> @item.Key</label>
+                        <label class="control-label"><input asp-for="Answer.Foods[i].Checked" type="checkbox" /> @Survey.FOODS[i].Type</label>
                     </div>
                 }
             </div>
@@ -69,19 +69,14 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Answer.Music" class="control-label">Please select your favorite music options for a bar (Check all that apply).</label>
-                @{
-                    List<string> checkboxAnswers = new List<string>() { };
-                    foreach (var item in Survey.MUSIC)
-                    {
-                        <div class="checkbox">
-                            <label><input asp-for="Answer.Music" class ="music" type="checkbox" value="@item.Value" /> @item.Key</label>
-                        </div>
+                <label asp-for="Answer.Musics" class="control-label">Please select your favorite music options for a bar (Check all that apply).</label>
+                @for (var i = 0; i < Survey.MUSICS.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label><input asp-for="Answer.Musics[i].Checked" class ="music" type="checkbox" /> @Survey.MUSICS[i].Type</label>
+                    </div>
                         
-                    }
-                    
                 }
-
             </div>
 
             <div class="form-group">
