@@ -23,10 +23,10 @@ namespace IntegrationProject.Models
         public string Zipcode { get; set; }
 
         [ForeignKey("Admin")]
-        public int AdminId { get; set; }
+        public int? AdminId { get; set; }
         public Admin Admin { get; set; }
         [ForeignKey("Answer")]
-        public int AnswerId { get; set; }
+        public int? AnswerId { get; set; }
         public Answer Answer { get; set; }
     }
 }

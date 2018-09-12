@@ -23,7 +23,7 @@ namespace IntegrationProject
         
         private static int GetBarAnswersId(Bar bar)
         {
-            int barAnswers = bar.AnswerId;
+            int barAnswers = 1;
             return barAnswers;
         }
 
