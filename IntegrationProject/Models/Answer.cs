@@ -13,14 +13,22 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public double People { get; set; }
         public double Price { get; set; }
+        [Display(Name = "Activity Preferences")]
         public List<ActivityItem> Activities { get; set; }
+        [Display(Name = "Drink Preferences")]
         public List<Drink> Drinks { get; set; }
+        [Display(Name = "Food Preferences")]
         public List<Food> Foods { get; set; }
         public double SitDown { get; set; }
+        [Display(Name="Time of Day")]
         public double TimeOfDay { get; set; }
+        [Display(Name = "Music Preferences")]
         public List<Music> Musics { get; set; }
+        [Display(Name = "Dresscode Strictness")]
         public double DressCode { get; set; }
+        [Display(Name = "Age Group")]
         public double Age { get; set; }
+        [Display(Name = "Favorite Bar Aspect")]
         public int Master { get; set; }
 
     }
