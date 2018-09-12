@@ -22,7 +22,7 @@ namespace IntegrationProject.Controllers
         // GET: Admins
         public async Task<IActionResult> Index()
         {
-            bool shouldCreateBars = true;
+            bool shouldCreateBars = false;
             if (shouldCreateBars == true)
             {
                
