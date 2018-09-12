@@ -25,15 +25,13 @@ namespace IntegrationProject.Controllers
             var applicationDbContext = _context.Bars.Include(b => b.Admin).Include(b => b.Answer);
             return View(await applicationDbContext.ToListAsync());
         }
-        [HttpPost]
         public IActionResult Details(int barId)
         {
             var bar = _context.Bars.Find(barId);
             return View(bar);
         }
         // GET: Bars/Details/5
-        [HttpGet]
-        public void Details(string id)
+        public void SetBar(string id)
         {
             var yelpData = JsonParser.ParseYelpSearchBar(id);
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
