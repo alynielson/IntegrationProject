@@ -20,7 +20,9 @@ namespace IntegrationProject
             List<double> memberDoubleAnswers = GetAnswersForDoubleQuestions(memberAnswers);
             List<int> maxPerDoubleQuestion = GetNumberOfAnswersPerQuestion();
             List<double> pointsForDoubleQuestions = GetPointsForDoubleQuestions(pointsPerQuestion, barDoubleAnswers, memberDoubleAnswers, maxPerDoubleQuestion);
-
+            List<List<string>> barListAnswers = GetAnswersForListQuestions(barAnswers);
+            List<List<string>> memberListAnswers = GetAnswersForListQuestions(memberAnswers);
+            List<double> pointsForListQuestions = GetPointsForListQuestions(pointsPerQuestion, barListAnswers, memberListAnswers);
         }
 
        private static double GetPointsPerQuestion()
@@ -105,8 +107,43 @@ namespace IntegrationProject
             return heaviestWeightQuestion;
         }
 
-       
+       private static List<List<string>> GetAnswersForListQuestions(Answer answers)
+        {
+            List<List<string>> stringAnswers = new List<List<string>>
+            {
+                answers.Activities.Select(a => a.Type).ToList(),
+                answers.Drinks.Select(d => d.Type).ToList(),
+                answers.Foods.Select(f => f.Type).ToList(),
+                answers.Musics.Select(m => m.Type).ToList()
+            };
+            return stringAnswers;
+        }
 
-       
+       private static List<double> GetPointsForListQuestions(double pointsPerQuestion, List<List<string>> barListAnswers, List<List<string>> memberListAnswers)
+        {
+            List<double> pointsForListQuestions = new List<double> { };
+            for (int i = 0; i < memberListAnswers.Count; i++)
+            {
+                double pointsForOneQuestion = GetPointsForOneListQuestion(pointsPerQuestion, barListAnswers[i], memberListAnswers[i]);
+                pointsForListQuestions.Add(pointsForOneQuestion);
+            }
+            return pointsForListQuestions;
+
+        }
+
+        private static double GetPointsForOneListQuestion(double pointsPerQuestion, List<string> barAnswer, List<string> memberAnswer)
+        {
+            int maxMatches = barAnswer.Count;
+            int matches = 0;
+            for (int i = 0; i < memberAnswer.Count; i++)
+            {
+                if (barAnswer.Contains(memberAnswer[i]))
+                {
+                    matches++;
+                }
+            }
+            double matchPercent = matches / maxMatches;
+            return matchPercent * pointsPerQuestion;
+        }
     }
 }
