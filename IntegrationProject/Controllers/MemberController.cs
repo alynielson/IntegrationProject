@@ -66,8 +66,7 @@ namespace IntegrationProject.Controllers
             if (ModelState.IsValid)
             {
                 var user = (await _userManager.GetUserAsync(HttpContext.User));
-                member.Answer.Drinks = GetDrinks(member.Answer.Drinks);
-                member.Answer.Drinks = member.Answer.Drinks.Where(drink => drink.Checked == true).ToList();
+                member.Answer = GetCheckLists(member.Answer);
                 member.ApplicationUserId = user?.Id;
                 member.Name = user?.Email;
                 _context.Add(member);
@@ -84,9 +83,44 @@ namespace IntegrationProject.Controllers
             {
                 memberDrinks[i].Type = Survey.DRINKS[i].Type;
             }
-            return memberDrinks;
-
-        } 
+            var filteredDrinks = memberDrinks.Where(drink => drink.Checked == true).ToList();
+            return filteredDrinks;
+        }
+        private List<Food> GetFoods(List<Food> memberFoods)
+        {
+            for (int i = 0; i < Survey.FOODS.Count; i++)
+            {
+                memberFoods[i].Type = Survey.FOODS[i].Type;
+            }
+            var filteredFoods = memberFoods.Where(food => food.Checked == true).ToList();
+            return filteredFoods;
+        }
+        private List<Activity> GetActivities(List<Activity> memberActivities)
+        {
+            for (int i = 0; i < Survey.ACTIVITIES.Count; i++)
+            {
+                memberActivities[i].Type = Survey.ACTIVITIES[i].Type;
+            }
+            var filteredActivities = memberActivities.Where(activity => activity.Checked == true).ToList();
+            return filteredActivities;
+        }
+        private List<Music> GetMusics(List<Music> memberMusics)
+        {
+            for (int i = 0; i < Survey.MUSICS.Count; i++)
+            {
+                memberMusics[i].Type = Survey.MUSICS[i].Type;
+            }
+            var filteredMusics = memberMusics.Where(music => music.Checked == true).ToList();
+            return filteredMusics;
+        }
+        private Answer GetCheckLists(Answer answer)
+        {
+            answer.Drinks = GetDrinks(answer.Drinks);
+            answer.Foods = GetFoods(answer.Foods);
+            answer.Activities = GetActivities(answer.Activities);
+            answer.Musics = GetMusics(answer.Musics);
+            return answer;
+        }
 
         // GET: Member/Edit/5
         public async Task<IActionResult> Edit(int? id)
