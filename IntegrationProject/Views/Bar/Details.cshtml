@@ -5,7 +5,7 @@
 }
 
 <h2>@(Model.Name)</h2> 
-<img class="dl-horizontal" src="@(Model.Image_Url)"/>
+<img class="dl-horizontal" src="@(Model.Image_Url)" height="240" width="360"/>
 <div>
     <h4>Bar</h4>
     <hr />
@@ -32,7 +32,7 @@
             @Html.DisplayNameFor(model => model.Phone)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Phone)
+            @Html.DisplayFor(model => Convert.ToInt32(model.Phone))
         </dd>
     </dl>
 </div>
