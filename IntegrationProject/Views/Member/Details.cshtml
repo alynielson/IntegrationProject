@@ -89,13 +89,6 @@
         <dd>
             @Survey.AGE.SingleOrDefault(age => age.Value == Model.Answer.Age).Key
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Answer.Master)
-        </dt>
-        <dd>
-            @Survey.MASTER.SingleOrDefault(master => master.Value == Model.Answer.Master).Key
-        </dd>
-
     </dl>
 </div>
 <div>
