@@ -5,23 +5,11 @@
 }
 
 <h2>@(Model.Name)</h2> 
-<img class="dl-horizontal" src=@(Model.Image_Url)/>
+<img class="dl-horizontal" src="@(Model.Image_Url)"/>
 <div>
     <h4>Bar</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Admin)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Admin.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Answer)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Answer.Id)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
