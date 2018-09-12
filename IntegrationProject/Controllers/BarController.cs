@@ -29,8 +29,8 @@ namespace IntegrationProject.Controllers
         // GET: Bars/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            var yelpData = JsonParser.ParseYelpSearch();
-            var business = yelpData.businesses.ToList();
+            var yelpData = JsonParser.ParseYelpSearchBar(id);
+            var details = _context.Bars.SingleOrDefaultAsync(b => b.YelpId == id);
             if (id == null)
             {
                 return NotFound();
