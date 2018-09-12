@@ -59,15 +59,10 @@ namespace IntegrationProject
 
         private static double GetMatchValueForDoubleQuestion(double pointsPerQuestion, double barAnswer, double memberAnswer, int max)
         {
-            if (barAnswer == memberAnswer)
-            {
-                return pointsPerQuestion;
-            }
-            else
-            {
-                
-            }
-            return 2;
+            int maxDifference = max - 1;
+            double percentMatch = (maxDifference - Math.Abs(barAnswer - memberAnswer)) / maxDifference;
+            double points = pointsPerQuestion * percentMatch;
+            return points;
         }
         
         private static int GetBarAnswersId(Bar bar)
