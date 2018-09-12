@@ -30,7 +30,7 @@
                 @for (var i = 0; i < Survey.ACTIVITIES.Count; i++)
                 {
                     <div class="checkbox">
-                        <label class="control-label"><input asp-for="Answer.Activities[i].Checked" type="checkbox" checked="@(Model.Answer.Activities[i].Checked)"> @Survey.ACTIVITIES[i].Type</label>
+                        <label class="control-label"><input asp-for="Answer.Activities[i].Checked" type="checkbox" /> @Survey.ACTIVITIES[i].Type</label>
                     </div>
                 }
             </div>
@@ -41,7 +41,7 @@
                 @for (var i = 0; i < Survey.DRINKS.Count; i++)
                 {
                     <div class="checkbox">
-                        <label class="control-label"><input asp-for="Answer.Drinks[i].Checked" type="checkbox" checked="@(Model.Answer.Drinks[i].Checked)" /> @Survey.DRINKS[i].Type</label>
+                        <label class="control-label"><input asp-for="Answer.Drinks[i].Checked" type="checkbox" /> @Survey.DRINKS[i].Type</label>
                     </div>
 
                 }
@@ -52,7 +52,7 @@
                 @for (var i = 0; i < Survey.FOODS.Count; i++)
                 {
                     <div class="checkbox">
-                        <label class="control-label"><input asp-for="Answer.Foods[i].Checked" type="checkbox" checked="@(Model.Answer.Foods[i].Checked)"/> @Survey.FOODS[i].Type</label>
+                        <label class="control-label"><input asp-for="Answer.Foods[i].Checked" type="checkbox" /> @Survey.FOODS[i].Type</label>
                     </div>
                 }
             </div>
@@ -74,7 +74,7 @@
                 @for (var i = 0; i < Survey.MUSICS.Count; i++)
                 {
                     <div class="checkbox">
-                        <label><input asp-for="Answer.Musics[i].Checked" class="music" type="checkbox" checked="@(Model.Answer.Musics[i].Checked)"/> @Survey.MUSICS[i].Type</label>
+                        <label><input asp-for="Answer.Musics[i].Checked" class="music" type="checkbox" /> @Survey.MUSICS[i].Type</label>
                     </div>
 
                 }
