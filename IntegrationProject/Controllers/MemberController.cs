@@ -149,16 +149,15 @@ namespace IntegrationProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Answer")] Member member)
         {
-            if (id != member.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(member);
+                    var memberToUpdate = _context.Members.Find(id);
+                    memberToUpdate.Answer = member.Answer;
+                    memberToUpdate.Answer = GetCheckLists(memberToUpdate.Answer);
+                    _context.Update(memberToUpdate);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

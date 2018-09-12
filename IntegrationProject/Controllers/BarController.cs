@@ -27,7 +27,7 @@ namespace IntegrationProject.Controllers
         }
         public IActionResult Details(int barId)
         {
-            Bar bar = _context.Bars.Find(barId);
+            var bar = _context.Bars.Find(barId);
             return View(bar);
         }
         // GET: Bars/Details/5
