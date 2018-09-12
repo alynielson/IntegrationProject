@@ -210,6 +210,8 @@ namespace IntegrationProject.Controllers
         {
             var member = await _context.Members.FindAsync(id);
             var userToRemove = _context.Users.SingleOrDefault(user => user.Id == member.ApplicationUserId);
+            var answerToRemove = _context.Answers.SingleOrDefault(answer => answer.Id == member.AnswerId);
+            _context.Answers.Remove(answerToRemove);
             _context.Users.Remove(userToRemove);
             _context.Members.Remove(member);
             await _context.SaveChangesAsync();
