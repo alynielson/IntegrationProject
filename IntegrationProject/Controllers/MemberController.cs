@@ -209,6 +209,8 @@ namespace IntegrationProject.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var member = await _context.Members.FindAsync(id);
+            var userToRemove = _context.Users.SingleOrDefault(user => user.Id == member.ApplicationUserId);
+            _context.Users.Remove(userToRemove);
             _context.Members.Remove(member);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
