@@ -4,39 +4,22 @@ using IntegrationProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IntegrationProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180912153859_AddNameToBarModel")]
+    partial class AddNameToBarModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("IntegrationProject.Models.ActivityItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AnswerId");
-
-                    b.Property<bool>("Checked");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.ToTable("ActivityItem");
-                });
 
             modelBuilder.Entity("IntegrationProject.Models.Admin", b =>
                 {
@@ -61,11 +44,17 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Activities");
+
                     b.Property<double>("Age");
 
                     b.Property<double>("DressCode");
 
+                    b.Property<string>("Foods");
+
                     b.Property<int>("Master");
+
+                    b.Property<string>("Music");
 
                     b.Property<double>("People");
 
@@ -173,25 +162,6 @@ namespace IntegrationProject.Migrations
                     b.ToTable("Drink");
                 });
 
-            modelBuilder.Entity("IntegrationProject.Models.Food", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AnswerId");
-
-                    b.Property<bool>("Checked");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.ToTable("Food");
-                });
-
             modelBuilder.Entity("IntegrationProject.Models.Match", b =>
                 {
                     b.Property<int>("Id")
@@ -232,25 +202,6 @@ namespace IntegrationProject.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Members");
-                });
-
-            modelBuilder.Entity("IntegrationProject.Models.Music", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AnswerId");
-
-                    b.Property<bool>("Checked");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.ToTable("Music");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -363,13 +314,6 @@ namespace IntegrationProject.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("IntegrationProject.Models.ActivityItem", b =>
-                {
-                    b.HasOne("IntegrationProject.Models.Answer")
-                        .WithMany("Activities")
-                        .HasForeignKey("AnswerId");
-                });
-
             modelBuilder.Entity("IntegrationProject.Models.Admin", b =>
                 {
                     b.HasOne("IntegrationProject.Models.ApplicationUser", "ApplicationUser")
@@ -397,13 +341,6 @@ namespace IntegrationProject.Migrations
                         .HasForeignKey("AnswerId");
                 });
 
-            modelBuilder.Entity("IntegrationProject.Models.Food", b =>
-                {
-                    b.HasOne("IntegrationProject.Models.Answer")
-                        .WithMany("Foods")
-                        .HasForeignKey("AnswerId");
-                });
-
             modelBuilder.Entity("IntegrationProject.Models.Match", b =>
                 {
                     b.HasOne("IntegrationProject.Models.Bar", "Bar")
@@ -425,13 +362,6 @@ namespace IntegrationProject.Migrations
                     b.HasOne("IntegrationProject.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("IntegrationProject.Models.Music", b =>
-                {
-                    b.HasOne("IntegrationProject.Models.Answer")
-                        .WithMany("Musics")
-                        .HasForeignKey("AnswerId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

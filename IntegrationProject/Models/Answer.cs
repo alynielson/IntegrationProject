@@ -13,7 +13,7 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public double People { get; set; }
         public double Price { get; set; }
-        public List<Activity> Activities { get; set; }
+        public List<ActivityItem> Activities { get; set; }
         public List<Drink> Drinks { get; set; }
         public List<Food> Foods { get; set; }
         public double SitDown { get; set; }
@@ -40,7 +40,7 @@ namespace IntegrationProject.Models
         public bool Checked { get; set; }
     }
 
-    public class Activity
+    public class ActivityItem
     {
         [Key]
         public int Id { get; set; }

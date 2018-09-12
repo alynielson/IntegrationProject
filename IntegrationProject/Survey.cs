@@ -26,13 +26,13 @@ namespace IntegrationProject
             {"Moderate", 3 },
             {"Expensive", 4 }
         };
-        public static List<Activity> ACTIVITIES { get; } = new List<Activity>()
+        public static List<ActivityItem> ACTIVITIES { get; } = new List<ActivityItem>()
         {
-            new Activity(){Type = "Sports"},
-            new Activity(){Type = "Dancing"},
-            new Activity(){Type = "Themed Bars"},
-            new Activity(){Type = "Patio"},
-            new Activity(){Type = "Lounge"}
+            new ActivityItem(){Type = "Sports"},
+            new ActivityItem(){Type = "Dancing"},
+            new ActivityItem(){Type = "Themed Bars"},
+            new ActivityItem(){Type = "Patio"},
+            new ActivityItem(){Type = "Lounge"}
         };
         public static List<Drink> DRINKS { get; } = new List<Drink>()
         {
