@@ -23,10 +23,15 @@ namespace IntegrationProject
         {
             int numberOfQuestions = 10;
             int totalPoints = 100;
-            return totalPoints / numberOfQuestions;
+            return Convert.ToDouble(totalPoints / numberOfQuestions);
         }
 
         
+
+        private static double GetMatchValueForDoubleQuestion(double pointsPerQuestion, double barAnswer, double memberAnswer)
+        {
+            return 2;
+        }
         
         private static int GetBarAnswersId(Bar bar)
         {
