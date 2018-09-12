@@ -35,7 +35,6 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-
             var member = await _context.Members
                 .Include(m => m.Answer)
                 .Include(m => m.ApplicationUser)
