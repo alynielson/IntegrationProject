@@ -35,16 +35,18 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-
             var member = await _context.Members
                 .Include(m => m.Answer)
                 .Include(m => m.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            member.Answer.Activities = _context.Answers.Single(answer => answer.Id == member.AnswerId).Activities;
+            member.Answer.Drinks = _context.Answers.Single(answer => answer.Id == member.AnswerId).Drinks;
+            member.Answer.Foods = _context.Answers.Single(answer => answer.Id == member.AnswerId).Foods;
+            member.Answer.Musics = _context.Answers.Single(answer => answer.Id == member.AnswerId).Musics;
             if (member == null)
             {
                 return NotFound();
             }
-
             return View(member);
         }
 
