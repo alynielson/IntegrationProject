@@ -12,6 +12,9 @@ namespace IntegrationProject.Models
         [Key]
         public int Id { get; set; }
         public string YelpId { get; set; }
+
+        public string Name { get; set; }
+
         [ForeignKey("Admin")]
         public int AdminId { get; set; }
         public Admin Admin { get; set; }
