@@ -151,7 +151,7 @@ namespace IntegrationProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                member.Answer = GetCheckLists(member.Answer);
+                
                 try
                 {
                     var memberToUpdate = _context.Members.Find(id);
