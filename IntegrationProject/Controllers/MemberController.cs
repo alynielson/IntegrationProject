@@ -95,7 +95,7 @@ namespace IntegrationProject.Controllers
             var filteredFoods = memberFoods.Where(food => food.Checked == true).ToList();
             return filteredFoods;
         }
-        private List<Activity> GetActivities(List<Activity> memberActivities)
+        private List<ActivityItem> GetActivities(List<ActivityItem> memberActivities)
         {
             for (int i = 0; i < Survey.ACTIVITIES.Count; i++)
             {

@@ -19,7 +19,7 @@ namespace IntegrationProject
 
         }
 
-
+       
         
         private static int GetBarAnswersId(Bar bar)
         {
