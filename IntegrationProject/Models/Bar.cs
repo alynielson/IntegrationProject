@@ -14,7 +14,9 @@ namespace IntegrationProject.Models
         public string YelpId { get; set; }
 
         public string Name { get; set; }
-
+        public double YelpRating { get; set; }
+        public string Phone { get; set; }
+        
         [ForeignKey("Admin")]
         public int AdminId { get; set; }
         public Admin Admin { get; set; }

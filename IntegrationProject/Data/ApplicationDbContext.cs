@@ -16,6 +16,10 @@ namespace IntegrationProject.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet <Match> Matches { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<Drink> Drinks { get; set; }
+        public DbSet<ActivityItem> Activities { get; set; }
+        public DbSet<Food> Foods { get; set; }
+        public DbSet<Music> Musics { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
