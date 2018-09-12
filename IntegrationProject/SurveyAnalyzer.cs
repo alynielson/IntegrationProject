@@ -18,7 +18,7 @@ namespace IntegrationProject
             double pointsPerQuestion = GetPointsPerQuestion();
             List<double> barDoubleAnswers = GetAnswersForDoubleQuestions(barAnswers);
             List<double> memberDoubleAnswers = GetAnswersForDoubleQuestions(memberAnswers);
-
+            List<int> maxPerDoubleQuestion = GetNumberOfAnswersPerQuestion();
         }
 
        private static double GetPointsPerQuestion()
