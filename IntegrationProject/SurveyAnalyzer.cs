@@ -27,11 +27,61 @@ namespace IntegrationProject
             List<double> pointsForListQuestions = GetPointsForListQuestions(pointsPerQuestion, barListAnswers, memberListAnswers);
             List<double> pointsForAllQuestions = PutListsTogether(pointsForDoubleQuestions, pointsForListQuestions);
             int heaviestWeightIndex = GetHeaviestWeightedIndex(memberAnswers);
+            List<double> weightedPoints = AssignQuestionWeights(pointsForAllQuestions, heaviestWeightIndex, totalPoints, numberOfQuestions);
+            double matchValue = GetSum(weightedPoints);
+            SendMatchValueToDb(bar, member, context, matchValue);
         }
 
+        public static void GetNewMemberMatchResults(Member member, ApplicationDbContext context)
+        {
+            List<Bar> bars = context.Bars.Select(b => b).ToList();
+            foreach (Bar bar in bars)
+            {
+                GetMatchResults(bar, member, context);
+            }
+        }
+
+        public static void GetMatchResultsForNewBar(Bar bar, ApplicationDbContext context)
+        {
+            List<Member> members = context.Members.Select(m => m).ToList();
+            foreach (Member member in members)
+            {
+                GetMatchResults(bar, member, context);
+            }
+        }
+
+        private static void SendMatchValueToDb(Bar bar, Member member, ApplicationDbContext context, double matchValue)
+        {
+            Match newMatch = new Match();
+            newMatch.Score = matchValue;
+            newMatch.BarId = bar.Id;
+            newMatch.MemberId = member.Id;
+            context.Matches.Add(newMatch);
+            context.SaveChanges();
+        }
+        private static double GetSum(List<double> weightedPoints)
+        {
+            return Math.Round(weightedPoints.Sum(p => p),2);
+        }
         private static List<double> AssignQuestionWeights(List<double> pointsForAllQuestions, int heaviestWeightIndex, int totalPoints, int numberOfQuestions)
         {
-            return new List<double> { 1 };
+            double currentWeightOfQuestions = numberOfQuestions / totalPoints;
+            int weightOfHeaviestQuestion = 20;
+            double amountToMultiplyHeaviest = weightOfHeaviestQuestion / currentWeightOfQuestions;
+            double amountToMultiplyOthers = (totalPoints - (weightOfHeaviestQuestion * totalPoints / 100) / (numberOfQuestions - 1))/totalPoints;
+            for (int i = 0; i < pointsForAllQuestions.Count; i++)
+            {
+                if (i == heaviestWeightIndex)
+                {
+                    pointsForAllQuestions[i] = pointsForAllQuestions[i] * amountToMultiplyHeaviest;
+                }
+                else
+                {
+                    pointsForAllQuestions[i] = pointsForAllQuestions[i] * amountToMultiplyOthers;
+                }
+            }
+            return pointsForAllQuestions;
+
         }
 
         private static List<double> PutListsTogether(List<double> pointsForDoubleQuestions, List<double> pointsForListQuestions)
