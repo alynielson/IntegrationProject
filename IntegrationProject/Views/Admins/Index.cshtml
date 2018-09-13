@@ -56,9 +56,18 @@
                 {
                     <td>Completed</td>
                 }
-            <td>
-                
-            </td>
+            
+                 @if (item.bar.AnswerId == null)
+                {
+                    <td><a class="btn btn-default" asp-action="DoSurvey" asp-route-id="@item.bar.Id">Fill out survey</a></td>
+
+                }
+                else
+                {
+                    <td><a class="btn btn-default" asp-action="DoSurvey" asp-route-id="@item.bar.Id">Retake survey</a></td>
+                }
+                 
+            
             
                 @Html.HiddenFor(modelItem => item.adminName)
                 @if (item.adminName == null)
