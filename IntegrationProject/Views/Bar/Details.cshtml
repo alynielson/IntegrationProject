@@ -60,20 +60,17 @@
         </dd>
     </dl>
 </div>
-<div>
-    <form asp-action="Edit">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
-        <div class="form-group">
-            <label asp-for="Comments" class="control-label"></label>
-            <input asp-for="Comments" class="form-control" />
-            <span asp-validation-for="Comments" class="text-danger"></span>
-        </div>
-        <div>
-            <INPUT TYPE="button" onClick="history.go()" VALUE="Refresh">
-        </div>
-    </form>
-</div>
+<form asp-action="AddReview" asp-controller="Bar" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger">
+    </div>
+    <div class="form-group">
+        <label asp-for="Comments" class="control-label"></label>
+        <textarea asp-for="Comments" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+</form>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

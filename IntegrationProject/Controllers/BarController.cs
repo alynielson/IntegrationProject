@@ -190,5 +190,18 @@ namespace IntegrationProject.Controllers
         {
             return _context.Bars.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddReview(int id, string input)
+        {
+            var bar = _context.Bars.Find(id);
+            var newComment = new Comment();
+            newComment.userComment = input;
+            bar.Comments.Add(newComment);
+            _context.Add(newComment);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
     }
 }
