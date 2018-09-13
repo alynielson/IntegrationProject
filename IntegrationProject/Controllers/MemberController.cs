@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using IntegrationProject.Data;
 using IntegrationProject.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 
 namespace IntegrationProject.Controllers
 {
@@ -106,17 +105,21 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormCollection form)
+        public async Task<IActionResult> Edit(int id, [Bind("Answer")] Member member)
         {
             if (ModelState.IsValid)
             {
                 
-                //try
-                //{
+                try
+                {
                     var memberToUpdate = _context.Members.Find(id);
                     var currentAnswer = _context.Answers.Find(memberToUpdate.AnswerId);
-                    currentAnswer = Survey.GetCheckLists(memberToUpdate.Answer);
-                    _context.Answers.Update(currentAnswer);
+                    _context.Answers.Remove(currentAnswer);
+                    Answer newAnswer = new Answer();
+                    newAnswer = member.Answer;
+                    _context.Answers.Add(newAnswer);
+                    _context.SaveChanges();
+                   
                     var matchesToDelete = _context.Matches.Where(c => c.MemberId == memberToUpdate.Id);
                     if (matchesToDelete.Count() > 0)
                     {
@@ -125,23 +128,27 @@ namespace IntegrationProject.Controllers
                             _context.Matches.Remove(match);
                         }
                     }
+
+                    
+                    memberToUpdate.Answer = Survey.GetCheckLists(memberToUpdate.Answer);
+                    _context.Update(memberToUpdate);
+                    
                     await _context.SaveChangesAsync();
-                    SurveyAnalyzer.GetNewMemberMatchResults(memberToUpdate, _context);
-               // }
-                //catch (DbUpdateConcurrencyException)
-                //{
-                //    if (!MemberExists(Mode.Id))
-                //    {
-                //        return NotFound();
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                //}
+                    SurveyAnalyzer.GetNewMemberMatchResults(member, _context);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MemberExists(member.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            var member = _context.Members.Find(id);
             return View(member);
         }
 

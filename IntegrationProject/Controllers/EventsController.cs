@@ -48,7 +48,7 @@ namespace IntegrationProject.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id");
+           // ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id");
             var yelpData = JsonParser.ParseYelpSearch();
             var businesses = yelpData.businesses.ToList();
             ViewData["Businesses"] = businesses;
