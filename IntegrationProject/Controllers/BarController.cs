@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IntegrationProject.Data;
 using IntegrationProject.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace IntegrationProject.Controllers
 {
@@ -27,12 +28,35 @@ namespace IntegrationProject.Controllers
         }
         public IActionResult Details(int id)
         {
-            var bar = _context.Bars.Find(id);
-            var yelpData = JsonParser.ParseYelpReviews(bar.YelpId);
+            var barToView = _context.Bars.Include(bar => bar.Comments).Include(bar => bar.Ratings).FirstOrDefault(b => b.Id == id);
+            var yelpData = JsonParser.ParseYelpReviews(barToView.YelpId);
             var reviews = yelpData.reviews.Select(review => review.text).ToList();
             ViewData["Reviews"] = reviews;
-            bar.Comments = _context.Comments.Where(c => c.BarId == id).ToList();
-            return View(bar);
+            barToView.Comments = _context.Comments.Where(c => c.BarId == id).ToList();
+            barToView.Ratings = _context.Ratings.Where(rating => rating.BarId == id).ToList();
+            return View(barToView);
+        }
+
+
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult Details(int id, IFormCollection form)
+        {
+            var barToEdit = _context.Bars.Find(id);
+            _context.Comments.Add(new Comment()
+            {
+                userComment = form["Comment"],
+                BarId = barToEdit.Id
+            });
+            _context.Ratings.Add(new Rating()
+            {
+                userRating = int.Parse(form["Rating"]),
+                BarId = barToEdit.Id
+            });
+            
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Details), new { id = id });
         }
         public IActionResult SetBar(string id)
         {
@@ -40,7 +64,7 @@ namespace IntegrationProject.Controllers
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
                 if (bar == null)
             {
-                Bar newBar = CreateBar(yelpData);
+                Bar newBar = BarCreator.CreateBar(yelpData, _context);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
                 return RedirectToAction("Details", "Bar", new { id = barDetails.Id }, null);
             }
@@ -55,24 +79,7 @@ namespace IntegrationProject.Controllers
 
         }
 
-        public Bar CreateBar(Business data)
-        {
-            Bar bar = new Bar()
-            {
-                YelpId= data.id,
-                Name = data.name,
-                Image_Url = data.image_url,
-                YelpRating = data.rating,
-                Phone = data.phone,
-                Address = data.location.address1,
-                City = data.location.city,
-                State = data.location.state,
-                Zipcode = data.location.zip_code
-            };
-            _context.Bars.Add(bar);
-            _context.SaveChanges();
-            return bar;
-        }
+        
          
         // GET: Bars/Create
         public IActionResult Create()
@@ -191,20 +198,8 @@ namespace IntegrationProject.Controllers
             return _context.Bars.Any(e => e.Id == id);
         }
 
-        [HttpPost, ActionName("Details")]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddReview(int id, [Bind("Comments")] Bar bar)
-        {
-            var barToEdit = _context.Bars.Find(id);
-            var newComment = new Comment()
-            {
-                userComment = bar.Comments[0].userComment,
-                BarId = barToEdit.Id
-            };
-            bar.Comments.Add(newComment);
-            _context.Add(newComment);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Details), new { id = id });
-        }
+
+     
+
     }
 }

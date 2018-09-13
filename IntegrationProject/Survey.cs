@@ -91,5 +91,58 @@ namespace IntegrationProject
             {"Dresscode", 9 },
             {"Age Groups", 10 }
         };
+
+        public static Dictionary<string, int> RATING { get; } = new Dictionary<string, int>()
+        {
+            {"Terrible", 1 },
+            {"Bad", 2 },
+            {"Ok", 3 },
+            {"Good", 4 },
+            {"Great", 5 }
+        };
+        public static List<Drink> GetDrinks(List<Drink> memberDrinks)
+        {
+            for (int i = 0; i < Survey.DRINKS.Count; i++)
+            {
+                memberDrinks[i].Type = Survey.DRINKS[i].Type;
+            }
+            var filteredDrinks = memberDrinks.Where(drink => drink.Checked == true).ToList();
+            return filteredDrinks;
+        }
+        public static List<Food> GetFoods(List<Food> memberFoods)
+        {
+            for (int i = 0; i < Survey.FOODS.Count; i++)
+            {
+                memberFoods[i].Type = Survey.FOODS[i].Type;
+            }
+            var filteredFoods = memberFoods.Where(food => food.Checked == true).ToList();
+            return filteredFoods;
+        }
+        public static List<ActivityItem> GetActivities(List<ActivityItem> memberActivities)
+        {
+            for (int i = 0; i < Survey.ACTIVITIES.Count; i++)
+            {
+                memberActivities[i].Type = Survey.ACTIVITIES[i].Type;
+            }
+            var filteredActivities = memberActivities.Where(activity => activity.Checked == true).ToList();
+            return filteredActivities;
+        }
+        public static List<Music> GetMusics(List<Music> memberMusics)
+        {
+            for (int i = 0; i < Survey.MUSICS.Count; i++)
+            {
+                memberMusics[i].Type = Survey.MUSICS[i].Type;
+            }
+            var filteredMusics = memberMusics.Where(music => music.Checked == true).ToList();
+            return filteredMusics;
+        }
+        public static Answer GetCheckLists(Answer answer)
+        {
+            answer.Drinks = GetDrinks(answer.Drinks);
+            answer.Foods = GetFoods(answer.Foods);
+            answer.Activities = GetActivities(answer.Activities);
+            answer.Musics = GetMusics(answer.Musics);
+            return answer;
+        }
     }
 }

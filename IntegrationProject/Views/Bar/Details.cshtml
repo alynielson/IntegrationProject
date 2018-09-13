@@ -38,7 +38,6 @@
             Comments
         </dt>
         <dd>
-
             @foreach (var Item in Model.Comments)
             {
                 <div>
@@ -47,10 +46,20 @@
             }
         </dd>
         <dt>
-           Yelp Reviews
+            Ratings
         </dt>
         <dd>
-
+            @foreach (var Item in Model.Ratings)
+            {
+                <div>
+                    @Item.userRating out of 5
+                </div>
+            }
+        </dd>
+        <dt>
+            Yelp Reviews
+        </dt>
+        <dd>
             @foreach (var Item in ViewBag.Reviews)
             {
                 <div>
@@ -62,19 +71,30 @@
 </div>
 @if (User.IsInRole("Member"))
 {
-<form asp-action="AddReview" asp-controller="Bar" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger">
-    </div>
-    <div class="form-group">
-        <label asp-for="Comments" class="control-label">Add Review</label>
-        <textarea asp-for="Comments" class="form-control" placeholder="Add review"></textarea>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-default" asp-route-id="@(Model.Id)" />
-    </div>
-</form>
+    <hr />
+    <form asp-action="Details" asp-controller="Bar" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+        </div>
+        <div class="form-group">
+            <label asp-for="Ratings" class="control-label">Rating:</label>
+            <select name="Rating" id="Rating" asp-items="Survey.RATING.Select(rating => new SelectListItem { Text = rating.Key, Value = rating.Value.ToString() })" class="form-control"></select>
+            <span asp-validation-for="Ratings" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Comments" class="control-label">Add Review</label>
+            <textarea name="Comment" id="Comment" class="form-control" placeholder="Add review"></textarea>
+            <span asp-validation-for="Comments" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </form>
+
 }
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        @if (User.IsInRole("Admin"))
+        {
+            <span><a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> | </span>
+        }
+        <a asp-action="Index">Back to List</a>
+    </div>
