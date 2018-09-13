@@ -185,12 +185,33 @@ namespace IntegrationProject.Controllers
             return View(bar);
         }
         [HttpPost]
-        public async Task<IActionResult> DoSurvey(Bar bar)
+        public async Task<IActionResult> DoSurvey(int id, [Bind("Answer")] Bar bar)
         {
-            var barToUpdate = await _context.Bars.FindAsync(bar.Id);
-            
+            if (ModelState.IsValid)
+            {
+                var barToUpdate = _context.Bars.Find(id);
+                try
+                {
+                    barToUpdate.Answer = bar.Answer;
+                    barToUpdate.Answer = Survey.GetCheckLists(barToUpdate.Answer);
+                    _context.Update(barToUpdate);
 
-            return RedirectToAction("Index", "Admins") ;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (barToUpdate == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction("Index", "Admins");
         }
     }
 }
