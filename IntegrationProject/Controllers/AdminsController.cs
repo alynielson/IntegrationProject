@@ -161,5 +161,19 @@ namespace IntegrationProject.Controllers
         {
             return _context.Admins.Any(e => e.Id == id);
         }
+        [HttpGet]
+        public async Task<IActionResult> DoSurvey(int id)
+        {
+            var bar = await _context.Bars.FindAsync(id);
+            return View(bar);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DoSurvey(Bar bar)
+        {
+            var barToUpdate = await _context.Bars.FindAsync(bar.Id)
+            
+
+            return RedirectToAction("Index", "Admins") ;
+        }
     }
 }

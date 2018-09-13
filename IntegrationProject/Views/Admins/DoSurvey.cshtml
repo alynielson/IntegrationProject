@@ -1,0 +1,112 @@
+﻿@model IntegrationProject.Models.Bar
+@{
+    ViewData["Title"] = "Survey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<h2>Bar Survey</h2>
+
+<h4>Please fill out the survey so we can send people to your bar!</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-controller="Bar" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Answer.People" class="control-label">Do you enjoy being around lots of people</label>
+                <select asp-for="Answer.People" asp-items="Survey.PEOPLE.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.People" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Price" class="control-label">What is your ideal price range for a bar?</label>
+                <select asp-for="Answer.Price" asp-items="Survey.PRICE.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Activities" class="control-label">Please select your favorite activities for a bar (Check all that apply).</label>
+                @for (var i = 0; i < Survey.ACTIVITIES.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label class="control-label"><input asp-for="Answer.Activities[i].Checked" type="checkbox" /> @Survey.ACTIVITIES[i].Type</label>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Drinks" class="control-label">Please select your favorite drinks at a bar (Check all that apply).</label>
+
+                @for (var i = 0; i < Survey.DRINKS.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label class="control-label"><input asp-for="Answer.Drinks[i].Checked" type="checkbox" /> @Survey.DRINKS[i].Type</label>
+                    </div>
+
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Foods" class="control-label">Please select your favorite food options for a bar (Check all that apply).</label>
+                @for (var i = 0; i < Survey.FOODS.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label class="control-label"><input asp-for="Answer.Foods[i].Checked" type="checkbox" /> @Survey.FOODS[i].Type</label>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.SitDown" class="control-label">Do you prefer to sit down at a bar?</label>
+                <select asp-for="Answer.SitDown" class="form-control" asp-items="Survey.SITDOWN.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })"></select>
+                <span asp-validation-for="Answer.SitDown" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.TimeOfDay" class="control-label">What time of day do you best enjoy bars?</label>
+                <select asp-for="Answer.TimeOfDay" asp-items="Survey.TIMEOFDAY.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.TimeOfDay" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Musics" class="control-label">Please select your favorite music options for a bar (Check all that apply).</label>
+                @for (var i = 0; i < Survey.MUSICS.Count; i++)
+                {
+                    <div class="checkbox">
+                        <label><input asp-for="Answer.Musics[i].Checked" class="music" type="checkbox" /> @Survey.MUSICS[i].Type</label>
+                    </div>
+
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.DressCode" class="control-label">What is your preferred dresscode at a bar?</label>
+                <select asp-for="Answer.DressCode" asp-items="Survey.DRESSCODE.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.DressCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Answer.Age" class="control-label">What is your ideal age range for a bar?</label>
+                <select asp-for="Answer.Age" asp-items="Survey.AGE.Select(Pair => new SelectListItem { Value = Pair.Value.ToString(), Text = Pair.Key })" class="form-control"></select>
+                <span asp-validation-for="Answer.Age" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Admins">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
