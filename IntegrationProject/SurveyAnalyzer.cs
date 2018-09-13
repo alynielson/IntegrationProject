@@ -32,6 +32,24 @@ namespace IntegrationProject
             SendMatchValueToDb(bar, member, context, matchValue);
         }
 
+        public static void GetNewMemberMatchResults(Member member, ApplicationDbContext context)
+        {
+            List<Bar> bars = context.Bars.Select(b => b).ToList();
+            foreach (Bar bar in bars)
+            {
+                GetMatchResults(bar, member, context);
+            }
+        }
+
+        public static void GetMatchResultsForNewBar(Bar bar, ApplicationDbContext context)
+        {
+            List<Member> members = context.Members.Select(m => m).ToList();
+            foreach (Member member in members)
+            {
+                GetMatchResults(bar, member, context);
+            }
+        }
+
         private static void SendMatchValueToDb(Bar bar, Member member, ApplicationDbContext context, double matchValue)
         {
             Match newMatch = new Match();
