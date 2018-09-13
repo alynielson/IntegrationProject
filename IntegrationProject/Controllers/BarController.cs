@@ -193,16 +193,19 @@ namespace IntegrationProject.Controllers
 
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReview(int id, [Bind("Comments")] Bar bar)
+        public ActionResult AddReview(int id,List<Comment> comments)
         {
             var barToEdit = _context.Bars.Find(id);
-            var newComment = new Comment()
+            foreach (Comment comment in comments)
             {
-                userComment = bar.Comments[0].userComment,
-                BarId = barToEdit.Id
-            };
-            bar.Comments.Add(newComment);
-            _context.Add(newComment);
+
+                _context.Add(new Comment()
+                {
+                    userComment = comment.userComment,
+                    BarId = barToEdit.Id
+                });
+                
+            }
             _context.SaveChanges();
             return RedirectToAction(nameof(Details), new { id = id });
         }
