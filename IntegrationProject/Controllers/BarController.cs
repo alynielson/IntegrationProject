@@ -39,7 +39,7 @@ namespace IntegrationProject.Controllers
 
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReview(int id, FormCollection form)
+        public ActionResult Details(int id, IFormCollection form)
         {
             var barToEdit = _context.Bars.Find(id);
             _context.Comments.Add(new Comment()

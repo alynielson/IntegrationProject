@@ -25,9 +25,11 @@ namespace IntegrationProject.Controllers
         // GET: Admins
         public async Task<IActionResult> Index()
         {
-            var admins = _context.Admins.Include(a => a.ApplicationUser).ToList();
+            var user = (await _userManager.GetUserAsync(HttpContext.User));
+            var admin = _context.Admins.SingleOrDefault(a => a.ApplicationUserId == user.Id);
             AdminBarVM viewModel = new AdminBarVM();
-            viewModel.admin = admins[0];
+            viewModel.bars = new List<BarVM>();
+            viewModel.admin = admin;
             SearchResult allBars = JsonParser.ParseYelpSearch();
             for (int i = 0; i < allBars.businesses.Length; i++)
             {
@@ -37,7 +39,12 @@ namespace IntegrationProject.Controllers
                     BarCreator.CreateBar(allBars.businesses[i], _context);
                     bar = _context.Bars.Include(a => a.Admin).SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);
                 }
-                BarVM barVM = new BarVM() { bar = bar, adminName = bar.Admin.Name};
+                BarVM barVM = new BarVM() {};
+                if (bar.AdminId != null)
+                {
+                    barVM.adminName = bar.Admin.Name;
+                }
+                barVM.bar = bar;
                 viewModel.bars.Add(barVM);
             }
             return View(viewModel);

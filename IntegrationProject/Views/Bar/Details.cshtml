@@ -62,12 +62,12 @@
 </div>
 @if (User.IsInRole("Member"))
 {
-<form asp-action="AddReview" asp-controller="Bar" method="post">
+<form asp-action="Details" asp-controller="Bar" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger">
     </div>
     <div class="form-group">
         <label asp-for="Comments" class="control-label">Add Review</label>
-        <textarea asp-for="Comments" class="form-control" placeholder="Add review"></textarea>
+        <textarea asp-for="Comments" class="form-control" placeholder="Add review">Enter Comment Here:</textarea>
     </div>
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-default" />
