@@ -206,6 +206,5 @@ namespace IntegrationProject.Controllers
         {
             return _context.Bars.Any(e => e.Id == id);
         }
-
     }
 }

@@ -14,23 +14,71 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Admin.Name)
+                Bar
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ApplicationUser)
+                Location
             </th>
-            <th></th>
+            <th>
+                Survey Done?
+            </th>
+            <th>
+
+            </th>
+            <th>
+                Current Admin
+            </th>
+            <th>
+
+            </th>
+            <th>
+                Edit
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.bars) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
+                @Html.DisplayFor(modelItem => item.Address)
             </td>
+           
+                @Html.HiddenFor(modelItem => item.AnswerId)
+                @if (item.AnswerId == null)
+                {
+                    <td>No</td>
+
+                }
+                else
+                {
+                    <td>Completed</td>
+                }
+            <td>
+
+            </td>
+            
+                @Html.HiddenFor(modelItem => item.AdminId)
+                @if (item.AdminId == null)
+                {
+                    <td>Needs Admin</td>
+                }
+                else
+                {
+                    @if (item.AdminId == Model.admin.Id)
+                    {
+                        <td>You</td>
+                    }
+                    else
+                    {
+                        <td>Assigned to other</td>
+                    }
+                }
+            <td></td>
+
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

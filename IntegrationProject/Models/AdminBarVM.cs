@@ -10,5 +10,7 @@ namespace IntegrationProject.Models
         public Admin admin { get; set; }
 
         public List<Bar> bars { get; set; }
+
+       
     }
 }

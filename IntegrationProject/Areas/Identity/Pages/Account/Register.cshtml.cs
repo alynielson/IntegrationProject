@@ -72,9 +72,9 @@ namespace IntegrationProject.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    List<string> rolesToAdd = new List<string> { "Member" };
+                    List<string> rolesToAdd = new List<string> { "Admin" };
                     var roleresult = _userManager.AddToRolesAsync(user, rolesToAdd);
-                    _logger.LogInformation("User added to Member role.");
+                    _logger.LogInformation("User added to Admin role.");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return await RedirectToCorrectAction(user);
                 }
@@ -98,7 +98,7 @@ namespace IntegrationProject.Areas.Identity.Pages.Account
                 }
                 else if (await _userManager.IsInRoleAsync(user, "Admin"))
                 {
-                    return RedirectToAction("Index", "Admins");
+                    return RedirectToAction("Create", "Admins");
                 }
                 else
                 {
