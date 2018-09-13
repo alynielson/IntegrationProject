@@ -1,0 +1,51 @@
+﻿@model IntegrationProject.Models.Event
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EventName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EventName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfEvent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfEvent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeOfEvent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimeOfEvent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EventDetails)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EventDetails)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Member)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Member.Id)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
