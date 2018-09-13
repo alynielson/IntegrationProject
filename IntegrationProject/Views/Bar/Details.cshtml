@@ -38,15 +38,41 @@
             Comments
         </dt>
         <dd>
-            
+
             @foreach (var Item in Model.Comments)
             {
                 <div>
-                @Item.userComment</div>
+                    @Item.userComment
+                </div>
+            }
+        </dd>
+        <dt>
+           Yelp Reviews
+        </dt>
+        <dd>
+
+            @foreach (var Item in ViewBag.Reviews)
+            {
+                <div>
+                    @Item
+                </div>
             }
         </dd>
     </dl>
-   
+</div>
+<div>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Comments" class="control-label"></label>
+            <input asp-for="Comments" class="form-control" />
+            <span asp-validation-for="Comments" class="text-danger"></span>
+        </div>
+        <div>
+            <INPUT TYPE="button" onClick="history.go()" VALUE="Refresh">
+        </div>
+    </form>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

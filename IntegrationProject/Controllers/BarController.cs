@@ -28,10 +28,12 @@ namespace IntegrationProject.Controllers
         public IActionResult Details(int barId)
         {
             var bar = _context.Bars.Find(barId);
+            var yelpData = JsonParser.ParseYelpReviews(bar.YelpId);
+            var reviews = yelpData.reviews.Select(review => review.text).ToList();
+            ViewData["Reviews"] = reviews;
             bar.Comments = _context.Comments.Where(c => c.BarId == barId).ToList();
             return View(bar);
         }
-        // GET: Bars/Details/5
         public IActionResult SetBar(string id)
         {
             var yelpData = JsonParser.ParseYelpSearchBar(id);
