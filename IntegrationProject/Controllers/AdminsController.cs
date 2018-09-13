@@ -35,9 +35,10 @@ namespace IntegrationProject.Controllers
                 if (bar == null)
                 {
                     BarCreator.CreateBar(allBars.businesses[i], _context);
-                    bar = _context.Bars.SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);
+                    bar = _context.Bars.Include(a => a.Admin).SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);
                 }
-                
+                BarVM barVM = new BarVM() { bar = bar, adminName = bar.Admin.Name};
+                viewModel.bars.Add(barVM);
             }
             return View(viewModel);
         }

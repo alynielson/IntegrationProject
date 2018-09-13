@@ -40,14 +40,14 @@
 @foreach (var item in Model.bars) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.bar.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address)
+                @Html.DisplayFor(modelItem => item.bar.Address)
             </td>
            
-                @Html.HiddenFor(modelItem => item.AnswerId)
-                @if (item.AnswerId == null)
+                @Html.HiddenFor(modelItem => item.bar.AnswerId)
+                @if (item.bar.AnswerId == null)
                 {
                     <td>No</td>
 
@@ -60,29 +60,29 @@
                 
             </td>
             
-                @Html.HiddenFor(modelItem => item.AdminId)
-                @if (item.AdminId == null)
+                @Html.HiddenFor(modelItem => item.adminName)
+                @if (item.adminName == null)
                 {
                     <td>Needs Admin</td>
                 }
                 else
                 {
-                    @if (item.AdminId == Model.admin.Id)
+                    @if (item.bar.AdminId == Model.admin.Id)
                     {
                         <td>You</td>
                     }
                     else
                     {
-                        <td>Assigned to other</td>
+                        <td>@item.adminName</td>
                     }
                 }
             <td></td>
 
 
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <!----<a asp-action="Edit" asp-route-id="">Edit</a> |
+                <a asp-action="Details" asp-route-id="">Details</a> |
+                <a asp-action="Delete" asp-route-id="">Delete</a>-->
             </td>
         </tr>
 }
