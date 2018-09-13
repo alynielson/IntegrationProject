@@ -9,7 +9,7 @@ namespace IntegrationProject
     {
         public Review[] reviews { get; set; }
         public int total { get; set; }
-        public Language[] possible_languages { get; set; }
+        public string[] possible_languages { get; set; }
     }
 
     public class Review
@@ -17,15 +17,12 @@ namespace IntegrationProject
         public string id { get; set; }
         public string url { get; set; }
         public string text { get; set; }
-        public int rating { get; set; }
+        public double rating { get; set; }
         public string time_created { get; set; }
         public User user { get; set; }
     }
 
-    public class Language
-    {
-        public string language { get; set; }
-    }
+    
 
     public class User
     {
