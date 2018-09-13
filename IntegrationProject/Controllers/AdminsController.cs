@@ -196,12 +196,22 @@ namespace IntegrationProject.Controllers
                     {
                         var currentAnswer = _context.Answers.Find(barToUpdate.AnswerId);
                         _context.Answers.Remove(currentAnswer);
+                        var matchesToDelete = _context.Matches.Where(b => b.BarId == bar.Id);
+                        if (matchesToDelete.Count() >0 )
+                        {
+                            foreach (Match match in matchesToDelete)
+                            {
+                                 _context.Matches.Remove(match);
+                            }
+                        }
+                       
                     }
                     barToUpdate.Answer = bar.Answer;
                     barToUpdate.Answer = Survey.GetCheckLists(barToUpdate.Answer);
                     _context.Update(barToUpdate);
 
                     await _context.SaveChangesAsync();
+                    SurveyAnalyzer.GetMatchResultsForNewBar(bar, _context);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -73,6 +73,7 @@ namespace IntegrationProject.Controllers
                 member.Name = user?.Email;
                 _context.Add(member);
                 await _context.SaveChangesAsync();
+               // SurveyAnalyzer.
                 return RedirectToAction(nameof(Index));
             }
 
