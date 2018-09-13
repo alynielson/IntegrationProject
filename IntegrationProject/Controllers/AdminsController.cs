@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IntegrationProject.Data;
 using IntegrationProject.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace IntegrationProject.Controllers
 {
     public class AdminsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AdminsController(ApplicationDbContext context)
+        public AdminsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Admins
@@ -49,29 +52,26 @@ namespace IntegrationProject.Controllers
             return View(admin);
         }
 
-        // GET: Admins/Create
-        public IActionResult Create()
-        {
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
-
-            return View();
-        }
+        
+       
 
         // POST: Admins/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ApplicationUserId")] Admin admin)
+        [HttpGet]
+        
+        public async Task<IActionResult> Create()
         {
-            if (ModelState.IsValid)
-            {
+            
+                var user = (await _userManager.GetUserAsync(HttpContext.User));
+                Admin admin = new Admin();
+                admin.ApplicationUserId = user.Id;
+                admin.Name = user.Email;
                 _context.Add(admin);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", admin.ApplicationUserId);
-            return View(admin);
+            
+            
         }
 
         // GET: Admins/Edit/5

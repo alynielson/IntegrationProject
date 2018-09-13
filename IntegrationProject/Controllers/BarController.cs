@@ -198,7 +198,8 @@ namespace IntegrationProject.Controllers
             var barToEdit = _context.Bars.Find(id);
             var newComment = new Comment()
             {
-                userComment = bar.Comments[0].userComment
+                userComment = bar.Comments[0].userComment,
+                BarId = barToEdit.Id
             };
             bar.Comments.Add(newComment);
             _context.Add(newComment);
