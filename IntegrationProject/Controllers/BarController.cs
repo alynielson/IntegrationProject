@@ -191,13 +191,15 @@ namespace IntegrationProject.Controllers
             return _context.Bars.Any(e => e.Id == id);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReview(int id, string input)
+        public ActionResult AddReview(int id, [Bind("Comments")] Bar bar)
         {
-            var bar = _context.Bars.Find(id);
-            var newComment = new Comment();
-            newComment.userComment = input;
+            var barToEdit = _context.Bars.Find(id);
+            var newComment = new Comment()
+            {
+                userComment = bar.Comments[0].userComment
+            };
             bar.Comments.Add(newComment);
             _context.Add(newComment);
             _context.SaveChanges();
