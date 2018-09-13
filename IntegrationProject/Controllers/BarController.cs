@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IntegrationProject.Data;
 using IntegrationProject.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace IntegrationProject.Controllers
 {
@@ -38,12 +39,12 @@ namespace IntegrationProject.Controllers
 
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReview(int id, string userComment)
+        public ActionResult AddReview(int id, FormCollection form)
         {
             var barToEdit = _context.Bars.Find(id);
             _context.Comments.Add(new Comment()
             {
-                userComment = userComment,
+                userComment = form["Comments"],
                 BarId = barToEdit.Id
             });
             
