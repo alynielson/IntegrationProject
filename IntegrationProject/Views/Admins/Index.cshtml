@@ -46,18 +46,18 @@
                 @Html.DisplayFor(modelItem => item.bar.Address)
             </td>
            
-                @Html.HiddenFor(modelItem => item.bar.AnswerId)
-                @if (item.bar.AnswerId == null)
+                @Html.HiddenFor(modelItem => item.CompletedSurvey)
+                @if (item.CompletedSurvey == false)
                 {
-                    <td><button class="btn btn-primary">No</button></td>
+                    <td><button class="btn btn-primary disabled" disabled>No</button></td>
 
                 }
                 else
                 {
-                    <td><button class="btn btn-success">Completed</button></td>
+                    <td><button class="btn btn-success disabled" disabled>Completed</button></td>
                 }
             
-                 @if (item.bar.AnswerId == null)
+                 @if (item.CompletedSurvey == false)
                 {
                     <td><a class="btn btn-default" asp-action="DoSurvey" asp-route-id="@item.bar.Id">Fill out survey</a></td>
 

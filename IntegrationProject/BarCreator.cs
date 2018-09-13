@@ -28,8 +28,10 @@ namespace IntegrationProject
 
         public static Bar CreateBar(Business data, ApplicationDbContext context)
         {
+            Answer answer = new Answer();
             Bar bar = new Bar()
             {
+                Answer = answer,
                 YelpId = data.id,
                 Name = data.name,
                 Image_Url = data.image_url,
@@ -42,6 +44,7 @@ namespace IntegrationProject
                 Latitude = Convert.ToString(data.coordinates.latitude),
                 Longitude = Convert.ToString(data.coordinates.longitude)
             };
+            context.Answers.Add(answer);
             context.Bars.Add(bar);
             context.SaveChanges();
             return bar;
