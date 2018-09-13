@@ -192,6 +192,11 @@ namespace IntegrationProject.Controllers
                 var barToUpdate = _context.Bars.Find(id);
                 try
                 {
+                    if (barToUpdate.AnswerId != null)
+                    {
+                        var currentAnswer = _context.Answers.Find(barToUpdate.AnswerId);
+                        _context.Answers.Remove(currentAnswer);
+                    }
                     barToUpdate.Answer = bar.Answer;
                     barToUpdate.Answer = Survey.GetCheckLists(barToUpdate.Answer);
                     _context.Update(barToUpdate);
