@@ -22,14 +22,11 @@ namespace IntegrationProject.Controllers
         // GET: Admins
         public async Task<IActionResult> Index()
         {
-            bool shouldCreateBars = false;
-            if (shouldCreateBars == true)
-            {
-               
-               BarCreator.CreateBars(_context);
-            }
-            var applicationDbContext = _context.Admins.Include(a => a.ApplicationUser);
-            return View(await applicationDbContext.ToListAsync());
+            var admins = _context.Admins.Include(a => a.ApplicationUser).ToList();
+            AdminBarVM viewModel = new AdminBarVM();
+            viewModel.admin = admins[0];
+            viewModel.bars = _context.Bars.Select(b => b).ToList();
+            return View(viewModel);
         }
 
         // GET: Admins/Details/5

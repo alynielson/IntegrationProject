@@ -25,13 +25,13 @@ namespace IntegrationProject.Controllers
             var applicationDbContext = _context.Bars.Include(b => b.Admin).Include(b => b.Answer);
             return View(await applicationDbContext.ToListAsync());
         }
-        public IActionResult Details(int barId)
+        public IActionResult Details(int id)
         {
-            var bar = _context.Bars.Find(barId);
+            var bar = _context.Bars.Find(id);
             var yelpData = JsonParser.ParseYelpReviews(bar.YelpId);
             var reviews = yelpData.reviews.Select(review => review.text).ToList();
             ViewData["Reviews"] = reviews;
-            bar.Comments = _context.Comments.Where(c => c.BarId == barId).ToList();
+            bar.Comments = _context.Comments.Where(c => c.BarId == id).ToList();
             return View(bar);
         }
         public IActionResult SetBar(string id)
@@ -42,11 +42,11 @@ namespace IntegrationProject.Controllers
             {
                 Bar newBar = CreateBar(yelpData);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-                return RedirectToAction("Details", "Bar", new { barId = barDetails.Id }, null);
+                return RedirectToAction("Details", "Bar", new { id = barDetails.Id }, null);
             }
             else if (bar.YelpId != null && bar.YelpId == id)
             {
-                return RedirectToAction("Details", "Bar", new { barId = bar.Id }, null);
+                return RedirectToAction("Details", "Bar", new { id = bar.Id }, null);
             }
             else
             {
