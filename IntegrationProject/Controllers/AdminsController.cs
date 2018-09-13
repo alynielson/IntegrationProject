@@ -26,6 +26,7 @@ namespace IntegrationProject.Controllers
             AdminBarVM viewModel = new AdminBarVM();
             viewModel.admin = admins[0];
             viewModel.bars = _context.Bars.Select(b => b).ToList();
+            
             return View(viewModel);
         }
 
@@ -52,6 +53,7 @@ namespace IntegrationProject.Controllers
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
+
             return View();
         }
 
