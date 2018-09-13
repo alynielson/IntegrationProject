@@ -170,7 +170,7 @@ namespace IntegrationProject.Controllers
         [HttpPost]
         public async Task<IActionResult> DoSurvey(Bar bar)
         {
-            var barToUpdate = await _context.Bars.FindAsync(bar.Id)
+            var barToUpdate = await _context.Bars.FindAsync(bar.Id);
             
 
             return RedirectToAction("Index", "Admins") ;
