@@ -73,7 +73,7 @@ namespace IntegrationProject.Controllers
                 member.Name = user?.Email;
                 _context.Add(member);
                 await _context.SaveChangesAsync();
-               // SurveyAnalyzer.
+                SurveyAnalyzer.GetNewMemberMatchResults(member, _context);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -114,12 +114,18 @@ namespace IntegrationProject.Controllers
                 {
                     var memberToUpdate = _context.Members.Find(id);
                     var currentAnswer = _context.Answers.Find(memberToUpdate.AnswerId);
-                    _context.Answers.Remove(currentAnswer);
-                    memberToUpdate.Answer = member.Answer;
-                    memberToUpdate.Answer = Survey.GetCheckLists(memberToUpdate.Answer);
-                    _context.Update(memberToUpdate);
-
+                    currentAnswer = Survey.GetCheckLists(member.Answer);
+                    _context.Answers.Update(currentAnswer);
+                    var matchesToDelete = _context.Matches.Where(c => c.MemberId == memberToUpdate.Id);
+                    if (matchesToDelete.Count() > 0)
+                    {
+                        foreach (Match match in matchesToDelete)
+                        {
+                            _context.Matches.Remove(match);
+                        }
+                    }
                     await _context.SaveChangesAsync();
+                    SurveyAnalyzer.GetNewMemberMatchResults(member, _context);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,8 +140,6 @@ namespace IntegrationProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnswerId"] = new SelectList(_context.Answers, "Id", "Id", member.AnswerId);
-            ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", member.ApplicationUserId);
             return View(member);
         }
 

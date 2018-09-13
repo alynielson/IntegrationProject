@@ -22,8 +22,8 @@ namespace IntegrationProject
             List<double> memberDoubleAnswers = GetAnswersForDoubleQuestions(memberAnswers);
             List<int> maxPerDoubleQuestion = GetNumberOfAnswersPerQuestion();
             List<double> pointsForDoubleQuestions = GetPointsForDoubleQuestions(pointsPerQuestion, barDoubleAnswers, memberDoubleAnswers, maxPerDoubleQuestion);
-            List<List<string>> barListAnswers = GetAnswersForListQuestions(barAnswers);
-            List<List<string>> memberListAnswers = GetAnswersForListQuestions(memberAnswers);
+            List<List<string>> barListAnswers = GetAnswersForListQuestions(barAnswers, context);
+            List<List<string>> memberListAnswers = GetAnswersForListQuestions(memberAnswers, context);
             List<double> pointsForListQuestions = GetPointsForListQuestions(pointsPerQuestion, barListAnswers, memberListAnswers);
             List<double> pointsForAllQuestions = PutListsTogether(pointsForDoubleQuestions, pointsForListQuestions);
             int heaviestWeightIndex = GetHeaviestWeightedIndex(memberAnswers);
@@ -34,7 +34,7 @@ namespace IntegrationProject
 
         public static void GetNewMemberMatchResults(Member member, ApplicationDbContext context)
         {
-            List<Bar> bars = context.Bars.Select(b => b).ToList();
+            List<Bar> bars = context.Bars.Select(b => b).Where(a => a.AnswerId != null).ToList();
             foreach (Bar bar in bars)
             {
                 GetMatchResults(bar, member, context);
@@ -181,14 +181,18 @@ namespace IntegrationProject
             return heaviestWeightIndex;
         }
 
-       private static List<List<string>> GetAnswersForListQuestions(Answer answers)
+       private static List<List<string>> GetAnswersForListQuestions(Answer answers, ApplicationDbContext context)
         {
+            var activities = context.Activities.Where(a => a.AnswerId == answers.Id);
+            var drinks = context.Drinks.Where(d => d.AnswerId == answers.Id);
+            var foods = context.Foods.Where(f => f.AnswerId == answers.Id);
+            var musics = context.Musics.Where(m => m.AnswerId == answers.Id);
             List<List<string>> stringAnswers = new List<List<string>>
             {
-                answers.Activities.Select(a => a.Type).ToList(),
-                answers.Drinks.Select(d => d.Type).ToList(),
-                answers.Foods.Select(f => f.Type).ToList(),
-                answers.Musics.Select(m => m.Type).ToList()
+                activities.Select(a => a.Type).ToList(),
+                drinks.Select(d => d.Type).ToList(),
+                foods.Select(f => f.Type).ToList(),
+                musics.Select(m => m.Type).ToList()
             };
             return stringAnswers;
         }
