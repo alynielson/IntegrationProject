@@ -38,7 +38,9 @@ namespace IntegrationProject
                 Address = data.location.address1,
                 City = data.location.city,
                 State = data.location.state,
-                Zipcode = data.location.zip_code
+                Zipcode = data.location.zip_code,
+                Latitude = Convert.ToString(data.coordinates.latitude),
+                Longitude = Convert.ToString(data.coordinates.longitude)
             };
             context.Bars.Add(bar);
             context.SaveChanges();

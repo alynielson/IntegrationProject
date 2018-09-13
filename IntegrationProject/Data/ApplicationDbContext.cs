@@ -20,6 +20,7 @@ namespace IntegrationProject.Data
         public DbSet<ActivityItem> Activities { get; set; }
         public DbSet<Food> Foods { get; set; }
         public DbSet<Music> Musics { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Rating> Ratings { get; set; }
@@ -35,5 +36,6 @@ namespace IntegrationProject.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+        public DbSet<IntegrationProject.Models.Event> Event { get; set; }
     }
 }
