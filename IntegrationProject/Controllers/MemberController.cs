@@ -112,6 +112,8 @@ namespace IntegrationProject.Controllers
                 try
                 {
                     var memberToUpdate = _context.Members.Find(id);
+                    var currentAnswer = _context.Answers.Find(memberToUpdate.AnswerId);
+                    _context.Answers.Remove(currentAnswer);
                     memberToUpdate.Answer = member.Answer;
                     memberToUpdate.Answer = Survey.GetCheckLists(memberToUpdate.Answer);
                     _context.Update(memberToUpdate);
