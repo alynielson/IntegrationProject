@@ -28,7 +28,7 @@ namespace IntegrationProject.Controllers
         }
         public IActionResult Details(int id)
         {
-            var barToView = _context.Bars.Include(bar => bar.Comments).FirstOrDefault(b => b.Id == id);
+            var barToView = _context.Bars.Include(bar => bar.Comments).Include(bar => bar.Ratings).FirstOrDefault(b => b.Id == id);
             var yelpData = JsonParser.ParseYelpReviews(barToView.YelpId);
             var reviews = yelpData.reviews.Select(review => review.text).ToList();
             ViewData["Reviews"] = reviews;
@@ -46,12 +46,12 @@ namespace IntegrationProject.Controllers
             var barToEdit = _context.Bars.Find(id);
             _context.Comments.Add(new Comment()
             {
-                userComment = form["Comments"],
+                userComment = form["Comment"],
                 BarId = barToEdit.Id
             });
             _context.Ratings.Add(new Rating()
             {
-                userRating = int.Parse(form["Ratings"]),
+                userRating = int.Parse(form["Rating"]),
                 BarId = barToEdit.Id
             });
             
