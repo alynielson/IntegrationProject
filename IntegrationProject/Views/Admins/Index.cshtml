@@ -49,12 +49,12 @@
                 @Html.HiddenFor(modelItem => item.bar.AnswerId)
                 @if (item.bar.AnswerId == null)
                 {
-                    <td>No</td>
+                    <td><button class="btn btn-primary">No</button></td>
 
                 }
                 else
                 {
-                    <td>Completed</td>
+                    <td><button class="btn btn-success">Completed</button></td>
                 }
             
                  @if (item.bar.AnswerId == null)
