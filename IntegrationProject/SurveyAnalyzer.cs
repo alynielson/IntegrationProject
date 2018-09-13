@@ -11,11 +11,13 @@ namespace IntegrationProject
     {   //need to seed database with bar answers
         public static void GetMatchResults(Bar bar, Member member, ApplicationDbContext context)
         {
+            int numberOfQuestions = 10;
+            int totalPoints = 100;
+            double pointsPerQuestion = totalPoints / numberOfQuestions;
             int memberAnswersId = GetMemberAnswersId(member);
             Answer memberAnswers = GetAnswersFromDb(context, memberAnswersId);
             int barAnswersId = GetBarAnswersId(bar);
             Answer barAnswers = GetAnswersFromDb(context, barAnswersId);
-            double pointsPerQuestion = GetPointsPerQuestion();
             List<double> barDoubleAnswers = GetAnswersForDoubleQuestions(barAnswers);
             List<double> memberDoubleAnswers = GetAnswersForDoubleQuestions(memberAnswers);
             List<int> maxPerDoubleQuestion = GetNumberOfAnswersPerQuestion();
@@ -23,14 +25,35 @@ namespace IntegrationProject
             List<List<string>> barListAnswers = GetAnswersForListQuestions(barAnswers);
             List<List<string>> memberListAnswers = GetAnswersForListQuestions(memberAnswers);
             List<double> pointsForListQuestions = GetPointsForListQuestions(pointsPerQuestion, barListAnswers, memberListAnswers);
+            List<double> pointsForAllQuestions = PutListsTogether(pointsForDoubleQuestions, pointsForListQuestions);
+            int heaviestWeightIndex = GetHeaviestWeightedIndex(memberAnswers);
         }
 
-       private static double GetPointsPerQuestion()
+        private static List<double> AssignQuestionWeights(List<double> pointsForAllQuestions, int heaviestWeightIndex, int totalPoints, int numberOfQuestions)
         {
-            int numberOfQuestions = 10;
-            int totalPoints = 100;
-            return Convert.ToDouble(totalPoints / numberOfQuestions);
+            return new List<double> { 1 };
         }
+
+        private static List<double> PutListsTogether(List<double> pointsForDoubleQuestions, List<double> pointsForListQuestions)
+        {
+            List<double> pointsForAllQuestions = new List<double>
+            {
+                pointsForDoubleQuestions[0],
+                pointsForDoubleQuestions[1],
+                pointsForListQuestions[0],
+                pointsForListQuestions[1],
+                pointsForListQuestions[2],
+                pointsForDoubleQuestions[2],
+                pointsForDoubleQuestions[3],
+                pointsForListQuestions[3],
+                pointsForDoubleQuestions[4],
+                pointsForDoubleQuestions[5],
+            };
+            return pointsForAllQuestions;
+
+        }
+
+      
 
        private static List<int> GetNumberOfAnswersPerQuestion()
         {
@@ -101,10 +124,11 @@ namespace IntegrationProject
             return answers;
         }
 
-        private static int GetHeaviestWeightedQuestion(Answer answers)
+        private static int GetHeaviestWeightedIndex(Answer answers)
         {
             int heaviestWeightQuestion = answers.Master;
-            return heaviestWeightQuestion;
+            int heaviestWeightIndex = heaviestWeightQuestion - 1;
+            return heaviestWeightIndex;
         }
 
        private static List<List<string>> GetAnswersForListQuestions(Answer answers)
