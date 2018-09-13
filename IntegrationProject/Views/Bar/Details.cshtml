@@ -60,6 +60,8 @@
         </dd>
     </dl>
 </div>
+@if (User.IsInRole("Member"))
+{
 <form asp-action="AddReview" asp-controller="Bar" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger">
     </div>
@@ -71,6 +73,7 @@
         <input type="submit" value="Save" class="btn btn-default" />
     </div>
 </form>
+}
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
