@@ -27,12 +27,28 @@ namespace IntegrationProject.Controllers
         }
         public IActionResult Details(int id)
         {
-            var bar = _context.Bars.Find(id);
-            var yelpData = JsonParser.ParseYelpReviews(bar.YelpId);
+            var barToView = _context.Bars.Include(bar => bar.Comments).FirstOrDefault(b => b.Id == id);
+            var yelpData = JsonParser.ParseYelpReviews(barToView.YelpId);
             var reviews = yelpData.reviews.Select(review => review.text).ToList();
             ViewData["Reviews"] = reviews;
-            bar.Comments = _context.Comments.Where(c => c.BarId == id).ToList();
-            return View(bar);
+            barToView.Comments = _context.Comments.Where(c => c.BarId == id).ToList();
+            return View(barToView);
+        }
+
+
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddReview(int id, string userComment)
+        {
+            var barToEdit = _context.Bars.Find(id);
+            _context.Comments.Add(new Comment()
+            {
+                userComment = userComment,
+                BarId = barToEdit.Id
+            });
+            
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Details), new { id = id });
         }
         public IActionResult SetBar(string id)
         {
@@ -174,23 +190,8 @@ namespace IntegrationProject.Controllers
             return _context.Bars.Any(e => e.Id == id);
         }
 
-        [HttpPost, ActionName("Details")]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddReview(int id,List<Comment> comments)
-        {
-            var barToEdit = _context.Bars.Find(id);
-            foreach (Comment comment in comments)
-            {
 
-                _context.Add(new Comment()
-                {
-                    userComment = comment.userComment,
-                    BarId = barToEdit.Id
-                });
-                
-            }
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Details), new { id = id });
-        }
+     
+
     }
 }
