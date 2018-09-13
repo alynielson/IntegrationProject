@@ -22,6 +22,7 @@ namespace IntegrationProject.Data
         public DbSet<Music> Musics { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

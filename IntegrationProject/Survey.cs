@@ -91,5 +91,14 @@ namespace IntegrationProject
             {"Dresscode", 9 },
             {"Age Groups", 10 }
         };
+
+        public static Dictionary<string, int> RATING { get; } = new Dictionary<string, int>()
+        {
+            {"Terrible", 1 },
+            {"Bad", 2 },
+            {"Ok", 3 },
+            {"Good", 4 },
+            {"Great", 5 }
+        };
     }
 }

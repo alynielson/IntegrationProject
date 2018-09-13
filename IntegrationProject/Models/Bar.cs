@@ -22,6 +22,7 @@ namespace IntegrationProject.Models
         public string State { get; set; }
         public string Zipcode { get; set; }
         public List<Comment> Comments { get; set; }
+        public List<Rating> Ratings { get; set; }
         [ForeignKey("Admin")]
         public int? AdminId { get; set; }
         public Admin Admin { get; set; }
@@ -37,6 +38,17 @@ namespace IntegrationProject.Models
         public string userComment { get; set; }
         [ForeignKey("Bar")]
         public int BarId { get; set; }
-        public Bar bar { get; set; }
+        public Bar Bar { get; set; }
     }
+
+    public class Rating
+    {
+        [Key]
+        public int Id { get; set; }
+        public int userRating { get; set; }
+        [ForeignKey("Bar")]
+        public int BarId { get; set; }
+        public Bar Bar { get; set; }
+    }
+
 }

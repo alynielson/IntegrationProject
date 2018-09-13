@@ -33,18 +33,24 @@ namespace IntegrationProject.Controllers
             var reviews = yelpData.reviews.Select(review => review.text).ToList();
             ViewData["Reviews"] = reviews;
             barToView.Comments = _context.Comments.Where(c => c.BarId == id).ToList();
+            barToView.Ratings = _context.Ratings.Where(rating => rating.BarId == id).ToList();
             return View(barToView);
         }
 
 
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReview(int id, FormCollection form)
+        public ActionResult Details(int id, FormCollection form)
         {
             var barToEdit = _context.Bars.Find(id);
             _context.Comments.Add(new Comment()
             {
                 userComment = form["Comments"],
+                BarId = barToEdit.Id
+            });
+            _context.Ratings.Add(new Rating()
+            {
+                userRating = int.Parse(form["Ratings"]),
                 BarId = barToEdit.Id
             });
             
