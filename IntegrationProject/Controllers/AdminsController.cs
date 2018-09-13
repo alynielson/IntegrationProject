@@ -28,8 +28,17 @@ namespace IntegrationProject.Controllers
             var admins = _context.Admins.Include(a => a.ApplicationUser).ToList();
             AdminBarVM viewModel = new AdminBarVM();
             viewModel.admin = admins[0];
-            viewModel.bars = _context.Bars.Select(b => b).ToList();
-            
+            SearchResult allBars = JsonParser.ParseYelpSearch();
+            for (int i = 0; i < allBars.businesses.Length; i++)
+            {
+                var bar = _context.Bars.SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);
+                if (bar == null)
+                {
+                    BarCreator.CreateBar(allBars.businesses[i], _context);
+                    bar = _context.Bars.SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);
+                }
+                
+            }
             return View(viewModel);
         }
 
