@@ -11,7 +11,7 @@ namespace IntegrationProject.Models
     {
         [Key]
         public int Id { get; set; }
-        public string EventName { get; set; }
+        public string Name { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? DateOfEvent { get; set; }
         public string TimeOfEvent { get; set; }
