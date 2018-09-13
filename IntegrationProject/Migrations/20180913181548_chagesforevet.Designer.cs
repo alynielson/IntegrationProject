@@ -4,14 +4,16 @@ using IntegrationProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IntegrationProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180913181548_chagesforevet")]
+    partial class chagesforevet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,8 +147,6 @@ namespace IntegrationProject.Migrations
 
                     b.Property<string>("City");
 
-                    b.Property<int?>("EventId");
-
                     b.Property<string>("Image_Url");
 
                     b.Property<string>("Latitude");
@@ -170,8 +170,6 @@ namespace IntegrationProject.Migrations
                     b.HasIndex("AdminId");
 
                     b.HasIndex("AnswerId");
-
-                    b.HasIndex("EventId");
 
                     b.ToTable("Bars");
                 });
@@ -218,21 +216,17 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BarId");
+                    b.Property<DateTime?>("DateOfEvent");
 
-                    b.Property<DateTime?>("Date");
+                    b.Property<string>("EventDetails");
 
-                    b.Property<string>("Details");
+                    b.Property<string>("EventName");
 
                     b.Property<int>("MemberId");
 
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Time");
+                    b.Property<string>("TimeOfEvent");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BarId");
 
                     b.HasIndex("MemberId");
 
@@ -470,10 +464,6 @@ namespace IntegrationProject.Migrations
                     b.HasOne("IntegrationProject.Models.Answer", "Answer")
                         .WithMany()
                         .HasForeignKey("AnswerId");
-
-                    b.HasOne("IntegrationProject.Models.Event")
-                        .WithMany("ListBar")
-                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("IntegrationProject.Models.Comment", b =>
@@ -494,11 +484,6 @@ namespace IntegrationProject.Migrations
 
             modelBuilder.Entity("IntegrationProject.Models.Event", b =>
                 {
-                    b.HasOne("IntegrationProject.Models.Bar", "Bar")
-                        .WithMany()
-                        .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("IntegrationProject.Models.Member", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")

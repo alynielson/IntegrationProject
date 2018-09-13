@@ -65,10 +65,10 @@ namespace IntegrationProject
         }
         private static List<double> AssignQuestionWeights(List<double> pointsForAllQuestions, int heaviestWeightIndex, int totalPoints, int numberOfQuestions)
         {
-            double currentWeightOfQuestions = numberOfQuestions / totalPoints;
-            int weightOfHeaviestQuestion = 20;
+            double currentWeightOfQuestions = (double)numberOfQuestions / (double)totalPoints;
+            double weightOfHeaviestQuestion = 0.2;
             double amountToMultiplyHeaviest = weightOfHeaviestQuestion / currentWeightOfQuestions;
-            double amountToMultiplyOthers = (totalPoints - (weightOfHeaviestQuestion * totalPoints / 100) / (numberOfQuestions - 1))/totalPoints;
+            double amountToMultiplyOthers = (((double)totalPoints - ((double)weightOfHeaviestQuestion * (double)totalPoints)) / ((double)numberOfQuestions - 1))*currentWeightOfQuestions;
             for (int i = 0; i < pointsForAllQuestions.Count; i++)
             {
                 if (i == heaviestWeightIndex)
