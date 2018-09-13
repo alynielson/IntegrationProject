@@ -78,10 +78,12 @@
         <div class="form-group">
             <label asp-for="Ratings" class="control-label">Rating:</label>
             <select asp-for="Ratings" asp-items="Survey.RATING.Select(rating => new SelectListItem { Text = rating.Key, Value = rating.Value.ToString() }" class="form-control"></select>
+            <span asp-validation-for="Ratings" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Comments" class="control-label">Add Review</label>
             <textarea asp-for="Comments" class="form-control" placeholder="Add review"></textarea>
+            <span asp-validation-for="Comments" class="text-danger"></span>
         </div>
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-default" />
