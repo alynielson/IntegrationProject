@@ -40,7 +40,8 @@ namespace IntegrationProject.Controllers
 
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(int id, FormCollection form)
+
+        public ActionResult Details(int id, IFormCollection form)
         {
             var barToEdit = _context.Bars.Find(id);
             _context.Comments.Add(new Comment()
@@ -63,7 +64,7 @@ namespace IntegrationProject.Controllers
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
                 if (bar == null)
             {
-                Bar newBar = CreateBar(yelpData);
+                Bar newBar = BarCreator.CreateBar(yelpData, _context);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
                 return RedirectToAction("Details", "Bar", new { id = barDetails.Id }, null);
             }
@@ -78,24 +79,7 @@ namespace IntegrationProject.Controllers
 
         }
 
-        public Bar CreateBar(Business data)
-        {
-            Bar bar = new Bar()
-            {
-                YelpId= data.id,
-                Name = data.name,
-                Image_Url = data.image_url,
-                YelpRating = data.rating,
-                Phone = data.phone,
-                Address = data.location.address1,
-                City = data.location.city,
-                State = data.location.state,
-                Zipcode = data.location.zip_code
-            };
-            _context.Bars.Add(bar);
-            _context.SaveChanges();
-            return bar;
-        }
+        
          
         // GET: Bars/Create
         public IActionResult Create()
@@ -213,5 +197,9 @@ namespace IntegrationProject.Controllers
         {
             return _context.Bars.Any(e => e.Id == id);
         }
+
+
+     
+
     }
 }

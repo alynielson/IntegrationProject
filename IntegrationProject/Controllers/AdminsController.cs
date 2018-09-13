@@ -25,11 +25,28 @@ namespace IntegrationProject.Controllers
         // GET: Admins
         public async Task<IActionResult> Index()
         {
-            var admins = _context.Admins.Include(a => a.ApplicationUser).ToList();
+            var user = (await _userManager.GetUserAsync(HttpContext.User));
+            var admin = _context.Admins.SingleOrDefault(a => a.ApplicationUserId == user.Id);
             AdminBarVM viewModel = new AdminBarVM();
-            viewModel.admin = admins[0];
-            viewModel.bars = _context.Bars.Select(b => b).ToList();
-            
+            viewModel.bars = new List<BarVM>();
+            viewModel.admin = admin;
+            SearchResult allBars = JsonParser.ParseYelpSearch();
+            for (int i = 0; i < allBars.businesses.Length; i++)
+            {
+                var bar = _context.Bars.SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);
+                if (bar == null)
+                {
+                    BarCreator.CreateBar(allBars.businesses[i], _context);
+                    bar = _context.Bars.Include(a => a.Admin).SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);
+                }
+                BarVM barVM = new BarVM() {};
+                if (bar.AdminId != null)
+                {
+                    barVM.adminName = bar.Admin.Name;
+                }
+                barVM.bar = bar;
+                viewModel.bars.Add(barVM);
+            }
             return View(viewModel);
         }
 
@@ -160,6 +177,41 @@ namespace IntegrationProject.Controllers
         private bool AdminExists(int id)
         {
             return _context.Admins.Any(e => e.Id == id);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DoSurvey(int id)
+        {
+            var bar = await _context.Bars.FindAsync(id);
+            return View(bar);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DoSurvey(int id, [Bind("Answer")] Bar bar)
+        {
+            if (ModelState.IsValid)
+            {
+                var barToUpdate = _context.Bars.Find(id);
+                try
+                {
+                    barToUpdate.Answer = bar.Answer;
+                    barToUpdate.Answer = Survey.GetCheckLists(barToUpdate.Answer);
+                    _context.Update(barToUpdate);
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (barToUpdate == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction("Index", "Admins");
         }
     }
 }

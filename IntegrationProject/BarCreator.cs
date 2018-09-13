@@ -25,5 +25,25 @@ namespace IntegrationProject
           
         }
 
+
+        public static Bar CreateBar(Business data, ApplicationDbContext context)
+        {
+            Bar bar = new Bar()
+            {
+                YelpId = data.id,
+                Name = data.name,
+                Image_Url = data.image_url,
+                YelpRating = data.rating,
+                Phone = data.phone,
+                Address = data.location.address1,
+                City = data.location.city,
+                State = data.location.state,
+                Zipcode = data.location.zip_code
+            };
+            context.Bars.Add(bar);
+            context.SaveChanges();
+            return bar;
+        }
+
     }
 }
