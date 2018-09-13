@@ -25,6 +25,7 @@ namespace IntegrationProject
           
         }
 
+
         public static Bar CreateBar(Business data, ApplicationDbContext context)
         {
             Bar bar = new Bar()
@@ -43,5 +44,6 @@ namespace IntegrationProject
             context.SaveChanges();
             return bar;
         }
+
     }
 }
