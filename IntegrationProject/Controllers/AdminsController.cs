@@ -225,11 +225,17 @@ namespace IntegrationProject.Controllers
         }
 
 
-        /*[HttpPost]
-        public Task<IActionResult> AddAdmin(int Id)
+        [HttpPost]
+        public async Task<IActionResult> AddAdmin(int Id)
         {
+            var user = (await _userManager.GetUserAsync(HttpContext.User));
+            var admin = _context.Admins.SingleOrDefault(a => a.ApplicationUserId == user.Id);
+            var bar = _context.Bars.Find(Id);
+            bar.AdminId = admin.Id;
+            _context.Bars.Update(bar);
+            _context.SaveChanges();
             return RedirectToAction("Index", "Admins");
-        }*/
+        }
 
         public IActionResult IncreaseRadius()
         {
