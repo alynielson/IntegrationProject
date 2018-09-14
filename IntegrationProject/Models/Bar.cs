@@ -23,7 +23,9 @@ namespace IntegrationProject.Models
         public string Zipcode { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-        
+        [NotMapped]
+        public bool Selected { get; set; }
+
         public List<Comment> Comments { get; set; }
         public List<Rating> Ratings { get; set; }
         [ForeignKey("Admin")]

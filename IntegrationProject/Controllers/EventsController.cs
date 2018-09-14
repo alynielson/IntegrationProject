@@ -55,9 +55,13 @@ namespace IntegrationProject.Controllers
         // GET: Events/Create
         public IActionResult Create(string id)
         {
-           
-            var yelpData = JsonParser.ParseYelpSearch(_context);
-            var businesses = yelpData.businesses.Select(b => new SelectListItem { Text = b.name, Value = b.id });
+
+            //var yelpData = JsonParser.ParseYelpSearch(_context);
+            //var businesses = yelpData.businesses.Select(b => new SelectListItem { Text = b.name, Value = b.id });
+            var businesses = _context.Bars.Select(b => new SelectListItem { Text = b.Name, Value= b.YelpId });
+            var stops = new List<int> { 0, 1, 2, 3, 4 };
+            var selectStops = stops.Select(s => new SelectListItem { Text = s.ToString(), Value = s.ToString() });
+            ViewData["Stops"] = selectStops;
             ViewData["Businesses"] = businesses;
             return View();
         }
@@ -75,18 +79,45 @@ namespace IntegrationProject.Controllers
                 
                 @event.ApplicationUser = user;
                 Origin newOrigin = new Origin();
-
                 newOrigin.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude;
                 newOrigin.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude;
                 @event.Origin = newOrigin;
-                Destination newDestination = new Destination();
-                newDestination.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Latitude;
-                newDestination.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Longitude;
-                @event.Destination = newDestination;
+
+                var numberOfStops = int.Parse(form["Stops"]);
+                if (numberOfStops == 0)
+                {
+                    Destination newDestination = new Destination();
+                    newDestination.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude;
+                    newDestination.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude;
+                    @event.Destination = newDestination;
+                }
+                else if (numberOfStops >= 1)
+                {
+                    Destination newDestination = new Destination();
+                    @event.Destination = newDestination;
+                    if (numberOfStops > 1)
+                    {
+                        List<Waypoint> waypoints = new List<Waypoint>();
+                        for(int i = 0; i < numberOfStops - 1; i++)
+                        {
+                            waypoints.Add(new Waypoint());
+                        }
+                        @event.Waypoints = waypoints;
+                    }
+                }
+                
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
-                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == id).Id; 
-                return RedirectToAction(nameof(Details), new { id = eventToView});
+                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == id).Id;
+                if(numberOfStops == 0)
+                {
+                    return RedirectToAction(nameof(Details), new { id = eventToView });
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Edit), new { id = eventToView });
+                }
+                
             }
 
             return View(@event);
