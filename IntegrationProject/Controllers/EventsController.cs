@@ -110,7 +110,8 @@ namespace IntegrationProject.Controllers
                 
                 _context.Add(@event);
                 _context.SaveChanges();
-                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == user.Id).Id;
+                var userToFind = (await _userManager.GetUserAsync(HttpContext.User));
+                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == userToFind.Id).Id;
                 if(numberOfStops == 0)
                 {
                     return RedirectToAction(nameof(Details), new { id = eventToView });
@@ -133,7 +134,7 @@ namespace IntegrationProject.Controllers
             }
             var businesses = _context.Bars.Select(b => new SelectListItem { Text = b.Name, Value = b.YelpId });
             ViewData["Businesses"] = businesses;
-            var @event = await _context.Events.Include(o => o.Origin).Include(d => d.Destination).Include(w => w.Waypoints).SingleOrDefaultAsync(a => id ==a.Id);
+            var @event = await _context.Events.Include(o => o.Origin).Include(d => d.Destination).Include(w => w.Waypoints).Include(a => a.ApplicationUser).SingleOrDefaultAsync(a => id ==a.Id);
 
             if (@event == null)
             {
