@@ -23,18 +23,14 @@ namespace IntegrationProject.Models
         [ForeignKey("Bar")]
         public int BarId { get; set; }
         public Bar Bar { get; set; }
-        public string OriginLat { get; set; }
-        public string OriginLong { get; set; }
-        public string DestinationLat { get; set; }
-        public string DestinationLong { get; set; }
     }
 
     public class Waypoint
     {
         [Key]
         public int Id { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         [ForeignKey("Event")]
         public int EventId { get; set; }
         public Event Event { get; set; }
@@ -44,8 +40,8 @@ namespace IntegrationProject.Models
     {
         [Key]
         public int Id { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         [ForeignKey("Event")]
         public int EventId { get; set; }
         public Event Event { get; set; }
@@ -55,8 +51,8 @@ namespace IntegrationProject.Models
     {
         [Key]
         public int Id { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         [ForeignKey("Event")]
         public int EventId { get; set; }
         public Event Event { get; set; }
