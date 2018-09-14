@@ -235,8 +235,8 @@ namespace IntegrationProject.Controllers
         {
             var radius = _context.Values.SingleOrDefault(r => r.Name == "radius");
             string lowestRadius = "400";
-            string increaseValue = "100";
-            if(radius.Item == null)
+            string increaseValue = "10";
+            if(radius == null)
             {
                 radius.Item = lowestRadius;
             }
@@ -246,6 +246,7 @@ namespace IntegrationProject.Controllers
                 radius.Item = Convert.ToString(newRadius);
                 _context.Update(radius);
             }
+            _context.SaveChanges();
             JsonParser.ParseYelpSearch(_context);
             return View();
         }
