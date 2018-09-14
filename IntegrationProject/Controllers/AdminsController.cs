@@ -223,6 +223,14 @@ namespace IntegrationProject.Controllers
             }
             return RedirectToAction("Index", "Admins");
         }
+
+
+        /*[HttpPost]
+        public Task<IActionResult> AddAdmin(int Id)
+        {
+            return RedirectToAction("Index", "Admins");
+        }*/
+
         public IActionResult IncreaseRadius()
         {
             var radius = _context.Values.SingleOrDefault(r => r.Name == "radius");
@@ -242,5 +250,6 @@ namespace IntegrationProject.Controllers
             return View();
         }
        
+
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IntegrationProject.Data;
 using IntegrationProject.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace IntegrationProject.Controllers
 {
@@ -42,9 +43,9 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-
             return View(@event);
         }
+        
 
         // GET: Events/Create
         public IActionResult Create()
@@ -61,7 +62,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EventName,DateOfEvent,TimeOfEvent,EventDetails,MemberId,BarId")] Event @event)
+        public async Task<IActionResult> Create([Bind("Name,Date,Time,Details,Origin,Destination")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -73,6 +74,9 @@ namespace IntegrationProject.Controllers
             ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id", @event.MemberId);
             return View(@event);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
 
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -87,8 +91,9 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["BarId"] = new SelectList(_context.Bars, "Id", "Id", @event.BarId);
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id", @event.MemberId);
+            var yelpData = JsonParser.ParseYelpSearch(_context);
+            var businesses = yelpData.businesses.ToList();
+            ViewData["Businesses"] = businesses;
             return View(@event);
         }
 
@@ -97,7 +102,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,DateOfEvent,TimeOfEvent,EventDetails,MemberId,BarId")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Date,Time,Details")] Event @event, [Bind("Waypoint")] Waypoint waypoint)
         {
             if (id != @event.Id)
             {
@@ -108,6 +113,7 @@ namespace IntegrationProject.Controllers
             {
                 try
                 {
+                    @event.Waypoints.Add(waypoint);
                     _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
