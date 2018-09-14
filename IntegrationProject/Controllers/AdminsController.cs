@@ -224,6 +224,10 @@ namespace IntegrationProject.Controllers
             return RedirectToAction("Index", "Admins");
         }
 
-       
+        /*[HttpPost]
+        public Task<IActionResult> AddAdmin(int Id)
+        {
+            return RedirectToAction("Index", "Admins");
+        }*/
     }
 }
