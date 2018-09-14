@@ -145,10 +145,8 @@ namespace IntegrationProject.Controllers
                     {
                         Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Latitude,
                         Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Longitude,
-                        EventId = eventToUpdate.Id
                     };
-                    _context.Add(newWaypoint);
-                    await _context.SaveChangesAsync();
+                    eventToUpdate.Waypoints.Add(newWaypoint);
                     _context.Update(eventToUpdate);
                     await _context.SaveChangesAsync();
                 }
