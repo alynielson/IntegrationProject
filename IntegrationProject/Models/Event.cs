@@ -27,6 +27,8 @@ namespace IntegrationProject.Models
         [ForeignKey("Origin")]
         public int OriginId { get; set; }
         public Origin Origin { get; set; }
+        [NotMapped]
+        public int NumberOfStops { get; set }
     }
 
     public class Waypoint

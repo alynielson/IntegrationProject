@@ -107,8 +107,8 @@ namespace IntegrationProject.Controllers
                 }
                 
                 _context.Add(@event);
-                await _context.SaveChangesAsync();
-                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == id).Id;
+                _context.SaveChanges();
+                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == user.Id).Id;
                 if(numberOfStops == 0)
                 {
                     return RedirectToAction(nameof(Details), new { id = eventToView });
