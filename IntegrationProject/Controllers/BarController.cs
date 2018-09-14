@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using IntegrationProject.Data;
 using IntegrationProject.Models;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Drawing;
+using Microsoft.Win32.SafeHandles;
 
 namespace IntegrationProject.Controllers
 {
@@ -54,7 +57,7 @@ namespace IntegrationProject.Controllers
                 userRating = int.Parse(form["Rating"]),
                 BarId = barToEdit.Id
             });
-            
+
             _context.SaveChanges();
             return RedirectToAction(nameof(Details), new { id = id });
         }
@@ -62,7 +65,7 @@ namespace IntegrationProject.Controllers
         {
             var yelpData = JsonParser.ParseYelpSearchBar(id);
             var bar = _context.Bars.SingleOrDefault(b => b.YelpId == id);
-                if (bar == null)
+            if (bar == null)
             {
                 Bar newBar = BarCreator.CreateBar(yelpData, _context);
                 var barDetails = _context.Bars.SingleOrDefault(b => b.YelpId == id);
@@ -79,8 +82,8 @@ namespace IntegrationProject.Controllers
 
         }
 
-        
-         
+
+
         // GET: Bars/Create
         public IActionResult Create()
         {
@@ -198,8 +201,8 @@ namespace IntegrationProject.Controllers
             return _context.Bars.Any(e => e.Id == id);
         }
 
-
-     
+      
 
     }
 }
+
