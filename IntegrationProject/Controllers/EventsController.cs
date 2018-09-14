@@ -43,7 +43,6 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-
             return View(@event);
         }
         
@@ -103,7 +102,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Date,Time,Details")] Event @event, IFormCollection form)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Date,Time,Details")] Event @event, [Bind("Waypoint")] Waypoint waypoint)
         {
             if (id != @event.Id)
             {
@@ -114,7 +113,7 @@ namespace IntegrationProject.Controllers
             {
                 try
                 {
-                    var eventToUpdate = _context.Events.Find(id);
+                    @event.Waypoints.Add(waypoint);
                     _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
