@@ -44,6 +44,14 @@
                     <span asp-validation-for="Waypoints" class="text-danger"></span>
                 </div>
             }
+            @for (int i = 0; i < Model.NumberOfGuests; i++)
+            {
+                <div class="form-group">
+                    <label asp-for="NumberOfGuests" class="control-label">Guest @(i + 1)</label>
+                    <input id="Guests@($"[{i}]")" name="Guests@($"[{i}]")" type="email" class="form-control"/>
+                    <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+                </div>
+            }
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

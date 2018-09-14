@@ -9,6 +9,8 @@ using IntegrationProject.Data;
 using IntegrationProject.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Net.Mail;
+using System.Net;
 
 namespace IntegrationProject.Controllers
 {
@@ -60,7 +62,10 @@ namespace IntegrationProject.Controllers
             //var businesses = yelpData.businesses.Select(b => new SelectListItem { Text = b.name, Value = b.id });
             var businesses = _context.Bars.Select(b => new SelectListItem { Text = b.Name, Value= b.YelpId });
             var stops = new List<int> { 0, 1, 2, 3, 4 };
+            var guests = new List<int> { 0, 1, 2, 3 };
             var selectStops = stops.Select(s => new SelectListItem { Text = s.ToString(), Value = s.ToString() });
+            var selectGuests = guests.Select(g => new SelectListItem { Text = g.ToString(), Value = g.ToString() });
+            ViewData["Guests"] = selectGuests;
             ViewData["Stops"] = selectStops;
             ViewData["Businesses"] = businesses;
             return View();
@@ -83,8 +88,9 @@ namespace IntegrationProject.Controllers
                 newOrigin.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude;
                 newOrigin.Name = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Name;
                 @event.Origin = newOrigin;
-
+                @event.NumberOfGuests = int.Parse(form["Guests"]);
                 var numberOfStops = int.Parse(form["Stops"]);
+                
                 if (numberOfStops == 0)
                 {
                     Destination newDestination = new Destination();
@@ -177,7 +183,7 @@ namespace IntegrationProject.Controllers
                         _context.Waypoints.Update(waypointsFromDb[i]);
                     }
                     _context.SaveChanges();
-                    
+                    EmailMembers(form, @event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -201,6 +207,29 @@ namespace IntegrationProject.Controllers
         private bool EventExists(int id)
         {
             return _context.Events.Any(e => e.Id == id);
+        }
+
+        public static void EmailMembers(IFormCollection form, Event @event)
+        {
+            for (int i = 0; i < @event.NumberOfGuests; i++)
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient smtpClient = new SmtpClient();
+                mail.From = new MailAddress(Credentials.USERNAME, $"eBarmony");
+                smtpClient.Port = 587;
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Host = "smtp.gmail.com";
+                smtpClient.EnableSsl = true;
+                mail.To.Add(form[$"Guests[{i}]"]);
+                smtpClient.Credentials = new NetworkCredential(Credentials.USERNAME, Credentials.PASSWORD);
+                
+                mail.Subject = $"Invitation: {@event.Name}";
+                mail.Body = $"You have been invited to the event, {@event.Name}.\n\nDetails: {@event.Date}\nDate: {@event.Date}\n Location: {@event.Origin.Name}";
+                
+                smtpClient.Send(mail);
+            }
+            Console.WriteLine("Sent emails to contestants.");
         }
     }
 }
