@@ -224,10 +224,32 @@ namespace IntegrationProject.Controllers
             return RedirectToAction("Index", "Admins");
         }
 
+
         /*[HttpPost]
         public Task<IActionResult> AddAdmin(int Id)
         {
             return RedirectToAction("Index", "Admins");
         }*/
+
+        public IActionResult IncreaseRadius()
+        {
+            var radius = _context.Values.SingleOrDefault(r => r.Name == "radius");
+            string lowestRadius = "400";
+            string increaseValue = "100";
+            if(radius.Item == null)
+            {
+                radius.Item = lowestRadius;
+            }
+            if(radius.Item != null)
+            {
+                var newRadius = Convert.ToInt32(radius.Item) + Convert.ToInt32(increaseValue);
+                radius.Item = Convert.ToString(newRadius);
+                _context.Update(radius);
+            }
+            JsonParser.ParseYelpSearch(_context);
+            return View();
+        }
+       
+
     }
 }
