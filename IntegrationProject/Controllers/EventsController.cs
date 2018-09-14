@@ -182,8 +182,12 @@ namespace IntegrationProject.Controllers
 
                         _context.Waypoints.Update(waypointsFromDb[i]);
                     }
+                    if (eventToUpdate.NumberOfGuests > 0)
+                    {
+                        EmailMembers(form, eventToUpdate);
+                    }
+                    
                     _context.SaveChanges();
-                    EmailMembers(form, @event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
