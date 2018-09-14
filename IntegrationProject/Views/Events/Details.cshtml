@@ -47,7 +47,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.ApplicationUserId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
     
@@ -82,8 +82,11 @@
                 } else {
                     window.alert('Directions request failed due to ' + status);
                 }
-            });
+                });
+
         }
+
+        window.addEventListener('load', initMap());
     </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDTR1Ag6TkyYqY_O78YZXCW0_B5EiZqSM=initMap">
