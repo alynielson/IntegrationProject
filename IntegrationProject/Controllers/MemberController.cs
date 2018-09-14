@@ -24,8 +24,21 @@ namespace IntegrationProject.Controllers
         // GET: Member
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Members.Include(m => m.Answer).Include(m => m.ApplicationUser);
-            return View(await applicationDbContext.ToListAsync());
+            var user = (await _userManager.GetUserAsync(HttpContext.User));
+            var member = _context.Members.Include(m => m.Answer).Include(m => m.ApplicationUser).SingleOrDefault(u => u.ApplicationUserId == user.Id);
+            MemberBarVM viewModel = new MemberBarVM();
+            viewModel.member = member;
+            List<BarMatch> barMatches = new List<BarMatch> { };
+            var bars = _context.Matches.Include(m => m.Bar).Where(m => m.MemberId == member.Id).OrderByDescending(m => m.Score).Select(m => m.Bar).ToList();
+            var scores = _context.Matches.Include(m => m.Bar).Where(m => m.MemberId == member.Id).OrderByDescending(m => m.Score).Select(m => m.Score).ToList();
+            for (int i = 0; i < bars.Count; i++)
+            {
+                BarMatch newMatch = new BarMatch();
+                newMatch.bar = bars[i];
+                newMatch.score = scores[i];
+            }
+            viewModel.matchedBars = barMatches;
+            return View(viewModel);
         }
 
         // GET: Member/Details/5
