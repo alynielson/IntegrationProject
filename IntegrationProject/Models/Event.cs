@@ -16,13 +16,19 @@ namespace IntegrationProject.Models
         public DateTime? Date { get; set; }
         public string Time { get; set; }
         public string Details { get; set; }
-        public List<Bar> ListBar { get; set; }
         [ForeignKey("Member")]
         public int MemberId { get; set; }
         public Member Member { get; set; }
+        public List<Waypoint> Waypoints { get; set; }
         [ForeignKey("Bar")]
         public int BarId { get; set; }
         public Bar Bar { get; set; }
+        [ForeignKey("Origin")]
+        public int OriginId { get; set; }
+        public Origin Origin { get; set; }
+        [ForeignKey("Destination")]
+        public int DestinationId { get; set; }
+        public Bar Destination { get; set; }
     }
 
     public class Waypoint
