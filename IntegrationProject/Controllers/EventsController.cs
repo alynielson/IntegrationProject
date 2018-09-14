@@ -88,10 +88,24 @@ namespace IntegrationProject.Controllers
 
             return View(@event);
         }
-        
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @event = await _context.Events.FindAsync(id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+            
+            return View(@event);
+        }
 
 
-        
 
         // POST: Events/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
