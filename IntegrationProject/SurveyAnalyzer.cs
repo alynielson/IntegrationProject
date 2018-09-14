@@ -1,5 +1,6 @@
 ﻿using IntegrationProject.Data;
 using IntegrationProject.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace IntegrationProject
 
         public static void GetNewMemberMatchResults(Member member, ApplicationDbContext context)
         {
-            List<Bar> bars = context.Bars.Select(b => b).Where(a => a.AnswerId != null).ToList();
+            List<Bar> bars = context.Bars.Include(b => b.Answer).Where(a => a.AnswerId != null && a.Answer.Price > 0).ToList();
             foreach (Bar bar in bars)
             {
                 GetMatchResults(bar, member, context);

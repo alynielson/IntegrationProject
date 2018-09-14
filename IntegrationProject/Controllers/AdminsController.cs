@@ -45,9 +45,15 @@ namespace IntegrationProject.Controllers
                     barVM.adminName = bar.Admin.Name;
                 }
                 barVM.bar = bar;
+                barVM.CompletedSurvey = CheckIfSurveyCompleted(bar);
                 viewModel.bars.Add(barVM);
             }
             return View(viewModel);
+        }
+
+        private bool CheckIfSurveyCompleted(Bar bar)
+        {
+            return _context.Answers.Find(bar.AnswerId).Price > 0;
         }
 
         // GET: Admins/Details/5
@@ -192,26 +198,15 @@ namespace IntegrationProject.Controllers
                 var barToUpdate = _context.Bars.Find(id);
                 try
                 {
-                    if (barToUpdate.AnswerId != null)
-                    {
-                        var currentAnswer = _context.Answers.Find(barToUpdate.AnswerId);
-                        _context.Answers.Remove(currentAnswer);
-                        var matchesToDelete = _context.Matches.Where(b => b.BarId == bar.Id);
-                        if (matchesToDelete.Count() >0 )
-                        {
-                            foreach (Match match in matchesToDelete)
-                            {
-                                 _context.Matches.Remove(match);
-                            }
-                        }
-                       
-                    }
-                    barToUpdate.Answer = bar.Answer;
-                    barToUpdate.Answer = Survey.GetCheckLists(barToUpdate.Answer);
-                    _context.Update(barToUpdate);
-
-                    await _context.SaveChangesAsync();
-                    SurveyAnalyzer.GetMatchResultsForNewBar(bar, _context);
+                    
+                    var currentAnswer = _context.Answers.Find(barToUpdate.AnswerId);
+                    Survey.ClearAnswers(currentAnswer, _context);
+                    Answer answerToCopy = bar.Answer;
+                    Survey.CopyValuesToAnswerRow(currentAnswer, answerToCopy, _context);
+                    Survey.ClearMatches(_context, barToUpdate);
+                   
+                   
+                    SurveyAnalyzer.GetMatchResultsForNewBar(barToUpdate, _context);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -228,5 +223,7 @@ namespace IntegrationProject.Controllers
             }
             return RedirectToAction("Index", "Admins");
         }
+
+       
     }
 }

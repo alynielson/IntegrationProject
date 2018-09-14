@@ -1,4 +1,5 @@
 ﻿using IntegrationProject.Models;
+using IntegrationProject.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -143,6 +144,58 @@ namespace IntegrationProject
             answer.Activities = GetActivities(answer.Activities);
             answer.Musics = GetMusics(answer.Musics);
             return answer;
+        }
+
+        public static void CopyValuesToAnswerRow(Answer answer, Answer answerToCopy, ApplicationDbContext _context)
+        {
+            answer.Activities = answerToCopy.Activities.Select(a => a).ToList();
+            answer.Drinks = answerToCopy.Drinks.Select(d => d).ToList();
+            answer.Foods = answerToCopy.Foods.Select(f => f).ToList();
+            answer.Musics = answerToCopy.Musics.Select(m => m).ToList();
+            answer = Survey.GetCheckLists(answer);
+            answer.People = answerToCopy.People;
+            answer.Price = answerToCopy.Price;
+            answer.Age = answerToCopy.Age;
+            answer.TimeOfDay = answerToCopy.TimeOfDay;
+            answer.DressCode = answerToCopy.DressCode;
+            answer.SitDown = answerToCopy.SitDown;
+            _context.Update(answer);
+            _context.SaveChanges();
+        }
+
+        public static void ClearAnswers(Answer answer, ApplicationDbContext context)
+        {
+            var activities = context.Activities.Where(a => a.AnswerId == answer.Id);
+            var drinks = context.Drinks.Where(d => d.AnswerId == answer.Id);
+            var foods = context.Foods.Where(f => f.AnswerId == answer.Id);
+            var musics = context.Musics.Where(m => m.AnswerId == answer.Id);
+
+            context.RemoveRange(activities);
+            context.RemoveRange(drinks);
+            context.RemoveRange(foods);
+            context.RemoveRange(musics);
+            context.SaveChanges();
+
+        }
+
+        public static void ClearMatches(ApplicationDbContext _context, Bar bar)
+        {
+            var matchesToDelete = _context.Matches.Where(b => b.BarId == bar.Id);
+            if (matchesToDelete.Count() > 0)
+            {
+                _context.RemoveRange(matchesToDelete);
+            }
+            _context.SaveChanges();
+        }
+
+        public static void ClearMatchesMember(ApplicationDbContext _context, Member member)
+        {
+            var matchesToDelete = _context.Matches.Where(b => b.MemberId == member.Id);
+            if (matchesToDelete.Count() > 0)
+            {
+                _context.RemoveRange(matchesToDelete);
+            }
+            _context.SaveChanges();
         }
     }
 }

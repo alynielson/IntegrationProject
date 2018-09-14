@@ -88,6 +88,10 @@
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-default" />
         </div>
+        
+            
+
+        
     </form>
 
 }
@@ -95,6 +99,14 @@
         @if (User.IsInRole("Admin"))
         {
             <span><a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> | </span>
+            <a asp-action="Index" asp-controller="Admin">Back to List</a>
         }
-        <a asp-action="Index">Back to List</a>
+        else if (User.IsInRole("Member"))
+        {
+            <a asp-action="Index" asp-controller="Member">Back to List</a>
+        }
+        else
+        {
+            <a asp-action="Index" asp-controller="Home">Back to List</a>
+        }
     </div>

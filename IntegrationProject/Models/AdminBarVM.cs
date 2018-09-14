@@ -18,5 +18,7 @@ namespace IntegrationProject.Models
     {
         public Bar bar { get; set; }
         public string adminName { get; set; }
+
+        public bool CompletedSurvey { get; set; }
     }
 }

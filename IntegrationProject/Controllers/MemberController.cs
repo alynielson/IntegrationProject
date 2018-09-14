@@ -24,8 +24,22 @@ namespace IntegrationProject.Controllers
         // GET: Member
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Members.Include(m => m.Answer).Include(m => m.ApplicationUser);
-            return View(await applicationDbContext.ToListAsync());
+            var user = (await _userManager.GetUserAsync(HttpContext.User));
+            var member = _context.Members.Include(m => m.Answer).Include(m => m.ApplicationUser).SingleOrDefault(u => u.ApplicationUserId == user.Id);
+            MemberBarVM viewModel = new MemberBarVM();
+            viewModel.member = member;
+            List<BarMatch> barMatches = new List<BarMatch> { };
+            var bars = _context.Matches.Include(m => m.Bar).Where(m => m.MemberId == member.Id).OrderByDescending(m => m.Score).Select(m => m.Bar).ToList();
+            var scores = _context.Matches.Include(m => m.Bar).Where(m => m.MemberId == member.Id).OrderByDescending(m => m.Score).Select(m => m.Score).ToList();
+            for (int i = 0; i < bars.Count; i++)
+            {
+                BarMatch newMatch = new BarMatch();
+                newMatch.bar = bars[i];
+                newMatch.score = scores[i];
+                barMatches.Add(newMatch);
+            }
+            viewModel.matchedBars = barMatches;
+            return View(viewModel);
         }
 
         // GET: Member/Details/5
@@ -109,32 +123,21 @@ namespace IntegrationProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                var memberToUpdate = _context.Members.Find(id);
                 
                 try
                 {
-                    var memberToUpdate = _context.Members.Find(id);
-                    var currentAnswer = _context.Answers.Find(memberToUpdate.AnswerId);
-                    _context.Answers.Remove(currentAnswer);
-                    Answer newAnswer = new Answer();
-                    newAnswer = member.Answer;
-                    _context.Answers.Add(newAnswer);
-                    _context.SaveChanges();
-                   
-                    var matchesToDelete = _context.Matches.Where(c => c.MemberId == memberToUpdate.Id);
-                    if (matchesToDelete.Count() > 0)
-                    {
-                        foreach (Match match in matchesToDelete)
-                        {
-                            _context.Matches.Remove(match);
-                        }
-                    }
 
-                    
-                    memberToUpdate.Answer = Survey.GetCheckLists(memberToUpdate.Answer);
-                    _context.Update(memberToUpdate);
-                    
+                    var currentAnswer = _context.Answers.Find(memberToUpdate.AnswerId);
+                    Survey.ClearAnswers(currentAnswer, _context);
+                    Answer answerToCopy = member.Answer;
+                    Survey.CopyValuesToAnswerRow(currentAnswer, answerToCopy, _context);
+
+                    Survey.ClearMatchesMember(_context, memberToUpdate);
+
+                 
                     await _context.SaveChangesAsync();
-                    SurveyAnalyzer.GetNewMemberMatchResults(member, _context);
+                    SurveyAnalyzer.GetNewMemberMatchResults(memberToUpdate, _context);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
