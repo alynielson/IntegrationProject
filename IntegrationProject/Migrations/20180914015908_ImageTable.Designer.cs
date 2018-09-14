@@ -4,14 +4,16 @@ using IntegrationProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IntegrationProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180914015908_ImageTable")]
+    partial class ImageTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,33 +279,6 @@ namespace IntegrationProject.Migrations
                     b.ToTable("Foods");
                 });
 
-            modelBuilder.Entity("IntegrationProject.Models.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BarId");
-
-                    b.Property<string>("ContentType");
-
-                    b.Property<byte[]>("Data");
-
-                    b.Property<int>("Height");
-
-                    b.Property<int>("Length");
-
-                    b.Property<byte[]>("Name");
-
-                    b.Property<int>("Width");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BarId");
-
-                    b.ToTable("Images");
-                });
-
             modelBuilder.Entity("IntegrationProject.Models.Match", b =>
                 {
                     b.Property<int>("Id")
@@ -399,18 +374,6 @@ namespace IntegrationProject.Migrations
                     b.HasIndex("BarId");
 
                     b.ToTable("Ratings");
-                });
-
-            modelBuilder.Entity("IntegrationProject.Models.Value", b =>
-                {
-                    b.Property<string>("Name")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Item");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("Values");
                 });
 
             modelBuilder.Entity("IntegrationProject.Models.Waypoint", b =>
@@ -614,14 +577,6 @@ namespace IntegrationProject.Migrations
                     b.HasOne("IntegrationProject.Models.Answer", "Answer")
                         .WithMany("Foods")
                         .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("IntegrationProject.Models.Image", b =>
-                {
-                    b.HasOne("IntegrationProject.Models.Bar", "Bar")
-                        .WithMany()
-                        .HasForeignKey("BarId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

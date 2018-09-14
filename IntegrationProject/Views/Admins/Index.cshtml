@@ -88,7 +88,9 @@
                         <td>@item.adminName</td>
                     }
                 }
-            <td></td>
+            <td>
+                <a class="btn btn-default" asp-action="AddAdmin" asp-controller="Admins" asp-route-id="@Model.admin.Id">Assign to me</a>
+            </td>
 
 
             <td>

@@ -1,15 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<header>Barmagedon</header>
+<center>
+    <h2>Bars Near You</h2>
+</center>
 <body>
     <div class="container">
         <div class="row">
             @foreach (var business in ViewBag.Businesses)
             {
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <center>
-                        <div class="card" style="width: 35rem;">
+                        <div class="card" style="grid-auto-columns">
                             <img class="card-img-top" src="@business.image_url" alt="Card image cap" height="180" width="286">
                             <div class="card-body">
                                 <h5 class="card-title">@business.name</h5>

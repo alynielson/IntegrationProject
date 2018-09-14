@@ -3,11 +3,12 @@
 @{
     ViewData["Title"] = "Details";
 }
+<center>
+    <h2>@(Model.Name)</h2>
+    <img class="dl-horizontal" src="@(Model.Image_Url)" height="240" width="360" />
+</center>
 
-<h2>@(Model.Name)</h2> 
-<img class="dl-horizontal" src="@(Model.Image_Url)" height="240" width="360"/>
 <div>
-    <h4>Bar</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -35,7 +36,22 @@
             @Html.DisplayFor(model => model.Phone)
         </dd>
         <dt>
-            Comments
+            Ratings
+        </dt>
+        <dd>
+            @if (Model.Ratings.Count > 0)
+            {
+                <div>eBarmony: @Model.Ratings.Average(r => r.userRating) stars out of 5</div>
+            }
+            else
+            {
+                <div>eBarmony: No ratings yet</div>
+            }
+            <div>Yelp: @Model.YelpRating  stars out of 5</div>
+
+        </dd>
+        <dt>
+            eBarmony Reviews
         </dt>
         <dd>
             @foreach (var Item in Model.Comments)
@@ -45,17 +61,7 @@
                 </div>
             }
         </dd>
-        <dt>
-            Ratings
-        </dt>
-        <dd>
-            @foreach (var Item in Model.Ratings)
-            {
-                <div>
-                    @Item.userRating out of 5
-                </div>
-            }
-        </dd>
+
         <dt>
             Yelp Reviews
         </dt>
