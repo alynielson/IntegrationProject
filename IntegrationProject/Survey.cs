@@ -181,10 +181,10 @@ namespace IntegrationProject
             context.SaveChanges();
 
         }
-        public static void ClearLocations(Origin origin, Destination destination, ApplicationDbContext context)
+        public static void ClearLocations(int originId, int destinationId, ApplicationDbContext context)
         {
-            var originToRemove = context.Origins.Find(origin.Id);
-            var destinationToRemove = context.Destinations.Find(destination.Id);
+            var originToRemove = context.Origins.Find(originId);
+            var destinationToRemove = context.Destinations.Find(destinationId);
             context.Remove(originToRemove);
             context.Remove(destinationToRemove);
             context.SaveChanges();

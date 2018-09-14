@@ -40,7 +40,10 @@ namespace IntegrationProject.Controllers
             var @event = await _context.Events
           
                 .Include(m => m.ApplicationUser)
+                .Include(o => o.Origin)
+                .Include(o => o.Destination)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            @event.Waypoints = _context.Waypoints.Where(w => w.EventId == id).ToList();
             if (@event == null)
             {
                 return NotFound();
@@ -95,8 +98,10 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-
-            var @event = await _context.Events.FindAsync(id);
+            var yelpData = JsonParser.ParseYelpSearch(_context);
+            var businesses = yelpData.businesses.Select(b => new SelectListItem { Text = b.name, Value = b.id });
+            ViewData["Businesses"] = businesses;
+            var @event = await _context.Events.Include(o => o.Origin).Include(d => d.Destination).SingleOrDefaultAsync(a => id ==a.Id);
             if (@event == null)
             {
                 return NotFound();
@@ -114,10 +119,7 @@ namespace IntegrationProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Date,Details","Origin","Destination")] Event @event, IFormCollection form)
         {
-            if (id != @event.Id)
-            {
-                return NotFound();
-            }
+            
 
             if (ModelState.IsValid)
             {
@@ -127,7 +129,8 @@ namespace IntegrationProject.Controllers
                     eventToUpdate.Name = @event.Name;
                     eventToUpdate.Date = @event.Date;
                     eventToUpdate.Details = @event.Details;
-                    Survey.ClearLocations(eventToUpdate.Origin, eventToUpdate.Destination, _context);
+                    Survey.ClearLocations(eventToUpdate.OriginId, eventToUpdate.DestinationId, _context);
+                    
                     eventToUpdate.Origin = new Origin()
                     {
                         Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude,
@@ -142,10 +145,10 @@ namespace IntegrationProject.Controllers
                     {
                         Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Latitude,
                         Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Longitude,
-                        EventId = @event.Id
+                        EventId = eventToUpdate.Id
                     };
                     _context.Add(newWaypoint);
-
+                    await _context.SaveChangesAsync();
                     _context.Update(eventToUpdate);
                     await _context.SaveChangesAsync();
                 }

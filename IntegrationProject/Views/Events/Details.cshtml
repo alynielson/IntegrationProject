@@ -59,14 +59,18 @@
             var directionsService = new google.maps.DirectionsService;
             var directionsDisplay = new google.maps.DirectionsRenderer;
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 7,
-                center: { lat: 41.85, lng: -87.65 }
+                zoom: 15,
+                center: { lat: 43.031605, lng: -87.909850 }
             });
+            var originMarker = new google.maps.Marker({ position: { lat: Number(@Model.Origin.Latitude), lng:Number(@Model.Origin.Longitude)}, map: map });
+            var destinationMarker = new google.maps.Marker({ position: { lat: Number(@Model.Destination.Latitude), lng:Number(@Model.Destination.Longitude)}, map: map });
             directionsDisplay.setMap(map);
+            var waypoints = [@Model.Waypoints.Select(waypoint => waypoint)];
+            waypoints.forEach(function (waypoint) {
+                new google.maps.maps.Marker({ position: { lat: Number(waypoint.Latitude), lng: Number(waypoint.Longitude) }, map: map });
+            })
 
-            var onChangeHandler = function () {
-                calculateAndDisplayRoute(directionsService, directionsDisplay);
-            };
+            var onChangeHandler = foreach;
             document.getElementById('start').addEventListener('change', onChangeHandler);
             document.getElementById('end').addEventListener('change', onChangeHandler);
         }
@@ -86,10 +90,10 @@
 
         }
 
-        window.addEventListener('load', initMap());
+        initMap();
     </script>
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDTR1Ag6TkyYqY_O78YZXCW0_B5EiZqSM=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=@($"{Credentials.GOOGLEAPI}")&callback=initMap">
     </script>
 </body>
 
