@@ -225,7 +225,7 @@ namespace IntegrationProject.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> AddAdmin(int Id)
         {
             var user = (await _userManager.GetUserAsync(HttpContext.User));
