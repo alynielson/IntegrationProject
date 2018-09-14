@@ -28,7 +28,7 @@ namespace IntegrationProject.Models
         public int OriginId { get; set; }
         public Origin Origin { get; set; }
         [NotMapped]
-        public int NumberOfStops { get; set }
+        public int NumberOfStops { get; set; }
     }
 
     public class Waypoint
@@ -37,6 +37,7 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string Name { get; set; }
         [ForeignKey("Event")]
         public int EventId { get; set; }
         public Event Event { get; set; }
@@ -48,6 +49,7 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string Name { get; set; }
     }
 
     public class Destination
@@ -56,5 +58,6 @@ namespace IntegrationProject.Models
         public int Id { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string Name { get; set; }
     }
 }

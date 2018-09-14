@@ -81,6 +81,7 @@ namespace IntegrationProject.Controllers
                 Origin newOrigin = new Origin();
                 newOrigin.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude;
                 newOrigin.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude;
+                newOrigin.Name = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Name;
                 @event.Origin = newOrigin;
 
                 var numberOfStops = int.Parse(form["Stops"]);
@@ -89,6 +90,7 @@ namespace IntegrationProject.Controllers
                     Destination newDestination = new Destination();
                     newDestination.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude;
                     newDestination.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude;
+                    newDestination.Name = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Name;
                     @event.Destination = newDestination;
                 }
                 else if (numberOfStops >= 1)
@@ -154,36 +156,27 @@ namespace IntegrationProject.Controllers
 
             if (ModelState.IsValid)
             {
-                var eventToUpdate = _context.Events.Find(id);
+                var eventToUpdate = _context.Events.Include(d => d.Destination).Include(o => o.Origin).Include(w => w.Waypoints).SingleOrDefault(e => e.Id == id);
                 try
                 {
-                    eventToUpdate.Name = @event.Name;
-                    eventToUpdate.Date = @event.Date;
-                    eventToUpdate.Details = @event.Details;
-                    Survey.ClearLocations(eventToUpdate.OriginId, eventToUpdate.DestinationId, _context);
-                    
-                    eventToUpdate.Origin = new Origin()
+
+
+                    eventToUpdate.Destination.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Latitude;
+                    eventToUpdate.Destination.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Longitude;
+                    eventToUpdate.Destination.Name = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Name;
+
+
+                    _context.Destinations.Update(eventToUpdate.Destination);
+                    var waypointsFromDb = _context.Waypoints.Include(e => e.Event).Where(w => w.EventId == eventToUpdate.Id).ToList();
+                    for (int i = 0; i < waypointsFromDb.Count; i++)
                     {
-                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude,
-                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude
-                    };
-                    eventToUpdate.Destination = new Destination()
-                    {
-                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Latitude,
-                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Longitude
-                    };
-                    Waypoint newWaypoint = new Waypoint()
-                    {
-                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Latitude,
-                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Longitude,
-                    };
-                    eventToUpdate.Waypoints = new List<Waypoint>() { };
+                        waypointsFromDb[i].Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form[$"Waypoints[{i}]"]).Latitude;
+                        waypointsFromDb[i].Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form[$"Waypoints[{i}]"]).Longitude;
+                        waypointsFromDb[i].Name = _context.Bars.SingleOrDefault(b => b.YelpId == form[$"Waypoints[{i}]"]).Name;
+
+                        _context.Waypoints.Update(waypointsFromDb[i]);
+                    }
                     _context.SaveChanges();
-                    eventToUpdate.Waypoints.Add(newWaypoint);
-                   
-                    _context.Waypoints.Add(newWaypoint);
-                    _context.SaveChanges();
-                    _context.Update(eventToUpdate);
                     
                     await _context.SaveChangesAsync();
                 }

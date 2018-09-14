@@ -28,7 +28,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Origin" class="control-label"></label>
-                <select asp-for="Origin" asp-items="ViewBag.Businesses" class="form-control disabled" disabled></select>
+                <input class="form-control disabled" asp-for="Origin.Name" disabled />
                 <span asp-validation-for="Details" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,7 +39,7 @@
             @for (int i = 0; i < Model.Waypoints.Count; i++)
             {
                 <div class="form-group">
-                    <label asp-for="Waypoints" class="control-label"></label>
+                    <label asp-for="Waypoints" class="control-label">Waypoint @(i + 1)</label>
                     <select asp-for="Waypoints[i]" asp-items="ViewBag.Businesses" class="form-control"></select>
                     <span asp-validation-for="Waypoints" class="text-danger"></span>
                 </div>
