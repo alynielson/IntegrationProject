@@ -115,7 +115,7 @@ namespace IntegrationProject.Controllers
                 }
                 else
                 {
-                    return RedirectToAction(nameof(Edit), new { id = eventToView });
+                    return RedirectToAction(nameof(Edit), new { id = eventToView, stops = numberOfStops });
                 }
                 
             }
@@ -123,14 +123,13 @@ namespace IntegrationProject.Controllers
             return View(@event);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int stops)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var yelpData = JsonParser.ParseYelpSearch(_context);
-            var businesses = yelpData.businesses.Select(b => new SelectListItem { Text = b.name, Value = b.id });
+            var businesses = _context.Bars.Select(b => new SelectListItem { Text = b.Name, Value = b.YelpId });
             ViewData["Businesses"] = businesses;
             var @event = await _context.Events.Include(o => o.Origin).Include(d => d.Destination).SingleOrDefaultAsync(a => id ==a.Id);
             if (@event == null)
