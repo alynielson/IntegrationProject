@@ -34,6 +34,8 @@ namespace IntegrationProject.Models
         public Answer Answer { get; set; }
     }
 
+
+
     public class Comment
     {
         [Key]
