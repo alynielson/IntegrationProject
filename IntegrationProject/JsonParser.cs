@@ -8,7 +8,6 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using IntegrationProject.Data;
 
-
 namespace IntegrationProject
 {
     public static class JsonParser
