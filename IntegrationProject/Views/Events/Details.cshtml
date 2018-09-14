@@ -12,24 +12,8 @@
     }
 </style>
 <body>
-    <div class="col-md-6">
-        <h4>Event</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Date)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Date)
-            </dd>
+   
 
-<<<<<<< HEAD
 <div class="col-md-6">
     <h4>Event</h4>
     <hr />
@@ -62,24 +46,11 @@
         
     </dl>
 </div>
-<div class="col-md-6">
-=======
-            <dt>
-                @Html.DisplayNameFor(model => model.Details)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Details)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Member)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Member.Id)
-            </dd>
->>>>>>> c0e7017c5a955e6bd4b32cc0b7f11c63cb400c98
-
-        </dl>
-    </div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+    
     <div class="col-md-6">
       <div id="map"></div>
     </div>
@@ -118,7 +89,4 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDTR1Ag6TkyYqY_O78YZXCW0_B5EiZqSM=initMap">
     </script>
 </body>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+

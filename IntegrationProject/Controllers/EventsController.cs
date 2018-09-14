@@ -50,7 +50,7 @@ namespace IntegrationProject.Controllers
         
 
         // GET: Events/Create
-        public IActionResult Create()
+        public IActionResult Create(string id)
         {
            
             var yelpData = JsonParser.ParseYelpSearch(_context);
@@ -64,7 +64,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Date,Time,Details,Origin,Destination")] Event @event, IFormCollection form)
+        public async Task<IActionResult> Create(string id, [Bind("Name,Date,Time,Details,Origin,Destination")] Event @event, IFormCollection form)
         {
             if (ModelState.IsValid)
             {
@@ -82,9 +82,10 @@ namespace IntegrationProject.Controllers
                 @event.Destination = newDestination;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Details));
+                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == id).Id; 
+                return RedirectToAction(nameof(Details), new { id = eventToView});
             }
-            
+
             return View(@event);
         }
         
