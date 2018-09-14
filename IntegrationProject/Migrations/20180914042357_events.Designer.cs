@@ -4,14 +4,16 @@ using IntegrationProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IntegrationProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180914042357_events")]
+    partial class events
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,11 +197,15 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("EventId");
+
                     b.Property<string>("Latitude");
 
                     b.Property<string>("Longitude");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Destinations");
                 });
@@ -229,6 +235,8 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("BarId");
+
                     b.Property<DateTime?>("Date");
 
                     b.Property<int>("DestinationId");
@@ -242,6 +250,8 @@ namespace IntegrationProject.Migrations
                     b.Property<int>("OriginId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BarId");
 
                     b.HasIndex("DestinationId");
 
@@ -365,11 +375,15 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("EventId");
+
                     b.Property<string>("Latitude");
 
                     b.Property<string>("Longitude");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Origins");
                 });
@@ -566,6 +580,14 @@ namespace IntegrationProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("IntegrationProject.Models.Destination", b =>
+                {
+                    b.HasOne("IntegrationProject.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("IntegrationProject.Models.Drink", b =>
                 {
                     b.HasOne("IntegrationProject.Models.Answer", "Answer")
@@ -576,7 +598,12 @@ namespace IntegrationProject.Migrations
 
             modelBuilder.Entity("IntegrationProject.Models.Event", b =>
                 {
-                    b.HasOne("IntegrationProject.Models.Destination", "Destination")
+                    b.HasOne("IntegrationProject.Models.Bar", "Bar")
+                        .WithMany()
+                        .HasForeignKey("BarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("IntegrationProject.Models.Bar", "Destination")
                         .WithMany()
                         .HasForeignKey("DestinationId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -636,6 +663,14 @@ namespace IntegrationProject.Migrations
                     b.HasOne("IntegrationProject.Models.Answer", "Answer")
                         .WithMany("Musics")
                         .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IntegrationProject.Models.Origin", b =>
+                {
+                    b.HasOne("IntegrationProject.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

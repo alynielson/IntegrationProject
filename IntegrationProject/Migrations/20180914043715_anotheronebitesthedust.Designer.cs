@@ -4,14 +4,16 @@ using IntegrationProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IntegrationProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180914043715_anotheronebitesthedust")]
+    partial class anotheronebitesthedust
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,6 +231,8 @@ namespace IntegrationProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("BarId");
+
                     b.Property<DateTime?>("Date");
 
                     b.Property<int>("DestinationId");
@@ -242,6 +246,8 @@ namespace IntegrationProject.Migrations
                     b.Property<int>("OriginId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BarId");
 
                     b.HasIndex("DestinationId");
 
@@ -576,6 +582,11 @@ namespace IntegrationProject.Migrations
 
             modelBuilder.Entity("IntegrationProject.Models.Event", b =>
                 {
+                    b.HasOne("IntegrationProject.Models.Bar", "Bar")
+                        .WithMany()
+                        .HasForeignKey("BarId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("IntegrationProject.Models.Destination", "Destination")
                         .WithMany()
                         .HasForeignKey("DestinationId")

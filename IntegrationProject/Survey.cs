@@ -103,7 +103,7 @@ namespace IntegrationProject
         };
         public static List<Business> GetBusinesses(ApplicationDbContext context)
         {
-            return JsonParser.ParseYelpSearch().businesses.ToList();
+            return JsonParser.ParseYelpSearch(context).businesses.ToList();
         }
         public static List<Drink> GetDrinks(List<Drink> memberDrinks)
         {
