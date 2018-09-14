@@ -223,7 +223,10 @@ namespace IntegrationProject.Controllers
             }
             return RedirectToAction("Index", "Admins");
         }
-
+        public IActionResult IncreaseRadius()
+        {
+            return View();
+        }
        
     }
 }
