@@ -39,6 +39,7 @@ namespace IntegrationProject.Controllers
                 barMatches.Add(newMatch);
             }
             viewModel.matchedBars = barMatches;
+           
             return View(viewModel);
         }
 
