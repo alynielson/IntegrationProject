@@ -181,6 +181,14 @@ namespace IntegrationProject
             context.SaveChanges();
 
         }
+        public static void ClearLocations(Origin origin, Destination destination, ApplicationDbContext context)
+        {
+            var originToRemove = context.Origins.Find(origin.Id);
+            var destinationToRemove = context.Destinations.Find(destination.Id);
+            context.Remove(originToRemove);
+            context.Remove(destinationToRemove);
+            context.SaveChanges();
+        }
 
         public static void ClearMatches(ApplicationDbContext _context, Bar bar)
         {

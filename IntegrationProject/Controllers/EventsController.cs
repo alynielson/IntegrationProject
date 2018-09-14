@@ -115,7 +115,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Date,Time,Details","Origin","Destination")] Event @event, IFormCollection form)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Date,Details","Origin","Destination")] Event @event, IFormCollection form)
         {
             if (id != @event.Id)
             {
@@ -124,16 +124,32 @@ namespace IntegrationProject.Controllers
 
             if (ModelState.IsValid)
             {
+                var eventToUpdate = _context.Events.Find(id);
                 try
                 {
+                    eventToUpdate.Name = @event.Name;
+                    eventToUpdate.Date = @event.Date;
+                    eventToUpdate.Details = @event.Details;
+                    Survey.ClearLocations(eventToUpdate.Origin, eventToUpdate.Destination, _context);
+                    eventToUpdate.Origin = new Origin()
+                    {
+                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude,
+                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude
+                    };
+                    eventToUpdate.Destination = new Destination()
+                    {
+                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Latitude,
+                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Longitude
+                    };
                     Waypoint newWaypoint = new Waypoint()
                     {
-                        Latitude = JsonParser.ParseYelpSearchBar(form["Waypoint"]).coordinates.latitude.ToString(),
-                        Longitude = JsonParser.ParseYelpSearchBar(form["Waypoint"]).coordinates.longitude.ToString(),
+                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Latitude,
+                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Longitude,
                         EventId = @event.Id
                     };
                     _context.Add(newWaypoint);
-                    _context.Update(@event);
+
+                    _context.Update(eventToUpdate);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
