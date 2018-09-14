@@ -7,21 +7,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using IntegrationProject.Data;
-<<<<<<< HEAD
-using IntegrationProject.Models;
-=======
->>>>>>> 74e250eb8580d02c3fe55e7850fbf78d97ab5066
 
 namespace IntegrationProject
 {
     public static class JsonParser
     {
-<<<<<<< HEAD
-        public static SearchResult ParseYelpSearch(ApplicationDbContext _context)
-        {
-            
-            string url = $"https://api.yelp.com/v3/businesses/search?term=bars&latitude=43.031605&longitude=-87.909850&radius=400";
-=======
         public static SearchResult ParseYelpSearch(ApplicationDbContext context)
         {
             string radiusForSearch;
@@ -35,7 +25,6 @@ namespace IntegrationProject
                 radiusForSearch = radius.Item;
             }
             string url = $"https://api.yelp.com/v3/businesses/search?term=bars&latitude=43.031605&longitude=-87.909850&radius={radiusForSearch}";
->>>>>>> 74e250eb8580d02c3fe55e7850fbf78d97ab5066
             WebResponse response = null;
             try
             {
