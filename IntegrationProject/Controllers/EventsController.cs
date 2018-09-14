@@ -91,7 +91,7 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-            var yelpData = JsonParser.ParseYelpSearch();
+            var yelpData = JsonParser.ParseYelpSearch(_context);
             var businesses = yelpData.businesses.ToList();
             ViewData["Businesses"] = businesses;
             return View(@event);
