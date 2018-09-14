@@ -238,17 +238,19 @@ namespace IntegrationProject.Controllers
             string increaseValue = "10";
             if(radius == null)
             {
-                radius.Item = lowestRadius;
+                Value value = new Value() { Name = "radius" };
+                value.Item = lowestRadius;
+                _context.Add(value);
             }
-            if(radius.Item != null)
+            else
             {
-                var newRadius = Convert.ToInt32(radius.Item) + Convert.ToInt32(increaseValue);
+                int newRadius = Convert.ToInt32(radius.Item) + Convert.ToInt32(increaseValue);
                 radius.Item = Convert.ToString(newRadius);
                 _context.Update(radius);
             }
             _context.SaveChanges();
             JsonParser.ParseYelpSearch(_context);
-            return View();
+            return RedirectToAction("Index","Admins");
         }
        
 
