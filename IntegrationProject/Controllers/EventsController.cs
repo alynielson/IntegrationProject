@@ -115,7 +115,7 @@ namespace IntegrationProject.Controllers
                 }
                 else
                 {
-                    return RedirectToAction(nameof(Edit), new { id = eventToView, stops = numberOfStops });
+                    return RedirectToAction(nameof(Edit), new { id = eventToView });
                 }
                 
             }
@@ -123,7 +123,7 @@ namespace IntegrationProject.Controllers
             return View(@event);
         }
 
-        public async Task<IActionResult> Edit(int? id, int stops)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -131,7 +131,8 @@ namespace IntegrationProject.Controllers
             }
             var businesses = _context.Bars.Select(b => new SelectListItem { Text = b.Name, Value = b.YelpId });
             ViewData["Businesses"] = businesses;
-            var @event = await _context.Events.Include(o => o.Origin).Include(d => d.Destination).SingleOrDefaultAsync(a => id ==a.Id);
+            var @event = await _context.Events.Include(o => o.Origin).Include(d => d.Destination).Include(w => w.Waypoints).SingleOrDefaultAsync(a => id ==a.Id);
+
             if (@event == null)
             {
                 return NotFound();
