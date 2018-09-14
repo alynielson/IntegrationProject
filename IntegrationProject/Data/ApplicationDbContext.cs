@@ -24,6 +24,9 @@ namespace IntegrationProject.Data
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Origin> Origins { get; set; }
+        public DbSet<Destination> Destinations { get; set; }
+        public DbSet<Waypoint> Waypoints { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
