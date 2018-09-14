@@ -36,6 +36,7 @@ namespace IntegrationProject.Controllers
                 BarMatch newMatch = new BarMatch();
                 newMatch.bar = bars[i];
                 newMatch.score = scores[i];
+                barMatches.Add(newMatch);
             }
             viewModel.matchedBars = barMatches;
             return View(viewModel);
