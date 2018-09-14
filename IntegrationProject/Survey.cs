@@ -101,6 +101,10 @@ namespace IntegrationProject
             {"Good", 4 },
             {"Great", 5 }
         };
+        public static List<Business> GetBusinesses(ApplicationDbContext context)
+        {
+            return JsonParser.ParseYelpSearch().businesses.ToList();
+        }
         public static List<Drink> GetDrinks(List<Drink> memberDrinks)
         {
             for (int i = 0; i < Survey.DRINKS.Count; i++)

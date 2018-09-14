@@ -61,7 +61,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EventName,DateOfEvent,TimeOfEvent,EventDetails,MemberId,BarId")] Event @event)
+        public async Task<IActionResult> Create([Bind("Name,Date,Time,Details,Origin,Waypoints,Destination")] Event @event)
         {
             if (ModelState.IsValid)
             {
