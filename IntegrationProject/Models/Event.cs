@@ -29,6 +29,7 @@ namespace IntegrationProject.Models
         public Origin Origin { get; set; }
         [NotMapped]
         public int NumberOfStops { get; set; }
+        public int NumberOfGuests { get; set; }
     }
 
     public class Waypoint
