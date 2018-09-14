@@ -34,9 +34,7 @@
             <th>
 
             </th>
-            <th>
-                Edit
-            </th>
+          
         </tr>
     </thead>
     <tbody>
@@ -48,57 +46,56 @@
             <td>
                 @Html.DisplayFor(modelItem => item.bar.Address)
             </td>
-           
-                @Html.HiddenFor(modelItem => item.CompletedSurvey)
-                @if (item.CompletedSurvey == false)
-                {
-                    <td><button class="btn btn-primary disabled" disabled>No</button></td>
 
+            @Html.HiddenFor(modelItem => item.CompletedSurvey)
+            @if (item.CompletedSurvey == false)
+            {
+                <td><button class="btn btn-primary disabled" disabled>No</button></td>
+
+            }
+            else
+            {
+                <td><button class="btn btn-success disabled" disabled>Completed</button></td>
+            }
+
+            @if (item.CompletedSurvey == false)
+            {
+                <td><a class="btn btn-primary" asp-action="DoSurvey" asp-route-id="@item.bar.Id">Fill out survey</a></td>
+
+            }
+            else
+            {
+                <td><a class="btn btn-default" asp-action="DoSurvey" asp-route-id="@item.bar.Id">Retake survey</a></td>
+            }
+
+
+
+            @Html.HiddenFor(modelItem => item.adminName)
+            @if (item.adminName == null)
+            {
+                <td>Needs Admin</td>
+            }
+            else
+            {
+                @if (item.bar.AdminId == Model.admin.Id)
+                {
+                    <td>You</td>
                 }
                 else
                 {
-                    <td><button class="btn btn-success disabled" disabled>Completed</button></td>
+                    <td>@item.adminName</td>
                 }
-            
-                 @if (item.CompletedSurvey == false)
-                {
-                    <td><a class="btn btn-primary" asp-action="DoSurvey" asp-route-id="@item.bar.Id">Fill out survey</a></td>
-
-                }
-                else
-                {
-                    <td><a class="btn btn-default" asp-action="DoSurvey" asp-route-id="@item.bar.Id">Retake survey</a></td>
-                }
-                 
-            
-            
-                @Html.HiddenFor(modelItem => item.adminName)
+            }
+            <td>
                 @if (item.adminName == null)
                 {
-                    <td>Needs Admin</td>
-                }
-                else
-                {
-                    @if (item.bar.AdminId == Model.admin.Id)
-                    {
-                        <td>You</td>
-                    }
-                    else
-                    {
-                        <td>@item.adminName</td>
-                    }
-                }
-            <td>
                 <a class="btn btn-default" asp-action="AddAdmin" asp-controller="Admins" asp-route-id="@item.bar.Id">Assign to me</a>
-            </td>
+                }
+                
+                </td>
 
 
-            <td>
-                <!----<a asp-action="Edit" asp-route-id="">Edit</a> |
-                <a asp-action="Details" asp-route-id="">Details</a> |
-                <a asp-action="Delete" asp-route-id="">Delete</a>-->
-            </td>
-        </tr>
+            </tr>
 }
     </tbody>
 </table>

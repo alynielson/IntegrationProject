@@ -16,9 +16,9 @@ namespace IntegrationProject.Models
         public DateTime? Date { get; set; }
 
         public string Details { get; set; }
-        [ForeignKey("Member")]
-        public int MemberId { get; set; }
-        public Member Member { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public List<Waypoint> Waypoints { get; set; }
        
         [ForeignKey("Destination")]

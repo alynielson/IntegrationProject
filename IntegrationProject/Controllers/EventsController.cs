@@ -25,7 +25,7 @@ namespace IntegrationProject.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Events.Include(m => m.Member);
+            var applicationDbContext = _context.Events.Include(m => m.ApplicationUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -39,7 +39,7 @@ namespace IntegrationProject.Controllers
 
             var @event = await _context.Events
           
-                .Include(m => m.Member)
+                .Include(m => m.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
@@ -69,8 +69,8 @@ namespace IntegrationProject.Controllers
             if (ModelState.IsValid)
             {
                 var user = (await _userManager.GetUserAsync(HttpContext.User));
-                var member = _context.Members.SingleOrDefault(m => m.ApplicationUserId == user.Id);
-                @event.Member = member;
+                
+                @event.ApplicationUser = user;
                 Origin newOrigin = new Origin();
 
                 newOrigin.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude;
@@ -84,31 +84,13 @@ namespace IntegrationProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Details));
             }
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id", @event.MemberId);
+            
             return View(@event);
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
 
 
-        // GET: Events/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
-            {
-                return NotFound();
-            }
-            var yelpData = JsonParser.ParseYelpSearch(_context);
-            var businesses = yelpData.businesses.Select(b => new SelectListItem { Text = b.name, Value = b.id });
-            ViewData["Businesses"] = businesses;
-            return View(@event);
-        }
+        
 
         // POST: Events/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -149,7 +131,7 @@ namespace IntegrationProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id", @event.MemberId);
+            
             return View(@event);
         }
 
