@@ -84,36 +84,41 @@
                 zoom: 15,
                 center: { lat: 43.031605, lng: -87.909850 }
             });
-            var originMarker = new google.maps.Marker({ position: { lat: Number(@Model.Origin.Latitude), lng: Number(@Model.Origin.Longitude) }, map: map });
-            var destinationMarker = new google.maps.Marker({ position: { lat: Number(@Model.Destination.Latitude), lng:Number(@Model.Destination.Longitude)}, map: map});
+            var originMarker = new google.maps.Marker({ position: { lat: Number(@Model.Origin.Latitude), lng: Number(@Model.Origin.Longitude) } });
+            var destinationMarker = new google.maps.Marker({ position: { lat: Number(@Model.Destination.Latitude), lng:Number(@Model.Destination.Longitude)}});
             directionsDisplay.setMap(map);
             var waypoints = [];
             @for(int i = 0; i < Model.Waypoints.Count; i++)
             {
-                @:waypoints.push({ lat: Number(@Model.Waypoints[i].Latitude), lng: Number(@Model.Waypoints[i].Longitude) });
+                @:waypoints.push({ location: { lat: Number(@Model.Waypoints[i].Latitude), lng: Number(@Model.Waypoints[i].Longitude) }, stopover: true });
             }
 
             var newWaypoints = waypoints.map(function (waypoint) {
-            new google.maps.Marker({ position: { lat: Number(waypoint.lat), lng: Number(waypoint.lng) }, map: map});
+                new google.maps.Marker({ position: { lat: Number(waypoint.lat), lng: Number(waypoint.lng) } });
+                calculateAndDisplayRoute(directionsService, directionsDisplay, originMarker, destinationMarker, waypoints);
             })
 
 
         }
 
-        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        function calculateAndDisplayRoute(directionsService, directionsDisplay, originMarker, destinationMarker, newWaypoints) {
             directionsService.route({
-                origin: document.getElementById('start').value,
-                destination: document.getElementById('end').value,
-                travelMode: 'Walking'
+                origin: originMarker.position,
+                destination: destinationMarker.position,
+                waypoints: newWaypoints,
+                optimizeWaypoints: true,
+                travelMode: 'WALKING'
             }, function (response, status) {
                 if (status === 'OK') {
                     directionsDisplay.setDirections(response);
+                    
                 } else {
                     window.alert('Directions request failed due to ' + status);
                 }
                 });
 
         }
+        
         
     </script>
     
