@@ -92,8 +92,9 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["BarId"] = new SelectList(_context.Bars, "Id", "Id", @event.BarId);
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id", @event.MemberId);
+            var yelpData = JsonParser.ParseYelpSearch();
+            var businesses = yelpData.businesses.ToList();
+            ViewData["Businesses"] = businesses;
             return View(@event);
         }
 
@@ -102,7 +103,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,DateOfEvent,TimeOfEvent,EventDetails,MemberId,BarId")] Event @event, IFormCollection form)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Date,Time,Details")] Event @event, IFormCollection form)
         {
             if (id != @event.Id)
             {
