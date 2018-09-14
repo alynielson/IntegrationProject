@@ -12,7 +12,7 @@ namespace IntegrationProject
         public static void CreateBars(ApplicationDbContext context)
         {
            
-            SearchResult allBars = JsonParser.ParseYelpSearch();
+            SearchResult allBars = JsonParser.ParseYelpSearch(context);
             for (int i = 0; i < allBars.businesses.Length; i++)
             {
                 Bar bar = new Bar();

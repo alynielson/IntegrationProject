@@ -5,14 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IntegrationProject.Models;
+using IntegrationProject.Data;
 
 namespace IntegrationProject.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
-            var yelpData = JsonParser.ParseYelpSearch();
+            var yelpData = JsonParser.ParseYelpSearch(_context);
             var businesses = yelpData.businesses.ToList();
             ViewData["Businesses"] = businesses;
             return View();

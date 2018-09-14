@@ -10,6 +10,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<right>
+    <a class="btn btn-primary" asp-action="IncreaseRadius" asp-controller="Admin">Increase Bar Radius</a>
+</right>
 <table class="table">
     <thead>
         <tr>
@@ -85,7 +88,9 @@
                         <td>@item.adminName</td>
                     }
                 }
-            <td></td>
+            <td>
+                <a class="btn btn-default" asp-action="AddAdmin" asp-controller="Admins" asp-route-id="@Model.admin.Id">Assign to me</a>
+            </td>
 
 
             <td>

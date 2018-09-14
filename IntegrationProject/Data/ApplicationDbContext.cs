@@ -27,6 +27,9 @@ namespace IntegrationProject.Data
         public DbSet<Origin> Origins { get; set; }
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<Waypoint> Waypoints { get; set; }
+
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Value> Values { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
