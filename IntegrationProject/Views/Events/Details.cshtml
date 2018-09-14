@@ -65,10 +65,18 @@
             var originMarker = new google.maps.Marker({ position: { lat: Number(@Model.Origin.Latitude), lng:Number(@Model.Origin.Longitude)}, map: map });
             var destinationMarker = new google.maps.Marker({ position: { lat: Number(@Model.Destination.Latitude), lng:Number(@Model.Destination.Longitude)}, map: map });
             directionsDisplay.setMap(map);
-            var waypoints = [@Model.Waypoints.Select(waypoint => waypoint)];
-            waypoints.forEach(function (waypoint) {
-                new google.maps.maps.Marker({ position: { lat: Number(waypoint.Latitude), lng: Number(waypoint.Longitude) }, map: map });
-            })
+            var waypoints = [];
+            var modelWaypoints = @Model.Waypoints.Select(s => new { s.Latitude, s.Longitude }).ToList();
+            for (var i = 0; i < modelWaypoints.length; i++) {
+                waypoints.push({
+                    position: { lat: Number(modelWaypoints[i][0]), lng: Number(modelWaypoints[i][1]},
+                    stopover: true
+                })
+            }
+            //var waypoints = [//Model.Waypoints.Select(waypoint => waypoint)];
+            //waypoints.forEach(function (waypoint) {
+             //   new google.maps.maps.Marker({ position: { lat: Number(waypoint.Latitude), lng: Number(waypoint.Longitude) }, map: map });
+            //})
 
             var onChangeHandler = foreach;
             document.getElementById('start').addEventListener('change', onChangeHandler);

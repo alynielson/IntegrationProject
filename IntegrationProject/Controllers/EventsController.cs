@@ -146,8 +146,14 @@ namespace IntegrationProject.Controllers
                         Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Latitude,
                         Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Longitude,
                     };
+                    eventToUpdate.Waypoints = new List<Waypoint>() { };
+                    _context.SaveChanges();
                     eventToUpdate.Waypoints.Add(newWaypoint);
+                   
+                    _context.Waypoints.Add(newWaypoint);
+                    _context.SaveChanges();
                     _context.Update(eventToUpdate);
+                    
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
