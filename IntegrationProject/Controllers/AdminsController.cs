@@ -30,7 +30,7 @@ namespace IntegrationProject.Controllers
             AdminBarVM viewModel = new AdminBarVM();
             viewModel.bars = new List<BarVM>();
             viewModel.admin = admin;
-            SearchResult allBars = JsonParser.ParseYelpSearch();
+            SearchResult allBars = JsonParser.ParseYelpSearch(_context);
             for (int i = 0; i < allBars.businesses.Length; i++)
             {
                 var bar = _context.Bars.SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);
@@ -225,6 +225,20 @@ namespace IntegrationProject.Controllers
         }
         public IActionResult IncreaseRadius()
         {
+            var radius = _context.Values.SingleOrDefault(r => r.Name == "radius");
+            string lowestRadius = "400";
+            string increaseValue = "100";
+            if(radius.Item == null)
+            {
+                radius.Item = lowestRadius;
+            }
+            if(radius.Item != null)
+            {
+                var newRadius = Convert.ToInt32(radius.Item) + Convert.ToInt32(increaseValue);
+                radius.Item = Convert.ToString(newRadius);
+                _context.Update(radius);
+            }
+            JsonParser.ParseYelpSearch(_context);
             return View();
         }
        

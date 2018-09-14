@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using IntegrationProject.Data;
+using IntegrationProject.Models;
 
 namespace IntegrationProject
 {
@@ -14,7 +15,7 @@ namespace IntegrationProject
     {
         public static SearchResult ParseYelpSearch(ApplicationDbContext _context)
         {
-            _context
+            
             string url = $"https://api.yelp.com/v3/businesses/search?term=bars&latitude=43.031605&longitude=-87.909850&radius=400";
             WebResponse response = null;
             try
