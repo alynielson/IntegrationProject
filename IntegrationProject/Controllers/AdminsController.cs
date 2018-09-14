@@ -30,7 +30,7 @@ namespace IntegrationProject.Controllers
             AdminBarVM viewModel = new AdminBarVM();
             viewModel.bars = new List<BarVM>();
             viewModel.admin = admin;
-            SearchResult allBars = JsonParser.ParseYelpSearch();
+            SearchResult allBars = JsonParser.ParseYelpSearch(_context);
             for (int i = 0; i < allBars.businesses.Length; i++)
             {
                 var bar = _context.Bars.SingleOrDefault(b => allBars.businesses[i].id == b.YelpId);

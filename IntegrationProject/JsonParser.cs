@@ -6,14 +6,25 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using IntegrationProject.Data;
 
 namespace IntegrationProject
 {
     public static class JsonParser
     {
-        public static SearchResult ParseYelpSearch()
+        public static SearchResult ParseYelpSearch(ApplicationDbContext context)
         {
-            string url = $"https://api.yelp.com/v3/businesses/search?term=bars&latitude=43.031605&longitude=-87.909850&radius=400";
+            string radiusForSearch;
+            var radius = context.Values.SingleOrDefault(v => v.Name == "radius");
+            if (radius == null)
+            {
+                radiusForSearch = "400";
+            }
+            else
+            {
+                radiusForSearch = radius.Item;
+            }
+            string url = $"https://api.yelp.com/v3/businesses/search?term=bars&latitude=43.031605&longitude=-87.909850&radius={radiusForSearch}";
             WebResponse response = null;
             try
             {
