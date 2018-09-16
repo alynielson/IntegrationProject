@@ -50,6 +50,8 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
+            var userId = @event.ApplicationUserId;
+            AssignViewDataFromString(userId);
             return View(@event);
         }
         
@@ -69,6 +71,7 @@ namespace IntegrationProject.Controllers
             ViewData["Stops"] = selectStops;
             ViewData["Businesses"] = businesses;
             ViewData["ApplicationUserId"] = id;
+            AssignViewDataFromString(id);
             return View();
         }
 
@@ -128,8 +131,37 @@ namespace IntegrationProject.Controllers
                 }
                 
             }
-
+            
             return View(@event);
+        }
+
+        private void AssignViewData(int id)
+        {
+            if (User.IsInRole("Member"))
+            {
+                ViewData["Id"] = id;
+                ViewData["ApplicationUserId"] = _context.Members.Find(id).ApplicationUserId;
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                ViewData["Id"] = id;
+                ViewData["ApplicationUserId"] = _context.Admins.Find(id).ApplicationUserId;
+            }
+           
+        }
+
+        private void AssignViewDataFromString(string id)
+        {
+            if (User.IsInRole("Member"))
+            {
+                ViewData["Id"] = _context.Members.SingleOrDefault(a => a.ApplicationUserId == id).Id;
+                ViewData["ApplicationUserId"] = id;
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                ViewData["Id"] = _context.Members.SingleOrDefault(a => a.ApplicationUserId == id).Id;
+                ViewData["ApplicationUserId"] = id;
+            }
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -146,7 +178,8 @@ namespace IntegrationProject.Controllers
             {
                 return NotFound();
             }
-            
+            var userId = @event.ApplicationUserId;
+            AssignViewDataFromString(userId);
             return View(@event);
         }
 
