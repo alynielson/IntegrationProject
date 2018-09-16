@@ -55,6 +55,10 @@
     {
         <a asp-action="Events" asp-controller="Member" asp-route-id="@ViewData["ApplicationUserId"]">Back to List</a>
     }
+    else if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Events" asp-controller="Admins" asp-route-id="@ViewData["ApplicationUserId"]">Back to List</a>
+    }
 
 </div>
 

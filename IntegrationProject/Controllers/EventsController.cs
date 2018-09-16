@@ -159,7 +159,7 @@ namespace IntegrationProject.Controllers
             }
             else if (User.IsInRole("Admin"))
             {
-                ViewData["Id"] = _context.Members.SingleOrDefault(a => a.ApplicationUserId == id).Id;
+                ViewData["Id"] = _context.Admins.SingleOrDefault(a => a.ApplicationUserId == id).Id;
                 ViewData["ApplicationUserId"] = id;
             }
         }

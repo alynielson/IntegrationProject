@@ -8,9 +8,7 @@
 <h2>Your Matches</h2>
 
 <div class="container">
-    <div class="row">
-        <a class="btn btn-primary" asp-action="Create" asp-controller="Events" asp-route-id="@Model.member.ApplicationUserId">Create Event</a>
-    </div>
+    
     <hr />
     <div class="row">
         @foreach (var item in Model.matchedBars)

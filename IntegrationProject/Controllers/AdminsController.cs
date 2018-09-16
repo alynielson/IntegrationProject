@@ -22,6 +22,16 @@ namespace IntegrationProject.Controllers
             _userManager = userManager;
         }
 
+        public async Task<IActionResult> Events(string Id)
+        {
+            var admin = _context.Admins.SingleOrDefault(a => a.ApplicationUserId == Id);
+            AdminEventVM viewModel = new AdminEventVM();
+            viewModel.admin = admin;
+            var @events = _context.Events.Include(a => a.Origin).Include(a => a.ApplicationUser).Where(e => e.ApplicationUserId == admin.ApplicationUserId);
+            viewModel.@events = @events.ToList();
+            return View(viewModel);
+        }
+
         // GET: Admins
         public async Task<IActionResult> Index()
         {
