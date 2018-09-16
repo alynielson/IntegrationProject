@@ -15,7 +15,7 @@ namespace IntegrationProject
         public static SearchResult ParseYelpSearch(ApplicationDbContext context)
         {
             string radiusForSearch;
-            var radius = context.Values.SingleOrDefault(v => v.Name == "radius");
+            //var radius = context.Values.SingleOrDefault(v => v.Name == "radius");
             if (radius == null)
             {
                 radiusForSearch = "400";
@@ -114,6 +114,7 @@ namespace IntegrationProject
                 throw new Exception("Request url not valid");
             }
         }
+
     }
 }
 
