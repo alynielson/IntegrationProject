@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Drawing;
 using Microsoft.Win32.SafeHandles;
+using System.Net;
 
 namespace IntegrationProject.Controllers
 {
@@ -200,9 +201,7 @@ namespace IntegrationProject.Controllers
         {
             return _context.Bars.Any(e => e.Id == id);
         }
-
-      
-
+        
     }
 }
 
