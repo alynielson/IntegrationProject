@@ -30,7 +30,7 @@
         <dd>
             @Html.DisplayFor(model => model.Date)
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.Details)
         </dt>
@@ -38,17 +38,38 @@
             @Html.DisplayFor(model => model.Details)
         </dd>
         <dt>
+            Starting Location
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Origin.Name)
+        </dd>
+        <dt>
+            Ending Location
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Destination.Name)
+        </dd>
+        <dt>
+            Stops
+        </dt>
+        <dd>
+            @foreach (var item in Model.Waypoints)
+            {
+                <div>@item.Name</div>
+            }
+        </dd>
+       
+        <dt>
             Owner
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ApplicationUser.Email)
         </dd>
-        
+
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ApplicationUserId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Events" asp-controller="Member" asp-route-id="@Model.ApplicationUserId">Back to List</a>
 </div>
     
     <div class="col-md-6">
@@ -62,36 +83,77 @@
                 zoom: 15,
                 center: { lat: 43.031605, lng: -87.909850 }
             });
-            var originMarker = new google.maps.Marker({ position: { lat: Number(@Model.Origin.Latitude), lng:Number(@Model.Origin.Longitude)}, map: map });
-            var destinationMarker = new google.maps.Marker({ position: { lat: Number(@Model.Destination.Latitude), lng:Number(@Model.Destination.Longitude)}, map: map });
+            var originMarker = new google.maps.Marker({ position: { lat: Number(@Model.Origin.Latitude), lng: Number(@Model.Origin.Longitude) } });
+            var destinationMarker = new google.maps.Marker({ position: { lat: Number(@Model.Destination.Latitude), lng:Number(@Model.Destination.Longitude)}});
             directionsDisplay.setMap(map);
-            var waypoints = [@Model.Waypoints.Select(waypoint => waypoint)];
-            waypoints.forEach(function (waypoint) {
-                new google.maps.maps.Marker({ position: { lat: Number(waypoint.Latitude), lng: Number(waypoint.Longitude) }, map: map });
-            })
+            var waypoints = [];
+            @for(int i = 0; i < Model.Waypoints.Count; i++)
+            {
+                @:waypoints.push({ location: { lat: Number(@Model.Waypoints[i].Latitude), lng: Number(@Model.Waypoints[i].Longitude) }, stopover: true });
+            }
 
-            var onChangeHandler = foreach;
-            document.getElementById('start').addEventListener('change', onChangeHandler);
-            document.getElementById('end').addEventListener('change', onChangeHandler);
-        }
-
-        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-            directionsService.route({
-                origin: document.getElementById('start').value,
-                destination: document.getElementById('end').value,
-                travelMode: 'Walking'
-            }, function (response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
+            var newWaypoints = waypoints.map(function (waypoint) {
+                new google.maps.Marker({ position: { lat: Number(waypoint.lat), lng: Number(waypoint.lng) } });
+                if (waypoints.length > 0) {
+                    calculateAndDisplayRoute(directionsService, directionsDisplay, originMarker, destinationMarker, waypoints);
                 }
-                });
+               
+                
+            })
+            if (newWaypoints.length === 0) {
+                calcRouteWithoutWaypoints(directionsService, directionsDisplay, originMarker, destinationMarker);
+            }
+            
 
         }
+
+        function calcRouteWithoutWaypoints(directionsService, directionsDisplay, originMarker, destinationMarker) {
+            
+                directionsService.route({
+                    origin: originMarker.position,
+                    destination: destinationMarker.position,
+
+                    travelMode: 'WALKING'
+                }, function (response, status) {
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            
+        }
+<<<<<<< HEAD
         initMap();
+=======
+
+        function calculateAndDisplayRoute(directionsService, directionsDisplay, originMarker, destinationMarker, newWaypoints) {
+            
+                directionsService.route({
+                    origin: originMarker.position,
+                    destination: destinationMarker.position,
+                    waypoints: newWaypoints,
+                    optimizeWaypoints: true,
+                    travelMode: 'WALKING'
+                }, function (response, status) {
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            
+           
+
+        }
+        
+        
+>>>>>>> 4a1d1f8e7f942ef2eb3718731a779501cb64aafa
     </script>
-    <script async defer
+    
+    <script defer
             src="https://maps.googleapis.com/maps/api/js?key=@($"{Credentials.GOOGLEAPI}")&callback=initMap">
     </script>
 </body>

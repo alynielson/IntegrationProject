@@ -1,4 +1,12 @@
-﻿
+﻿@model IntegrationProject.Models.AdminBarVM
+
+@{
+
+}
+
+
+
+
 
 <!DOCTYPE html>
 <html>
@@ -31,24 +39,17 @@
                 <a class="navbar-brand">eBarmony</a>
             </div>
             <div class="navbar-collapse collapse">
-                @if (User.IsInRole("Member"))
-                {
+                <div class="navbar-collapse collapse">
+
                     <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Admins" asp-action="Index" asp-route-id="@Model.admin.Id">Manage</a></li>
                         
 
                     </ul>
-                }
-                @if (User.IsInRole("Admin"))
-                {
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
 
-                    </ul>
-                }
                     <partial name="_LoginPartial" />
                 </div>
-        </div>
+            </div>
     </nav>
 
     <partial name="_CookieConsentPartial" />
@@ -85,3 +86,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+

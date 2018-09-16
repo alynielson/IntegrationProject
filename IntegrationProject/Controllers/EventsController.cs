@@ -9,6 +9,8 @@ using IntegrationProject.Data;
 using IntegrationProject.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Net.Mail;
+using System.Net;
 
 namespace IntegrationProject.Controllers
 {
@@ -60,9 +62,13 @@ namespace IntegrationProject.Controllers
             //var businesses = yelpData.businesses.Select(b => new SelectListItem { Text = b.name, Value = b.id });
             var businesses = _context.Bars.Select(b => new SelectListItem { Text = b.Name, Value= b.YelpId });
             var stops = new List<int> { 0, 1, 2, 3, 4 };
+            var guests = new List<int> { 0, 1, 2, 3 };
             var selectStops = stops.Select(s => new SelectListItem { Text = s.ToString(), Value = s.ToString() });
+            var selectGuests = guests.Select(g => new SelectListItem { Text = g.ToString(), Value = g.ToString() });
+            ViewData["Guests"] = selectGuests;
             ViewData["Stops"] = selectStops;
             ViewData["Businesses"] = businesses;
+            ViewData["ApplicationUserId"] = id;
             return View();
         }
 
@@ -71,7 +77,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string id, [Bind("Name,Date,Time,Details,Origin,Destination")] Event @event, IFormCollection form)
+        public async Task<IActionResult> Create(string id, [Bind("Name,Date,Time,Details,Origin,Destination,NumberOfGuests")] Event @event, IFormCollection form)
         {
             if (ModelState.IsValid)
             {
@@ -81,14 +87,16 @@ namespace IntegrationProject.Controllers
                 Origin newOrigin = new Origin();
                 newOrigin.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude;
                 newOrigin.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude;
+                newOrigin.Name = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Name;
                 @event.Origin = newOrigin;
-
                 var numberOfStops = int.Parse(form["Stops"]);
+                
                 if (numberOfStops == 0)
                 {
                     Destination newDestination = new Destination();
                     newDestination.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude;
                     newDestination.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude;
+                    newDestination.Name = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Name;
                     @event.Destination = newDestination;
                 }
                 else if (numberOfStops >= 1)
@@ -107,8 +115,9 @@ namespace IntegrationProject.Controllers
                 }
                 
                 _context.Add(@event);
-                await _context.SaveChangesAsync();
-                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == id).Id;
+                _context.SaveChanges();
+                var userToFind = (await _userManager.GetUserAsync(HttpContext.User));
+                var eventToView = _context.Events.OrderByDescending(s => s.Id).FirstOrDefault(a => a.ApplicationUserId == userToFind.Id).Id;
                 if(numberOfStops == 0)
                 {
                     return RedirectToAction(nameof(Details), new { id = eventToView });
@@ -131,7 +140,7 @@ namespace IntegrationProject.Controllers
             }
             var businesses = _context.Bars.Select(b => new SelectListItem { Text = b.Name, Value = b.YelpId });
             ViewData["Businesses"] = businesses;
-            var @event = await _context.Events.Include(o => o.Origin).Include(d => d.Destination).Include(w => w.Waypoints).SingleOrDefaultAsync(a => id ==a.Id);
+            var @event = await _context.Events.Include(o => o.Origin).Include(d => d.Destination).Include(w => w.Waypoints).Include(a => a.ApplicationUser).SingleOrDefaultAsync(a => id ==a.Id);
 
             if (@event == null)
             {
@@ -154,31 +163,32 @@ namespace IntegrationProject.Controllers
 
             if (ModelState.IsValid)
             {
-                var eventToUpdate = _context.Events.Find(id);
+                var eventToUpdate = _context.Events.Include(d => d.Destination).Include(o => o.Origin).Include(w => w.Waypoints).SingleOrDefault(e => e.Id == id);
                 try
                 {
-                    eventToUpdate.Name = @event.Name;
-                    eventToUpdate.Date = @event.Date;
-                    eventToUpdate.Details = @event.Details;
-                    Survey.ClearLocations(eventToUpdate.OriginId, eventToUpdate.DestinationId, _context);
+
+
+                    eventToUpdate.Destination.Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Latitude;
+                    eventToUpdate.Destination.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Longitude;
+                    eventToUpdate.Destination.Name = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Name;
+
+
+                    _context.Destinations.Update(eventToUpdate.Destination);
+                    var waypointsFromDb = _context.Waypoints.Include(e => e.Event).Where(w => w.EventId == eventToUpdate.Id).ToList();
+                    for (int i = 0; i < waypointsFromDb.Count; i++)
+                    {
+                        waypointsFromDb[i].Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form[$"Waypoints[{i}]"]).Latitude;
+                        waypointsFromDb[i].Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form[$"Waypoints[{i}]"]).Longitude;
+                        waypointsFromDb[i].Name = _context.Bars.SingleOrDefault(b => b.YelpId == form[$"Waypoints[{i}]"]).Name;
+
+                        _context.Waypoints.Update(waypointsFromDb[i]);
+                    }
+                    if (eventToUpdate.NumberOfGuests > 0)
+                    {
+                        EmailMembers(form, eventToUpdate);
+                    }
                     
-                    eventToUpdate.Origin = new Origin()
-                    {
-                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Latitude,
-                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude
-                    };
-                    eventToUpdate.Destination = new Destination()
-                    {
-                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Latitude,
-                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Destination"]).Longitude
-                    };
-                    Waypoint newWaypoint = new Waypoint()
-                    {
-                        Latitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Latitude,
-                        Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Waypoint"]).Longitude,
-                    };
-                    eventToUpdate.Waypoints.Add(newWaypoint);
-                    _context.Update(eventToUpdate);
+                    _context.SaveChanges();
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -202,6 +212,29 @@ namespace IntegrationProject.Controllers
         private bool EventExists(int id)
         {
             return _context.Events.Any(e => e.Id == id);
+        }
+
+        public static void EmailMembers(IFormCollection form, Event @event)
+        {
+            for (int i = 0; i < @event.NumberOfGuests; i++)
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient smtpClient = new SmtpClient();
+                mail.From = new MailAddress(Credentials.USERNAME, $"eBarmony");
+                smtpClient.Port = 587;
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Host = "smtp.gmail.com";
+                smtpClient.EnableSsl = true;
+                mail.To.Add(form[$"Guests[{i}]"]);
+                smtpClient.Credentials = new NetworkCredential(Credentials.USERNAME, Credentials.PASSWORD);
+                
+                mail.Subject = $"Invitation: {@event.Name}";
+                mail.Body = $"You have been invited to the event, {@event.Name}.\n\nDetails: {@event.Date}\nDate: {@event.Date}\n Location: {@event.Origin.Name}";
+                
+                smtpClient.Send(mail);
+            }
+            Console.WriteLine("Sent emails to contestants.");
         }
     }
 }
