@@ -235,7 +235,19 @@ namespace IntegrationProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                if (User.IsInRole("Member"))
+                {
+                    return RedirectToAction("Events", "Member", new { id = eventToUpdate.ApplicationUserId });
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Events", "Admins", new { id = eventToUpdate.ApplicationUserId });
+
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             
             return View(@event);
@@ -263,7 +275,7 @@ namespace IntegrationProject.Controllers
                 smtpClient.Credentials = new NetworkCredential(Credentials.USERNAME, Credentials.PASSWORD);
                 
                 mail.Subject = $"Invitation: {@event.Name}";
-                mail.Body = $"You have been invited to the event, {@event.Name}.\n\nDetails: {@event.Date}\nDate: {@event.Date}\n Location: {@event.Origin.Name}";
+                mail.Body = $"You have been invited to the event, {@event.Name}.\n\nDetails: {@event.Details}\nDate: {@event.Date}\nLocation: {@event.Origin.Name}";
                 
                 smtpClient.Send(mail);
             }

@@ -42,12 +42,21 @@
                 <div class="navbar-collapse collapse">
 
                     <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Member" asp-action="AllBars" asp-route-id="@ViewData["Id"]">All Bars</a></li>
-                        <li><a asp-area="" asp-controller="Member" asp-action="Index" asp-route-id="@ViewData["Id"]">For You</a></li>
+                        @if (User.IsInRole("Member"))
+                        {
+                            <li><a asp-area="" asp-controller="Member" asp-action="AllBars" asp-route-id="@ViewData["Id"]">All Bars</a></li>
+                            <li><a asp-area="" asp-controller="Member" asp-action="Index" asp-route-id="@ViewData["Id"]">For You</a></li>
 
 
-                        <li><a asp-area="" asp-controller="Member" asp-action="Details" asp-route-id="@ViewData["Id"]">Survey</a></li>
-                        <li><a asp-area="" asp-controller="Member" asp-action="Events" asp-route-id="@ViewData["ApplicationUserId"]">Your Events</a></li>
+                            <li><a asp-area="" asp-controller="Member" asp-action="Details" asp-route-id="@ViewData["Id"]">Survey</a></li>
+                            <li><a asp-area="" asp-controller="Member" asp-action="Events" asp-route-id="@ViewData["ApplicationUserId"]">Your Events</a></li>
+                        }
+                        else if (User.IsInRole("Admin"))
+                        {
+                            <li><a asp-area="" asp-controller="Admins" asp-action="Index" asp-route-id="@ViewData["Id"]">Manage</a></li>
+                            <li><a asp-area="" asp-controller="Admins" asp-action="Events" asp-route-id="@ViewData["ApplicationUserId"]">Events</a></li>
+                        }
+
                     </ul>
 
                     <partial name="_LoginPartial" />
