@@ -68,6 +68,7 @@ namespace IntegrationProject.Controllers
             ViewData["Guests"] = selectGuests;
             ViewData["Stops"] = selectStops;
             ViewData["Businesses"] = businesses;
+            ViewData["ApplicationUserId"] = id;
             return View();
         }
 
@@ -76,7 +77,7 @@ namespace IntegrationProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string id, [Bind("Name,Date,Time,Details,Origin,Destination")] Event @event, IFormCollection form)
+        public async Task<IActionResult> Create(string id, [Bind("Name,Date,Time,Details,Origin,Destination,NumberOfGuests")] Event @event, IFormCollection form)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +89,6 @@ namespace IntegrationProject.Controllers
                 newOrigin.Longitude = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Longitude;
                 newOrigin.Name = _context.Bars.SingleOrDefault(b => b.YelpId == form["Origin"]).Name;
                 @event.Origin = newOrigin;
-                @event.NumberOfGuests = int.Parse(form["Guests"]);
                 var numberOfStops = int.Parse(form["Stops"]);
                 
                 if (numberOfStops == 0)

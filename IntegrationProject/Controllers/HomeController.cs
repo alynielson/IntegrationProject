@@ -24,6 +24,7 @@ namespace IntegrationProject.Controllers
             ViewData["Businesses"] = businesses;
             return View();
         }
+        
 
         public IActionResult About()
         {

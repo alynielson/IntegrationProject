@@ -21,6 +21,18 @@ namespace IntegrationProject.Controllers
             _userManager = userManager;
         }
 
+        public async Task<IActionResult> Events(string Id)
+        {
+            var member = _context.Members.SingleOrDefault(a => a.ApplicationUserId == Id);
+            MemberEventVM viewModel = new MemberEventVM();
+            viewModel.member = member;
+            var @events = _context.Events.Include(a => a.Origin).Include(a => a.ApplicationUser).Where(e => e.ApplicationUserId == member.ApplicationUserId);
+            viewModel.@events = @events.ToList();
+            return View(viewModel);
+        }
+
+      
+
         // GET: Member
         public async Task<IActionResult> Index()
         {
@@ -41,6 +53,15 @@ namespace IntegrationProject.Controllers
             viewModel.matchedBars = barMatches;
            
             return View(viewModel);
+        }
+
+        public IActionResult AllBars(int Id)
+        {
+            var member = _context.Members.Find(Id);
+            var yelpData = JsonParser.ParseYelpSearch(_context);
+            var businesses = yelpData.businesses.ToList();
+            ViewData["Businesses"] = businesses;
+            return View(member);
         }
 
         // GET: Member/Details/5

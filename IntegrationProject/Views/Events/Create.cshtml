@@ -51,7 +51,11 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole("Member"))
+    {
+        <a asp-action="Events" asp-controller="Member" asp-route-id="@ViewData["ApplicationUserId"]">Back to List</a>
+    }
+
 </div>
 
 @section Scripts {
