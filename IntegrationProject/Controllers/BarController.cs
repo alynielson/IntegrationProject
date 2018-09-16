@@ -12,6 +12,9 @@ using System.IO;
 using System.Drawing;
 using Microsoft.Win32.SafeHandles;
 using System.Net;
+using System.Collections.Specialized;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace IntegrationProject.Controllers
 {
@@ -201,7 +204,21 @@ namespace IntegrationProject.Controllers
         {
             return _context.Bars.Any(e => e.Id == id);
         }
-        
+        private async Task<string> UploadImageAsync(string imageDataBase64String)
+        {
+            byte[] response;
+            using (var client = new WebClient())
+            {
+                string clientID = Credentials.ImgurApi;
+                client.Headers.Add("Authorization", "Client-ID " + clientID);
+                var values = new NameValueCollection { { "image", imageDataBase64String } };
+                response = await client.UploadValuesTaskAsync("https://api.imgur.com/3/upload", values);
+            }
+
+            var result = JsonConvert.DeserializeObject<ImgurResponseViewModel>(Encoding.ASCII.GetString(response));
+
+            return result.Data.Link;
+        }
     }
 }
 
