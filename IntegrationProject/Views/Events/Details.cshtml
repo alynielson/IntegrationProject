@@ -13,77 +13,78 @@
 </style>
 <body>
    
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Event</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Date)
+                </dd>
 
-<div class="col-md-6">
-    <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Details)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Details)
+                </dd>
+                <dt>
+                    Starting Location
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Origin.Name)
+                </dd>
+                <dt>
+                    Ending Location
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Destination.Name)
+                </dd>
+                <dt>
+                    Stops
+                </dt>
+                <dd>
+                    @foreach (var item in Model.Waypoints)
+                    {
+                        <div>@item.Name</div>
+                    }
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Details)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Details)
-        </dd>
-        <dt>
-            Starting Location
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Origin.Name)
-        </dd>
-        <dt>
-            Ending Location
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Destination.Name)
-        </dd>
-        <dt>
-            Stops
-        </dt>
-        <dd>
-            @foreach (var item in Model.Waypoints)
-            {
-                <div>@item.Name</div>
-            }
-        </dd>
-       
-        <dt>
-            Owner
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ApplicationUser.Email)
-        </dd>
+                <dt>
+                    Owner
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ApplicationUser.Email)
+                </dd>
 
-    </dl>
-</div>
+            </dl>
+        </div>
 
-    
-<div class="col-md-6">
-    <div id="map"></div>
-    <div>
-        @if (User.IsInRole("Member"))
-        {
-            <a asp-action="Events" asp-controller="Member" asp-route-id="@Model.ApplicationUserId">Back to List</a>
-        }
-        else if (User.IsInRole("Admin"))
-        {
-            <a asp-action="Events" asp-controller="Admins" asp-route-id="@Model.ApplicationUserId">Back to List</a>
-        }
 
+        <div class="col-md-6">
+            <div id="map"></div>
+            <div>
+                @if (User.IsInRole("Member"))
+                {
+                    <a asp-action="Events" asp-controller="Member" asp-route-id="@Model.ApplicationUserId">Back to List</a>
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Events" asp-controller="Admins" asp-route-id="@Model.ApplicationUserId">Back to List</a>
+                }
+
+            </div>
+        </div>
     </div>
-</div>
     <script>
         function initMap() {
             var directionsService = new google.maps.DirectionsService;

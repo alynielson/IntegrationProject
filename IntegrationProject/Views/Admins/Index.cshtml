@@ -48,12 +48,12 @@
             @Html.HiddenFor(modelItem => item.CompletedSurvey)
             @if (item.CompletedSurvey == false)
             {
-                <td><button class="text-danger disabled" disabled>No</button></td>
+                <td class="text-danger disabled" disabled>Incomplete</td>
 
             }
             else
             {
-                <td><button class="text-success disabled" disabled>Completed</button></td>
+                <td class="text-success disabled" disabled>Completed</td>
             }
 
             @if (item.CompletedSurvey == false)
