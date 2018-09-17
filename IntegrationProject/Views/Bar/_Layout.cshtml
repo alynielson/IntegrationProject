@@ -1,6 +1,4 @@
-﻿@model IntegrationProject.Models.MemberEventVM
-
-
+﻿
 
 @{
 
@@ -42,14 +40,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <div class="navbar-collapse collapse">
+                    @if (User.IsInRole("Member"))
+                    {
+                        <ul class="nav navbar-nav">
+                            <li><a asp-area="" asp-controller="Member" asp-action="AllBars" asp-route-id="@ViewData["MemberId"]">All Bars</a></li>
+                            <li><a asp-area="" asp-controller="Member" asp-action="Index" asp-route-id="@ViewData["MemberId"]">For You</a></li>
+                            <li><a asp-area="" asp-controller="Member" asp-action="Details" asp-route-id="@ViewData["MemberId"]">Survey</a></li>
+                            <li><a asp-area="" asp-controller="Member" asp-action="Events" asp-route-id="@ViewData["ApplicationUserId"]">Your Events</a></li>
 
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Member" asp-action="AllBars" asp-route-id="@Model.member.Id">All Bars</a></li>
-                        <li><a asp-area="" asp-controller="Member" asp-action="Index" asp-route-id="@Model.member.Id">For You</a></li>
-                        <li><a asp-area="" asp-controller="Member" asp-action="Details" asp-route-id="@Model.member.Id">Survey</a></li>
-                        <li><a asp-area="" asp-controller="Member" asp-action="Events" asp-route-id="@Model.member.ApplicationUserId">Your Events</a></li>
+                        </ul>
+                    }
 
-                    </ul>
 
                     <partial name="_LoginPartial" />
                 </div>
@@ -90,6 +91,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-
-
 

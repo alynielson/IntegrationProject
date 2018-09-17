@@ -25,6 +25,8 @@ namespace IntegrationProject.Models
         public string Longitude { get; set; }
         [NotMapped]
         public bool Selected { get; set; }
+        [NotMapped]
+        public string Url { get; set; }
 
         public List<Comment> Comments { get; set; }
         public List<Rating> Ratings { get; set; }

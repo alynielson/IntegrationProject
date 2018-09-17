@@ -1,6 +1,5 @@
-﻿@model IntegrationProject.Models.MemberEventVM
-
-
+﻿
+@model IntegrationProject.Models.AdminEventVM
 
 @{
 
@@ -44,10 +43,8 @@
                 <div class="navbar-collapse collapse">
 
                     <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Member" asp-action="AllBars" asp-route-id="@Model.member.Id">All Bars</a></li>
-                        <li><a asp-area="" asp-controller="Member" asp-action="Index" asp-route-id="@Model.member.Id">For You</a></li>
-                        <li><a asp-area="" asp-controller="Member" asp-action="Details" asp-route-id="@Model.member.Id">Survey</a></li>
-                        <li><a asp-area="" asp-controller="Member" asp-action="Events" asp-route-id="@Model.member.ApplicationUserId">Your Events</a></li>
+                        <li><a asp-area="" asp-controller="Admins" asp-action="Index" asp-route-id="@Model.admin.Id">Manage</a></li>
+                        <li><a asp-area="" asp-controller="Admins" asp-action="Events" asp-route-id="@Model.admin.ApplicationUserId">Events</a></li>
 
                     </ul>
 
@@ -90,6 +87,5 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-
 
 
