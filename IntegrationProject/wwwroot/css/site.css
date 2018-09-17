@@ -47,21 +47,6 @@ body {
     color: green;
 }
 
-.navbar {
-    min-height: 80px;
-}
 
-.navbar-brand {
-    padding: 0 15px;
-    height: 80px;
-    line-height: 80px;
-}
-
-.navbar-toggle {
-    margin-top: 23px;
-    padding: 9px 10px !important;
-    background-color: #9d9d9d;
-    border: none;
-}
 
 
