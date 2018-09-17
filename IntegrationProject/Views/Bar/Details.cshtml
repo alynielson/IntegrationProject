@@ -78,9 +78,13 @@
 @if (User.IsInRole("Member"))
 {
     <hr />
-    <form id="imgur">
-        <input type="file" class="imgur" accept="image/*" data-max-size="5000" />
+    <form asp-action="UploadImageAsync" asp-controller="Bar">
+        <input type="text" name="imgur" />
+        <input type="submit" value="Submit"  />
     </form>
+    <!--<form id="imgur">
+        <input type="file" class="imgur" accept="image/*" data-max-size="5000" />
+    </form>-->
     <form asp-action="Details" asp-controller="Bar" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger">
         </div>

@@ -15,16 +15,19 @@ using System.Net;
 using System.Collections.Specialized;
 using Newtonsoft.Json;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace IntegrationProject.Controllers
 {
     public class BarController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public BarController(ApplicationDbContext context)
+        public BarController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Bars
@@ -33,7 +36,7 @@ namespace IntegrationProject.Controllers
             var applicationDbContext = _context.Bars.Include(b => b.Admin).Include(b => b.Answer);
             return View(await applicationDbContext.ToListAsync());
         }
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var barToView = _context.Bars.Include(bar => bar.Comments).Include(bar => bar.Ratings).FirstOrDefault(b => b.Id == id);
             var yelpData = JsonParser.ParseYelpReviews(barToView.YelpId);
@@ -41,6 +44,13 @@ namespace IntegrationProject.Controllers
             ViewData["Reviews"] = reviews;
             barToView.Comments = _context.Comments.Where(c => c.BarId == id).ToList();
             barToView.Ratings = _context.Ratings.Where(rating => rating.BarId == id).ToList();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (User.IsInRole("Member"))
+            {
+                ViewData["ApplicationUserId"] = user.Id;
+                ViewData["MemberId"] = _context.Members.SingleOrDefault(m => m.ApplicationUserId == user.Id).Id;
+            }
+            
             return View(barToView);
         }
 
