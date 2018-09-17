@@ -78,6 +78,9 @@
 @if (User.IsInRole("Member"))
 {
     <hr />
+    <form id="imgur">
+        <input type="file" class="imgur" accept="image/*" data-max-size="5000" />
+    </form>
     <form asp-action="Details" asp-controller="Bar" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger">
         </div>
@@ -91,28 +94,82 @@
             <textarea name="Comment" id="Comment" class="form-control" placeholder="Add review"></textarea>
             <span asp-validation-for="Comments" class="text-danger"></span>
         </div>
+
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-default" />
         </div>
-        
-            
 
-        
+
+
+
     </form>
 
 }
-    <div>
-        @if (User.IsInRole("Admin"))
-        {
-            <span><a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> | </span>
-            <a asp-action="Index" asp-controller="Admin">Back to List</a>
-        }
-        else if (User.IsInRole("Member"))
-        {
-            <a asp-action="Index" asp-controller="Member">Back to List</a>
-        }
-        else
-        {
-            <a asp-action="Index" asp-controller="Home">Back to List</a>
-        }
-    </div>
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        <span><a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> | </span>
+        <a asp-action="Index" asp-controller="Admin">Back to List</a>
+    }
+    else if (User.IsInRole("Member"))
+    {
+        <a asp-action="Index" asp-controller="Member">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index" asp-controller="Home">Back to List</a>
+    }
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+    $("document").ready(function () {
+
+        $('input[type=file]').on("change", function () {
+
+            var $files = $(this).get(0).files;
+
+            if ($files.length) {
+
+                // Reject big files
+                if ($files[0].size > $(this).data("max-size") * 1024) {
+                    console.log("Please select a smaller file");
+                    return false;
+                }
+
+                // Replace ctrlq with your own API key
+                var apiUrl = 'https://api.imgur.com/3/image';
+                var apiKey = @Credentials.ImgurApi;
+
+                var formData = new FormData();
+                formData.append("image", $files[0]);
+
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": apiUrl,
+                    "method": "POST",
+                    "datatype": "json",
+                    "headers": {
+                        "Authorization": "Client-ID " + apiKey
+                    },
+                    "processData": false,
+                    "contentType": false,
+                    "data": formData,
+                    beforeSend: function (xhr) {
+                        console.log("Uploading");
+                    },
+                    success: function (res) {
+                        console.log(res.data.link);
+                        $('body').append('<img src="' + res.data.link + '" />');
+                    },
+                    error: function () {
+                        alert("Failed");
+                    }
+                }
+                $.ajax(settings).done(function (response) {
+                    console.log("Done");
+                });
+            }
+        });
+    });
+</script>
