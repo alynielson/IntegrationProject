@@ -133,33 +133,26 @@
                 });
             
         }
-<<<<<<< HEAD
-        initMap();
-=======
 
         function calculateAndDisplayRoute(directionsService, directionsDisplay, originMarker, destinationMarker, newWaypoints) {
-            
-                directionsService.route({
-                    origin: originMarker.position,
-                    destination: destinationMarker.position,
-                    waypoints: newWaypoints,
-                    optimizeWaypoints: true,
-                    travelMode: 'WALKING'
-                }, function (response, status) {
-                    if (status === 'OK') {
-                        directionsDisplay.setDirections(response);
+            directionsService.route({
+                origin: originMarker.position,
+                destination: destinationMarker.position,
+                waypoints: newWaypoints,
+                optimizeWaypoints: true,
+                travelMode: 'WALKING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
 
-                    } else {
-                        window.alert('Directions request failed due to ' + status);
-                    }
-                });
-            
-           
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
 
         }
-        
-        
->>>>>>> 4a1d1f8e7f942ef2eb3718731a779501cb64aafa
+        initMap();
+
     </script>
     
     <script defer
