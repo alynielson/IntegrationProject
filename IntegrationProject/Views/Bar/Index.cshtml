@@ -49,6 +49,10 @@
 <form id="imgur">
     <input type="file" class="imgur" accept="image/*" data-max-size="5000" />
 </form>
+<form asp-action="UploadImageAsync" asp-controller="Bar">
+<input type="text" name="imgur" />
+    <input type="submit" value="Submit" />
+</form>
 
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
