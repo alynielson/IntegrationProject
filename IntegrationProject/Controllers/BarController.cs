@@ -214,14 +214,14 @@ namespace IntegrationProject.Controllers
         {
             return _context.Bars.Any(e => e.Id == id);
         }
-        private async Task<string> UploadImageAsync(string imageUrl)
+        private async Task<string> UploadImageAsync(string Url)
         {
             byte[] response;
             using (var client = new WebClient())
             {
                 string clientID = Credentials.ImgurApi;
                 client.Headers.Add("Authorization", "Client-ID " + clientID);
-                var values = new NameValueCollection { { "image",imageUrl } };
+                var values = new NameValueCollection { { "image",Url } };
                 response = await client.UploadValuesTaskAsync("https://api.imgur.com/3/upload", values);
             }
 
