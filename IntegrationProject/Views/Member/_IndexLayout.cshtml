@@ -17,44 +17,46 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/Site.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
+
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+            <div class="">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand">eBarmony</a>
             </div>
             <div class="navbar-collapse collapse">
-            <div class="navbar-collapse collapse">
-               
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Member" asp-action="AllBars" asp-route-id="@Model.member.Id">All Bars</a></li>
-                    <li><a asp-area="" asp-controller="Member" asp-action="Index" asp-route-id="@Model.member.Id">For You</a></li>
-                    
 
-                    <li><a asp-area="" asp-controller="Member" asp-action="Details" asp-route-id="@Model.member.Id">Survey</a></li>
-                    <li><a asp-area="" asp-controller="Member" asp-action="Events" asp-route-id="@Model.member.ApplicationUserId">Your Events</a></li>
+
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Member" asp-action="AllBars" asp-route-id="@Model.member.Id">All Bars</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Member" asp-action="Index" asp-route-id="@Model.member.Id">For You</a></li>
+
+
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Member" asp-action="Details" asp-route-id="@Model.member.Id">Survey</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Member" asp-action="Events" asp-route-id="@Model.member.ApplicationUserId">Your Events</a></li>
                 </ul>
-              
-                <partial name="_LoginPartial" />
-            </div>
-        </div>
-    </nav>
 
+                <partial name="_LoginPartial" />
+
+            </div>
+
+        </nav>
+    </div>
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
@@ -71,22 +73,24 @@
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous">
         </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    @RenderSection("Scripts", required: false)
+        @RenderSection("Scripts", required: false)
 </body>
 </html>
 

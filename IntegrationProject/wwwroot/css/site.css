@@ -42,6 +42,11 @@ body {
    margin-bottom: 5px;
 }
 
+.match-text {
+    font-weight: 600;
+    color: green;
+}
+
 
 
 
